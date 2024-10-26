@@ -1,1 +1,8 @@
-node_modules
+.env
+.env.testing
+.env.backup
+.env.production
+/.fleet
+/.idea
+/.vscode
+node_modules/
