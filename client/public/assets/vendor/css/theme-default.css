@@ -103,7 +103,7 @@
 }
 
 .text-primary {
-  color: #696cff !important;
+  color: #93A603 !important;
 }
 
 .text-body[href]:hover {
@@ -776,8 +776,8 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item .menu-lin
   color: #696cff;
 }
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
-  color: #696cff;
-  background-color: rgba(105, 108, 255, 0.16) !important;
+  color: #93A603;
+  background-color: rgba(147, 166, 3, 0.16)!important;
 }
 .bg-menu-theme .menu-inner > .menu-item.active:before {
   background: #696cff;
