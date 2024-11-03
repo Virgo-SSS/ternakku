@@ -45,7 +45,7 @@ export const DashboardPage = () => {
                                     <div className="card-title d-flex align-items-start justify-content-between">
                                         <div className="avatar flex-shrink-0">
                                             <img aria-label='dsahboard icon image'
-                                                src="/assets/img/icons/unicons/chart-success.png"
+                                                src="/assets/img/icons/unicons/profit.png"
                                                 alt="chart success"
                                                 className="rounded"
                                             />
@@ -75,7 +75,7 @@ export const DashboardPage = () => {
                                         </div>
                                     </div>
                                     <span className="fw-medium d-block mb-1">Pendapatan</span>
-                                    <h5 className="card-title mb-2">Rp. 24.000.000</h5>
+                                    <h5 className="card-title text-nowrap mb-2">Rp. 24.000.000</h5>
                                     <small className="text-success fw-medium">
                                         <i className="bx bx-up-arrow-alt"></i> +72.80%
                                     </small>
@@ -90,7 +90,7 @@ export const DashboardPage = () => {
                                     <div className="card-title d-flex align-items-start justify-content-between">
                                         <div className="avatar flex-shrink-0">
                                             <img aria-label='dsahboard icon image'
-                                                src="/assets/img/icons/unicons/wallet-info.png"
+                                                src="/assets/img/icons/unicons/sales.png"
                                                 alt="Credit Card"
                                                 className="rounded"
                                             />
@@ -119,7 +119,7 @@ export const DashboardPage = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <span>Pengeluaran</span>
+                                    <span className="fw-medium d-block mb-1">Pengeluaran</span>
                                     <h5 className="card-title text-nowrap mb-1">Rp. 24.000.000</h5>
                                     <small className="text-success fw-medium">
                                         <i className="bx bx-up-arrow-alt"></i> +28.42%
@@ -133,44 +133,53 @@ export const DashboardPage = () => {
                 {/* Status */}
                 <div className="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
                     <div className="card">
+                        <div className="card-header d-flex align-items-center justify-content-between" style={{ paddingBottom:"1px" }}>
+                            <h5 className="card-title m-0 me-2">Status</h5>
+                        </div>
                         <div className="card-body">
                             <div className="row">
                                 {/* 3 rounded card with icon at left side for each card */}
                                 <div className="col-md-4">
-                                    <div className="card">
+                                    <div className="card bg-primary">
                                         <div className="card-body d-flex align-items-center">
                                             <div className="avatar flex-shrink-0 me-3">
-                                                <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
+                                                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                    <i className="bx bx-task text-primary"></i>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h6 className="mb-0">10</h6>
-                                                <small className="text-muted">Total Tugas</small>
+                                                <h3 className="mb-0 text-white">10</h3>
+                                                <small className="text-white">Total Tugas</small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-md-4">
-                                    <div className="card">
+                                    <div className="card bg-primary">
                                         <div className="card-body d-flex align-items-center">
                                             <div className="avatar flex-shrink-0 me-3">
-                                                <img src="/assets/img/icons/unicons/wallet.png" alt="Wallet Icon" className="rounded" />
+                                                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                    <i className="bx bx-task text-primary"></i>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h6 className="mb-0">6</h6>
-                                                <small className="text-muted">Tugas Selesai</small>
+                                                <h3 className="mb-0 text-white">6</h3>
+                                                <small className="text-white">Tugas Selesai</small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-md-4">
-                                    <div className="card">
+                                    <div className="card bg-primary">
                                         <div className="card-body d-flex align-items-center">
                                             <div className="avatar flex-shrink-0 me-3">
-                                                <img src="/assets/img/icons/unicons/cc-success.png" alt="Credit Card Icon" className="rounded" />
+                                                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                    <i className="bx bx-task text-primary"></i>
+                                                </div>
                                             </div>
                                             <div>
-                                                <h6 className="mb-0">4</h6>
-                                                <small className="text-muted">Tugas Belum Selesai</small>
+                                                <h3 className="mb-0 text-white">4</h3>
+                                                <small className="text-white">Tugas Belum Selesai</small>
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +189,7 @@ export const DashboardPage = () => {
                     </div>
                 </div>
 
-                {/* PAYMENTS */}
+                {/* Vaksin */}
                 <div className="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                     <div className="row">
                         <div className="col-12 mb-4">
@@ -188,7 +197,7 @@ export const DashboardPage = () => {
                                 <div className="card-body">
                                     <div className="card-title d-flex align-items-start justify-content-between">
                                         <div className="flex-shrink-0">
-                                            <h3>Vaksin buat mega</h3>
+                                            <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>Vaksin Buat Mega</h6>
                                             <small className="text-muted">Friday, 18 october</small>
                                         </div>
                                         <div className="dropdown">
@@ -218,7 +227,8 @@ export const DashboardPage = () => {
                                     <div className="d-flex justify-content-between align-items-center mb-3">
                                         <div className="d-flex align-items-center">
                                             <div className="avatar flex-shrink-0 me-3">
-                                                <img src="/assets/img/icons/unicons/chart.png" alt="Status Icon" className="rounded" />
+                                                {/* <i className='bx bx-list-check text-primary' ></i> */}
+                                                <i className='bx bx-list-check text-primary' style={{ fontSize: "40px" }}></i>
                                             </div>
                                             <div>
                                                 <h6 className="mb-0">Status</h6>
@@ -229,13 +239,13 @@ export const DashboardPage = () => {
                                     <div className="d-flex justify-content-between align-items-center">
                                         <div className="d-flex align-items-center">
                                             <div className="avatar flex-shrink-0 me-3">
-                                                <img src="/assets/img/icons/unicons/chart.png" alt="Priority Icon" className="rounded" />
+                                                <i className='bx bxs-pin text-primary' style={{ fontSize: "35px" }}></i>
                                             </div>
                                             <div>
                                                 <h6 className="mb-0">Priority</h6>
                                             </div>
                                         </div>
-                                        <div className="badge bg-warning rounded-pill">High</div>
+                                        <div className="badge bg-warning rounded-pill bg-primary">High Priority</div>
                                     </div>
                                 </div>
                             </div>
@@ -279,83 +289,35 @@ export const DashboardPage = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="card-body">
-                            <div class="table-responsive text-nowrap">
-                                <table class="table table-borderless">
+                            <div className="table-responsive text-nowrap">
+                                <table className="table table-borderless">
                                     <thead>
                                         <tr>
-                                            <th>Project</th>
-                                            <th>Client</th>
-                                            <th>Users</th>
+                                            <th>#</th>
+                                            <th>Nama</th>
+                                            <th>Tanggal Lahir</th>
                                             <th>Status</th>
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><i class="bx bxl-angular bx-sm text-danger me-3"></i><span class="fw-medium">Angular
-                                                    Project</span></td>
-                                            <td>Albert Cook</td>
-                                            <td>
-                                                <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Lilian Fuller"
-                                                        data-bs-original-title="Lilian Fuller"><img aria-label="table image"
-                                                            src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle"/></li>
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Sophia Wilkerson"
-                                                        data-bs-original-title="Sophia Wilkerson"><img aria-label="table image"
-                                                            src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle"/></li>
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Christina Parker"
-                                                        data-bs-original-title="Christina Parker"><img aria-label="table image"
-                                                            src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle"/></li>
-                                                </ul>
-                                            </td>
-                                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                            <td>
-                                                <div class="dropdown"><button aria-label="Click me" type="button"
-                                                        class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i
-                                                            class="bx bx-dots-vertical-rounded"></i></button>
-                                                    <div class="dropdown-menu"><a aria-label="dropdown action option" class="dropdown-item"
-                                                            href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a><a
-                                                            aria-label="dropdown action option" class="dropdown-item" href="#"><i
-                                                                class="bx bx-trash me-1"></i> Delete</a></div>
-                                                </div>
-                                            </td>
+                                            <td>1</td>
+                                            <td>John Doe</td>
+                                            <td>12 Oct 2023</td>
+                                            <td>Sehat</td>
                                         </tr>
                                         <tr>
-                                            <td><i class="bx bxl-react bx-sm text-info me-3"></i> <span class="fw-medium">React Project</span>
-                                            </td>
-                                            <td>Barry Hunter</td>
-                                            <td>
-                                                <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Lilian Fuller"
-                                                        data-bs-original-title="Lilian Fuller"><img aria-label="table image"
-                                                            src="../assets/img/avatars/5.png" alt="Avatar" class="rounded-circle"/></li>
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Sophia Wilkerson"
-                                                        data-bs-original-title="Sophia Wilkerson"><img aria-label="table image"
-                                                            src="../assets/img/avatars/6.png" alt="Avatar" class="rounded-circle"/></li>
-                                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
-                                                        class="avatar avatar-xs pull-up" aria-label="Christina Parker"
-                                                        data-bs-original-title="Christina Parker"><img aria-label="table image"
-                                                            src="../assets/img/avatars/7.png" alt="Avatar" class="rounded-circle"/></li>
-                                                </ul>
-                                            </td>
-                                            <td><span class="badge bg-label-success me-1">Completed</span></td>
-                                            <td>
-                                                <div class="dropdown"><button aria-label="Click me" type="button"
-                                                        class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i
-                                                            class="bx bx-dots-vertical-rounded"></i></button>
-                                                    <div class="dropdown-menu"><a aria-label="dropdown action option" class="dropdown-item"
-                                                            href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a><a
-                                                            aria-label="dropdown action option" class="dropdown-item" href="#"><i
-                                                                class="bx bx-trash me-1"></i> Delete</a></div>
-                                                </div>
-                                            </td>
+                                            <td>2</td>
+                                            <td>John Doe</td>
+                                            <td>12 Oct 2023</td>
+                                            <td>Sakit</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>John Doe</td>
+                                            <td>12 Oct 2023</td>
+                                            <td>Sehat</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -400,19 +362,21 @@ export const DashboardPage = () => {
                             <ul className="p-0 m-0">
                                 <li className="d-flex mb-4 pb-1">
                                     <div className="d-flex flex-column w-100">
-                                        <div className="d-flex align-items-center mb-3">
+                                        <div className="d-flex align-items-center ">
                                             <div className="me-3">
                                                 <h6 className="mb-0">12 Oct 2023</h6>
                                             </div>
                                         </div>
-                                        <div className="card">
+                                        <div className="card bg-primary">
                                             <div className="card-body d-flex align-items-center">
                                                 <div className="avatar flex-shrink-0 me-3">
-                                                    <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
+                                                    <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                        <i className='bx bx-injection'></i>
+                                                    </div>
                                                 </div>
                                                 <div>
-                                                    <h6 className="mb-0">Task Title</h6>
-                                                    <small className="text-muted">Task Description</small>
+                                                    <h6 className="mb-0 text-white">Vaksin buat mega</h6>
+                                                    <small className="text-white">10.30 - 12.00</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -420,19 +384,21 @@ export const DashboardPage = () => {
                                 </li>
                                 <li className="d-flex mb-4 pb-1">
                                     <div className="d-flex flex-column w-100">
-                                        <div className="d-flex align-items-center mb-3">
+                                        <div className="d-flex align-items-center">
                                             <div className="me-3">
                                                 <h6 className="mb-0">12 Oct 2023</h6>
                                             </div>
                                         </div>
-                                        <div className="card">
+                                        <div className="card bg-primary">
                                             <div className="card-body d-flex align-items-center">
                                                 <div className="avatar flex-shrink-0 me-3">
-                                                    <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
+                                                    <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                        <i className='bx bx-injection'></i>
+                                                    </div>
                                                 </div>
                                                 <div>
-                                                    <h6 className="mb-0">Task Title</h6>
-                                                    <small className="text-muted">Task Description</small>
+                                                    <h6 className="mb-0 text-white">Vaksin buat mega & Bima</h6>
+                                                    <small className="text-white">10.30 - 12.00</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -440,59 +406,21 @@ export const DashboardPage = () => {
                                 </li>
                                 <li className="d-flex mb-4 pb-1">
                                     <div className="d-flex flex-column w-100">
-                                        <div className="d-flex align-items-center mb-3">
+                                        <div className="d-flex align-items-center">
                                             <div className="me-3">
                                                 <h6 className="mb-0">12 Oct 2023</h6>
                                             </div>
                                         </div>
-                                        <div className="card">
+                                        <div className="card bg-primary">
                                             <div className="card-body d-flex align-items-center">
                                                 <div className="avatar flex-shrink-0 me-3">
-                                                    <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
+                                                    <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                        <i className="bx bx-task text-primary"></i>
+                                                    </div>
                                                 </div>
                                                 <div>
-                                                    <h6 className="mb-0">Task Title</h6>
-                                                    <small className="text-muted">Task Description</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="d-flex mb-4 pb-1">
-                                    <div className="d-flex flex-column w-100">
-                                        <div className="d-flex align-items-center mb-3">
-                                            <div className="me-3">
-                                                <h6 className="mb-0">12 Oct 2023</h6>
-                                            </div>
-                                        </div>
-                                        <div className="card">
-                                            <div className="card-body d-flex align-items-center">
-                                                <div className="avatar flex-shrink-0 me-3">
-                                                    <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
-                                                </div>
-                                                <div>
-                                                    <h6 className="mb-0">Task Title</h6>
-                                                    <small className="text-muted">Task Description</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="d-flex mb-4 pb-1">
-                                    <div className="d-flex flex-column w-100">
-                                        <div className="d-flex align-items-center mb-3">
-                                            <div className="me-3">
-                                                <h6 className="mb-0">12 Oct 2023</h6>
-                                            </div>
-                                        </div>
-                                        <div className="card">
-                                            <div className="card-body d-flex align-items-center">
-                                                <div className="avatar flex-shrink-0 me-3">
-                                                    <img src="/assets/img/icons/unicons/chart.png" alt="Chart Icon" className="rounded" />
-                                                </div>
-                                                <div>
-                                                    <h6 className="mb-0">Task Title</h6>
-                                                    <small className="text-muted">Task Description</small>
+                                                    <h6 className="mb-0 text-white">Obat buat kencana</h6>
+                                                    <small className="text-white">10.30 - 12.00</small>
                                                 </div>
                                             </div>
                                         </div>

@@ -111,7 +111,7 @@
 }
 
 .bg-primary {
-  background-color: #696cff !important;
+  background-color: #93A603 !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus {
@@ -213,6 +213,10 @@ button.list-group-item-primary.active {
 }
 .table-primary .btn-icon {
   color: #435971;
+}
+
+table thead {
+  background-color: #93A603;
 }
 
 .btn-primary {
