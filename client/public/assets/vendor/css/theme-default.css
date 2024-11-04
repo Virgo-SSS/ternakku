@@ -221,20 +221,20 @@ table thead {
 
 .btn-primary {
   color: #fff;
-  background-color: #696cff;
-  border-color: #696cff;
+  background-color: #93A603;
+  border-color: #93A603;
   box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 .btn-primary:hover {
   color: #fff !important;
-  background-color: #5f61e6 !important;
-  border-color: #5f61e6 !important;
+  background-color: #6eb11c !important;
+  border-color: #6eb11c !important;
   transform: translateY(-1px) !important;
 }
 .btn-check:focus + .btn-primary, .btn-primary:focus, .btn-primary.focus {
   color: #fff;
-  background-color: #5f61e6;
-  border-color: #5f61e6;
+  background-color: #6eb11c;
+  border-color: #6eb11c;
   transform: translateY(0);
   box-shadow: none;
 }
@@ -581,14 +581,14 @@ html[dir=rtl] .border-primary {
 }
 
 a {
-  color: #696cff;
+  color: #93A603;
 }
 a:hover {
   color: #787bff;
 }
 
 .fill-primary {
-  fill: #696cff;
+  fill: #93A603;
 }
 
 .bg-navbar-theme {

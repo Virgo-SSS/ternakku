@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './page-auth.css'
+
 export const AuthWrapper = ({ children }) => {
     return (
         <div className="container-xxl">
@@ -11,9 +12,8 @@ export const AuthWrapper = ({ children }) => {
                             <div className="app-brand justify-content-center">
                                 <Link aria-label='Go to Home Page' to="/" className="app-brand-link gap-2">
                                     <span className="app-brand-logo demo">
-                                        <img src="/assets/img/sneat.svg" alt="sneat-logo" />
+                                        <img src="/assets/img/ternakku-logo.png" alt="sneat-logo" style={{ height:"30px" }} />
                                     </span>
-                                    <span className="app-brand-text demo text-body fw-bold">Sneat</span>
                                 </Link>
                             </div>
                             {children}
