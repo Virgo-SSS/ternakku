@@ -1,5 +1,3 @@
-// greetingHandler.js
-
 const getGreetingMessage = (name) => {
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
