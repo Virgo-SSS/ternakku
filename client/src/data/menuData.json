@@ -9,6 +9,36 @@
                 "link": "/"
             },
             {
+                "text": "Ternak",
+                "icon": "bx bx-store",
+                "available": true,
+                "link": "/ternak"
+            },
+            {
+                "text": "Keuangan",
+                "icon": "bx bx-dollar",
+                "available": true,
+                "link": "/keuangan"
+            },
+            {
+                "text": "Pekerja",
+                "icon": "bx bx-user",
+                "available": true,
+                "link": "/pekerja"
+            },
+            {
+                "text": "Kalendar",
+                "icon": "bx bx-calendar",
+                "available": true,
+                "link": "/kalendar"
+            },
+            {
+                "text": "Task",
+                "icon": "bx bx-task",
+                "available": true,
+                "link": "/task"
+            },
+            {
                 "text": "Layouts",
                 "icon": "bx bx-layout",
                 "available": true,
@@ -352,29 +382,6 @@
                 "icon": "bx bx-grid",
                 "available": false,
                 "link": "https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/tables-datatables-basic.html"
-            }
-        ]
-    },
-    {
-        "header": "MISC",
-        "items": [
-            {
-                "text": "Support Sneat",
-                "icon": "bx bx-support",
-                "available": true,
-                "link": "https://github.com/themeselection/sneat-html-admin-template-free/issues"
-            },
-            {
-                "text": "Support Engineer",
-                "icon": "bx bx-support",
-                "available": true,
-                "link": "https://github.com/11Dwiwijaya/react-sneat-bootstrap-admin-template/issues"
-            },
-            {
-                "text": "Documentation",
-                "icon": "bx bx-file",
-                "available": true,
-                "link": "https://demos.themeselection.com/sneat-bootstrap-html-admin-template/documentation/"
             }
         ]
     }
