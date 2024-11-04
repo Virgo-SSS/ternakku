@@ -1,18 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-// Layout
-import { WithoutMenuPage } from "../pages/layouts/WithoutMenuPage";
-import { WithoutNavbarPage } from "../pages/layouts/WithoutNavbarPage";
-import { ContainerPage } from "../pages/layouts/ContainerPage";
-import { FluidPage } from "../pages/layouts/FluidPage";
-import { BlankPage } from "../pages/layouts/BlankPage";
 
-import { LoginPage } from "../pages/authentication/LoginPage";
-import { RegisterPage } from "../pages/authentication/RegisterPage";
-import { ForgotPasswordPage } from "../pages/authentication/ForgotPasswordPage";
+import { LoginPage } from "../pages/auth/LoginPage";
+import { RegisterPage } from "../pages/auth/RegisterPage";
+import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
 import { NotificationPage } from "../pages/account/NotificationPage";
-import { ErrorPage } from "../pages/misc/ErrorPage";
+import { ErrorPage } from "../pages/errors/ErrorPage";
 import { MaintenancePage } from "../pages/misc/MaintenancePage";
 
 import { AccordionPage } from "../pages/user-interface/AccordionPage";
@@ -36,13 +30,11 @@ import { ToastPage } from "../pages/user-interface/ToastPage";
 import { TooltipPopoverPage } from "../pages/user-interface/TooltipPopoverPage";
 import { TypographyPage } from "../pages/user-interface/TypographyPage";
 
-import { BoxiconsPage } from "../pages/icons/BoxiconPage";
-
 import { BasicInputPage } from "../pages/form-element/BasicInputPage";
 import { InputGroupPage } from "../pages/form-element/InputGroupPage";
 import { HorizontalFormPage } from "../pages/form-layout/HorizontalFormPage";
 import { VerticalFormPage } from "../pages/form-layout/VerticalFormPage";
-import { TablesPage } from "../pages/TablesPage";
+import { TablesPage } from "../pages/tables/TablesPage";
 import { DashboardPage } from "../pages/DashboardPage";
 
 import { PerfectScrollbarPage } from "../pages/extended-ui/PerfectScrollbar";
@@ -53,12 +45,9 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={<DashboardPage />} />
             
-            <Route path="/layout/without-menu" element={<WithoutMenuPage />} />
-            <Route path="/layout/without-navbar" element={<WithoutNavbarPage />} />
-            <Route path="/layout/container" element={<ContainerPage />} />
-            <Route path="/layout/fluid" element={<FluidPage />} />
-            <Route path="/layout/fluid" element={<FluidPage />} />
-            <Route path="/layout/blank" element={<BlankPage />} />
+            <Route path="/auth/login" element={<LoginPage />} />
+            <Route path="/auth/register" element={<RegisterPage />} />
+            <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
 
             <Route path="/ui/accordion" element={<AccordionPage />} />
             <Route path="/ui/alerts" element={<AlertPage />} />
@@ -81,21 +70,15 @@ const AppRoutes = () => {
             <Route path="/ui/tooltips-popovers" element={<TooltipPopoverPage />} />
             <Route path="/ui/typography" element={<TypographyPage />} />
 
-            <Route path="/auth/login" element={<LoginPage />} />
-            <Route path="/auth/register" element={<RegisterPage />} />
-            <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-
             <Route path="/account/settings" element={<AccountPage />} />
             <Route path="/account/notifications" element={<NotificationPage />} />
             <Route path="/account/connections" element={<Connections />} />
 
-            <Route path="/misc/error" element={<ErrorPage />} />
+            <Route path="/error" element={<ErrorPage />} />
             <Route path="/misc/under-maintenance" element={<MaintenancePage />} />
             
             <Route path="/extended-ui/perfect-scrollbar" element={<PerfectScrollbarPage />} />
             <Route path="/extended-ui/text-divider" element={<TextDividerPage />} />
-
-            <Route path="/boxicons" element={<BoxiconsPage />} />
 
             <Route path="/form/basic-inputs" element={<BasicInputPage />} />
             <Route path="/form/input-groups" element={<InputGroupPage />} />

@@ -1,9 +1,4 @@
-import { useEffect } from "react";
-
 export const DashboardPage = () => {
-    useEffect(() => {
-        dashboardAnalitics();
-    }, [])
     return (
         <>
             <div className="row">
@@ -36,6 +31,7 @@ export const DashboardPage = () => {
                     </div>
                 </div>
 
+                {/* <!--/ Vertical Scrollbar --> */}
                 <div className="col-lg-4 col-md-4 order-1">
                     <div className="row">
                         {/* Pendapatan  */}
