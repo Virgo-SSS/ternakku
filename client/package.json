@@ -15,10 +15,13 @@
     "perfect-scrollbar": "^1.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.3.5",
+    "react-flatpickr": "^3.10.13",
     "react-router-dom": "^6.20.1",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -26,8 +29,7 @@
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.13",
-    "vite": "^5.4.9",
-    "@eslint/js": "^9.13.0",
-    "globals":"^15.11.0"
+    "globals": "^15.11.0",
+    "vite": "^5.4.9"
   }
 }
