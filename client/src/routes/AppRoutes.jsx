@@ -3,6 +3,10 @@ import { Route, Routes } from "react-router-dom";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
+import { DashboardPage } from "../pages/DashboardPage";
+import { TernakPage } from "../pages/ternak/TernakPage";
+import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
+
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
 import { NotificationPage } from "../pages/account/NotificationPage";
@@ -35,16 +39,22 @@ import { InputGroupPage } from "../pages/form-element/InputGroupPage";
 import { HorizontalFormPage } from "../pages/form-layout/HorizontalFormPage";
 import { VerticalFormPage } from "../pages/form-layout/VerticalFormPage";
 import { TablesPage } from "../pages/tables/TablesPage";
-import { DashboardPage } from "../pages/DashboardPage";
 
 import { PerfectScrollbarPage } from "../pages/extended-ui/PerfectScrollbar";
 import { TextDividerPage } from "../pages/extended-ui/TextDividerPage";
+
+
 
 const AppRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<DashboardPage />} />
-            
+
+            {/* Ternak */}
+            <Route path="/ternak" element={<TernakPage />} />
+            <Route path="/ternak/create" element={<CreateTernakPage />} />
+
+            {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
             <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />

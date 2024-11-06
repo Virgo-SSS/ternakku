@@ -2593,7 +2593,7 @@ progress {
 
 .form-label {
   margin-bottom: .25rem;
-  font-size: 1rem;
+  font-size: 0.8125rem;
   color: #384551
 }
 
@@ -8145,7 +8145,7 @@ a.invert-bg-dark:hover,a.invert-bg-dark:focus {
   text-transform: uppercase;
   font-size: .8125rem;
   letter-spacing: .2px;
-  color: #fff;
+  color: #384551
 }
 
 .table-dark th {
@@ -33193,7 +33193,7 @@ html:not([dir=rtl]) .menu-toggle::after {
 }
 
 .layout-wrapper:not(.layout-horizontal) .layout-navbar .dropdown-menu[data-bs-popper] {
-  top: 144%;
+  top: 144%
 }
 
 .layout-navbar .navbar-dropdown .badge-notifications {
