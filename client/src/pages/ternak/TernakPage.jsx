@@ -34,7 +34,18 @@ export const TernakPage = () => {
                                 <td>
                                     <input type="checkbox" name="" id="" />
                                 </td>
-                                <td>Albert Cook</td>
+                                <td>
+                                    {/* if clicked redirect to detail ternak page */}
+                                    <Link to={{ 
+                                        pathname: "/ternak/detail/1", 
+                                        state: {
+                                            id: 1
+                                        }
+                                     }}
+                                    >
+                                        <span className="text-primary">John Doe</span>
+                                    </Link>
+                                </td>
                                 <td><span className="badge bg-label-primary me-1">Active</span></td>
                                 <td>2024-10-12</td>
                                 <td>Sapi simental</td>
