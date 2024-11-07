@@ -6,6 +6,7 @@ import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { TernakPage } from "../pages/ternak/TernakPage";
 import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
+import { DetailTernakPage } from "../pages/ternak/DetailTernakPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -53,6 +54,7 @@ const AppRoutes = () => {
             {/* Ternak */}
             <Route path="/ternak" element={<TernakPage />} />
             <Route path="/ternak/create" element={<CreateTernakPage />} />
+            <Route path="/ternak/detail/:id" element={<DetailTernakPage />} />
 
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />
