@@ -33,7 +33,7 @@
                 "link": "/calendar"
             },
             {
-                "text": "Task",
+                "text": "Task Manager",
                 "icon": "bx bx-task",
                 "available": true,
                 "link": "/task"
