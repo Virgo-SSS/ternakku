@@ -27,10 +27,10 @@
                 "link": "/pekerja"
             },
             {
-                "text": "Kalendar",
+                "text": "Calendar",
                 "icon": "bx bx-calendar",
                 "available": true,
-                "link": "/kalendar"
+                "link": "/calendar"
             },
             {
                 "text": "Task",
