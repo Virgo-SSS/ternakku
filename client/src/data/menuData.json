@@ -27,13 +27,13 @@
                 "link": "/pekerja"
             },
             {
-                "text": "Kalendar",
+                "text": "Calendar",
                 "icon": "bx bx-calendar",
                 "available": true,
-                "link": "/kalendar"
+                "link": "/calendar"
             },
             {
-                "text": "Task Test Task",
+                "text": "Task Manager Task",
                 "icon": "bx bx-task",
                 "available": true,
                 "link": "/task"
