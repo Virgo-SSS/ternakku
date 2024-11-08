@@ -33,7 +33,7 @@
                 "link": "/kalendar"
             },
             {
-                "text": "Task",
+                "text": "Task Test Task",
                 "icon": "bx bx-task",
                 "available": true,
                 "link": "/task"
