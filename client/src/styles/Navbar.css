@@ -1,0 +1,49 @@
+.logo a {
+    font-size: 50px;
+    font-weight: 800;
+    float: left;
+    font-family: open-sauce;
+    color: #134e1a;
+  }
+  
+  .menu {
+    float: right;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 5;
+  }
+  
+  nav ul li {
+    float: left;
+  }
+  
+  nav ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  @media screen and (max-width: 991.98px) {
+    .logo a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+  
+    nav .menu {
+      width: 100%;
+      margin: 0;
+    }
+  
+    nav .menu ul {
+      text-align: center;
+      margin: auto;
+      line-height: 60px;
+    }
+  
+    nav .menu ul li {
+      display: inline-block;
+      float: none;
+    }
+  }
