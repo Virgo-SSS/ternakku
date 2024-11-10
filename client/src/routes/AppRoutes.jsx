@@ -45,11 +45,21 @@ import { TablesPage } from "../pages/tables/TablesPage";
 
 import { PerfectScrollbarPage } from "../pages/extended-ui/PerfectScrollbar";
 import { TextDividerPage } from "../pages/extended-ui/TextDividerPage";
+import { PekerjaPage } from "../pages/pekerja/PekerjaPage";
+
+import Home from "../pages/Home";
+import { Navigate } from "react-router-dom";
+
 
 const AppRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<DashboardPage />} />
+            {/* Home */}
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
+
+            {/* Dashboard */}
+            <Route path="/Dashboard" element={<DashboardPage />} />
 
             {/* Ternak */}
             <Route path="/ternak" element={<TernakPage />} />
@@ -101,6 +111,9 @@ const AppRoutes = () => {
             <Route path="/form-layout/vertical-form" element={<VerticalFormPage />} />
 
             <Route path="/tables" element={<TablesPage />} />
+
+            {/* Pekerja */}
+            <Route path="/pekerja" element={<PekerjaPage />} />
         </Routes>
     )
 }
