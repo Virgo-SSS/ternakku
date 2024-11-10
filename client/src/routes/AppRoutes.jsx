@@ -8,7 +8,7 @@ import { TernakPage } from "../pages/ternak/TernakPage";
 import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
 import { DetailTernakPage } from "../pages/ternak/DetailTernakPage";
 import { CalendarPage } from "../pages/calendar/calendarPage";
-
+import { TaskPage } from "../pages/task/TaskPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -66,7 +66,8 @@ const AppRoutes = () => {
             <Route path="/ternak/create" element={<CreateTernakPage />} />
             <Route path="/ternak/detail/:id" element={<DetailTernakPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
-
+            <Route path="/task" element={<TaskPage />} />
+            
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
