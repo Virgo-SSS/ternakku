@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import Modal from "react-modal"
-
+import "../landing-page/styles/Modal.css"
 
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
@@ -19,55 +19,62 @@ export const PekerjaPage = () => {
 
                 <div className="btn-toolbar mb-2 mb-md-0">
                 <button onClick={() => setModalIsOpen(true)} className="btn btn-primary">Tambah Pekerja</button>
-
-                <Modal
+                
+                <Modal 
                 isOpen={modalIsOpen}
                 onRequestClose={() => setModalIsOpen(false)}
                 style={{
                     overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
-                    content: { maxWidth: '800px', maxHeight: '500px', margin: 'auto', padding: '30px' }
+                    content: { maxWidth: '500px', margin: 'auto', padding: '20px' }
                 }}
                 >
                 <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-2 p-auto">Tambah Pekerja</h5>
+                <h5 class="mb-0">Tambah Pekerja</h5>
                 </div>
                 <div class="card-body">
                     
         <form>
-        <div class="mb-2 p-auto">
-            <label class="form-label" for="modalEditUserFirstName"><b>Nama</b></label>
-            <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="Komang Wiguna"/>
+          <div class="row g-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">Nama</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="basic-default-name" placeholder="John Doe"/>
+            </div>
           </div>
 
-          <div class="mb-2 p-auto">
-            <label class="form-label" for="modalEditUserFirstName"><b>Jenis Kelamin</b></label>
-            <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="Laki-laki"/>
+          <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-company">Jenis Kelamin</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="basic-default-company" placeholder="ACME Inc."/>
+            </div>
           </div>
 
-          <div class="mb-2 p-auto">
-            <label class="form-label" for="modalEditUserFirstName"><b>Nomor HP</b></label>
-            <input type="number" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="08xxxxxxxxxx"/>
+          <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-email">Nomor HP</label>
+            <div class="col-sm-10">
+              <div class="input-group input-group-merge">
+                <input type="text" id="basic-default-email" class="form-control" placeholder="john.doe" aria-label="john.doe" aria-describedby="basic-default-email2"/>
+              </div>
+            </div>
           </div>
 
-          <div class="mb-2 p-auto">
-            <label class="form-label" for="modalEditUserFirstName"><b>Email</b></label>
-            <input type="email" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="komangwiguna@gmail.com"/>
+          <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-phone">Email</label>
+            <div class="col-sm-10">
+              <input type="text" id="basic-default-phone" class="form-control phone-mask" placeholder="658 799 8941" aria-label="658 799 8941" aria-describedby="basic-default-phone"/>
+            </div>
           </div>
-          
-          
-          <div class="mb-2 p-auto">
-          <label class="form-label" for="modalEditUserFirstName"><b>Status</b></label>
-          <select class="form-select" id="basic-default-country" required="">
-              <option value="aktif">Aktif</option>
-              <option value="tidak-aktif">Tidak Aktif</option>
-            </select>
+
+          <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-phone">Status</label>
+            <div class="col-sm-10">
+              <input type="text" id="basic-default-phone" class="form-control phone-mask" placeholder="658 799 8941" aria-label="658 799 8941" aria-describedby="basic-default-phone"/>
+            </div>
           </div>
 
         </form>
-
       </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="reset" onClick={() => setModalIsOpen(false)} class="btn btn-secondary" >Batal</button>                
+                <button type="reset" onClick={() => setModalIsOpen(false)} class="btn btn-primary" >Batal</button>                
                 <button type="submit" onClick={() => setModalIsOpen(false)} class="btn btn-primary" >Tambah Pekerja</button>
             </div>
                 </Modal>
