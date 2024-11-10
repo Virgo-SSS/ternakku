@@ -6,7 +6,7 @@ function Partner(props) {
         <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0 pt-5">
           
             <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-            <img src="./icon/dasar.svg "className="mx-auto w-20" />
+            <img src="/assets/img/icons/dasar.svg "className="mx-auto w-20" />
                 <h3 className="pt-10 text-2xl">Dasar</h3>
                 <div class="flex justify-center items-baseline mt-4 mb-1">
                 <span class="text-2xl text-tw-primary font-semibold">Rp. 100.000</span>
@@ -38,7 +38,7 @@ function Partner(props) {
                 <a href="#" class="text-white bg-tw-primary hover:bg-[#7a8a07] font-medium rounded-lg text-sm px-5 py-2.5 text-center">Get started</a>
             </div>
             <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-            <img src="./icon/team.svg "className="mx-auto w-20" />
+            <img src="/assets/img/icons/team.svg "className="mx-auto w-20" />
             <h3 className="pt-10 text-2xl">Tim</h3>
             <div class="flex justify-center items-baseline mt-4 mb-1">
                 <span class="text-2xl text-tw-primary font-semibold">Rp. 250.000</span>
@@ -70,7 +70,7 @@ function Partner(props) {
                 <a href="#" class="text-white bg-tw-primary hover:bg-[#7a8a07] font-medium rounded-lg text-sm px-5 py-2.5 text-center">Get started</a>
             </div>
             <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">
-            <img src="./icon/perusahaan.svg "className="mx-auto w-20" />
+            <img src="/assets/img/icons/perusahaan.svg "className="mx-auto w-20" />
             <h3 className="pt-10 text-2xl">Perusahaan</h3>
             <div class="flex justify-center items-baseline mt-4 mb-1">
                 <span class="text-2xl text-tw-primary font-semibold">Rp. 300.000</span>

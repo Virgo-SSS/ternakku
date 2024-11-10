@@ -5,7 +5,3 @@ export const CtaSection ={
                 <a href="" className="bg-tw-primary hover:bg-[#7a8a07] text-white px-5 py-3 rounded-lg">Get Started</a>
                 </div>`
 }
-
-export const CtaList =[
-    {image:''},
-]

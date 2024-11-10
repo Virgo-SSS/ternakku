@@ -1,6 +1,6 @@
 export const ContactSection = [
     {
-        content : ` <img src="./logoagroforce.png" className="w-28 h-auto mx-auto md:mx-0"/>
+        content : ` <img src="/assets/img/ternakku-logo.png" className='img w-44 h-auto' alt='logo ternakku'/>
                     <p>Membantu peternak dalam mengelola kegiatan </br>peternakan mereka dengan manajemen data</p>
 
             <form className="my-2 md:my-0" action="#" >
@@ -38,15 +38,15 @@ export const ContactSection = [
         content : ` 
                     <h3 className="font-black pb-2 text-center md:text-left">Contact</h3>
                     <div className="flex flex-cols-2 justify-left items-left py-auto">
-                    <img src="./icon/whatsapp.svg" className="w-7"/>
+                    <img src="/assets/img/icons/whatsapp.svg" className="w-7"/>
                      <p className="pl-3">+628-1399777913</p>
                      </div>
                      <div className="flex flex-cols-2 justify-left items-left pt-3">
-                     <img src="./icon/facebook.svg" className=" w-7"/>
+                     <img src="/assets/img/icons/facebook.svg" className=" w-7"/>
                      <p className="pl-3">Ternakku</p>
                      </div>
                     <div className="flex flex-cols-2 justify-left items-left pt-3">
-                     <img src="./icon/instagram.svg" className=" w-7"/>
+                     <img src="/assets/img/icons/instagram.svg" className=" w-7"/>
                      <p className="pl-3">Ternakku</p>
                      </div>
                     `

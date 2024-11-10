@@ -1,29 +1,24 @@
 import React from 'react'
 import parse from 'html-react-parser'
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 
 {/*components*/}
-import Navbar from '../components/landing-page/Navbar'
-import Footer from '../components/landing-page/Footer'
-import Pricing from '../components/landing-page/Pricing'
-import Cta from '../components/landing-page/Cta'
-import Contact from '../components/landing-page/Contact'
+import Navbar from './landing-page/components/Navbar'
+import Footer from './landing-page/components/Footer'
+import Pricing from './landing-page/components/Pricing'
+import Contact from './landing-page/components/Contact'
 
 {/*CSS*/}
-import '../styles/Home.css'
-import '../styles/Tutors.css'
+import '../pages/landing-page/styles/Home.css'
+import '../pages/landing-page/styles/Tutors.css'
 
 {/*data*/}
-import { HomeSection } from '../data/HomeSection'
-import { CourseSection, Keunggulan } from '../data/KeunggulanSection'
-import { PricingSection } from '../data/PricingSection'
-import { CtaSection, CtaList } from '../data/CtaSection'
-import { ContactSection } from '../data/ContactSection'
-
-{/*IMG/PNG*/}
-import Gambar1 from '/img/Dashboard.jpg'
-import Gambar2 from '/img/Keuangan.jpg'
+import { HomeSection } from './landing-page/data/HomeSection'
+import { CourseSection, Keunggulan } from './landing-page/data/KeunggulanSection'
+import { PricingSection } from './landing-page/data/PricingSection'
+import { CtaSection, } from './landing-page/data/CtaSection'
+import { ContactSection } from './landing-page/data/ContactSection'
 
 function Home() {
   return (
@@ -38,7 +33,7 @@ function Home() {
                 {parse(HomeSection.content)}
                 </div>
                 <div className="">
-                    <img src={Gambar1} className='img' alt='Tampilan Dashboard AgroForce'/>
+                <img src="/assets/img/Dashboard.jpg" className='img' alt='Tampilan Dashboard AgroForce'/>
                 </div>
 
             </section>
@@ -79,9 +74,9 @@ function Home() {
                 <div className="my-auto">
                     {parse(CtaSection.content)}
                 </div>
-                <img src={Gambar2} className='py-3' alt='Tampilan Keuangan AgroForce'/>               
+                <img src="/assets/img/Keuangan.jpg" className='img' alt='Tampilan Keuangan AgroForce'/>               
             </section>
-        </div>
+        </div>  
         <Contact ContactSection={ContactSection}/>
         <Footer />
     </>

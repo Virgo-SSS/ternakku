@@ -8,7 +8,7 @@ function Navbar() {
       <div className="flex justify-between items-center">
         {/* Logo */}
         <div className="logo">
-          <img src="./logoagroforce.png" className="w-48 h-auto" alt="Logo" />
+        <img src="/assets/img/ternakku-logo.png" className='img w-44 h-auto' alt='Tampilan Dashboard AgroForce'/>
         </div>
 
         {/* Desktop Menu */}
