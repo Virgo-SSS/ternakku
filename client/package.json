@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.3.5",
     "react-flatpickr": "^3.10.13",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.28.0",
     "sort-by": "^1.2.0"
   },
