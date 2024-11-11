@@ -63,7 +63,9 @@ export const LoginPage = () => {
                     </Link>
                 </div>
                 <div className="mb-5">
-                    <button aria-label='Click me' className="btn btn-primary d-grid w-100" type="submit">Masuk</button>
+                    <Link to="/dashboard" className="btn btn-primary d-grid w-100" type="submit" aria-label='Click me'>
+                        Masuk
+                    </Link>
                 </div>
             </form>
 
@@ -73,7 +75,6 @@ export const LoginPage = () => {
                     <span>Buat akun</span>
                 </Link>
             </p>
-
         </AuthWrapper>
     )
 }

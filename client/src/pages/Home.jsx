@@ -29,18 +29,17 @@ function Home() {
   return (
     <>
         <div className='pt-3'>
-        <Navbar />
+            <Navbar />
         </div>
         <div className="flex flex-col mt-40">
             {/*Home*/}
             <section className="mx-5 md:mx-20 my-auto">
                 <div>
-                {parse(HomeSection.content)}
+                    {parse(HomeSection.content)}
                 </div>
                 <div className="">
-                <img src="/assets/img/Dashboard.jpg" className='img' alt='Tampilan Dashboard AgroForce'/>
+                    <img src="/assets/img/Dashboard.jpg" className='img' alt='Tampilan Dashboard AgroForce'/>
                 </div>
-
             </section>
 
             {/*Keunggulan*/}

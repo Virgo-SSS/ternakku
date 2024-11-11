@@ -625,41 +625,41 @@ a.list-group-item-primary.active,button.list-group-item-primary.active {
 }
 
 .form-control:focus,.form-select:focus {
-  border-color: #696cff !important
+  border-color: #93A603 !important
 }
 
 .input-group:focus-within .form-control,.input-group:focus-within .input-group-text {
-  border-color: #696cff !important
+  border-color: #93A603 !important
 }
 
 .form-check-input:checked {
-  background-color: #696cff;
-  border-color: #696cff;
+  background-color: #93A603;
+  border-color: #93A603;
   box-shadow: 0 .125rem .25rem 0 rgba(105,108,255,.4)
 }
 
 .form-check-input[type=checkbox]:indeterminate {
-  background-color: #696cff;
-  border-color: #696cff;
+  background-color: #93A603;
+  border-color: #93A603;
   box-shadow: 0 .125rem .25rem 0 rgba(105,108,255,.4)
 }
 
 .custom-option.checked {
-  border: 2px solid #696cff !important;
+  border: 2px solid #93A603 !important;
   margin: 0
 }
 
 .custom-option.checked .custom-option-body i,.custom-option.checked .custom-option-header i {
-  color: #696cff
+  color: #93A603
 }
 
 .custom-option.custom-option-label.checked {
   background-color: rgba(105,108,255,.12);
-  color: #696cff
+  color: #93A603
 }
 
 .custom-option.custom-option-label.checked .custom-option-header span,.custom-option.custom-option-label.checked .custom-option-title {
-  color: #696cff
+  color: #93A603
 }
 
 .form-switch .form-check-input:focus {
@@ -953,15 +953,15 @@ html:not([dir=rtl]) .border-primary,html[dir=rtl] .border-primary {
 }
 
 a {
-  color: #696cff
+  color: #93A603
 }
 
 a:hover {
-  color: #787bff
+  color: #7A8A07
 }
 
 .fill-primary {
-  fill: #696cff
+  fill: #93A603
 }
 
 .noUi-target:not([disabled]) {
