@@ -113,60 +113,65 @@ export const CalendarPage = () => {
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title" id="addEventModalLabel">Add Event</h5>
+                                            <h5 className="modal-title" id="addEventModalLabel">Tambah Tugas</h5>
                                             <button type="button" className="btn-close" onClick={handleModalClose}></button>
                                         </div>
                                         <div className="modal-body">
                                             <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventTitle">Title</label>
-                                                <input type="text" className="form-control" id="eventTitle" name="eventTitle" placeholder="Event Title" />
+                                                <label htmlFor="eventName" className="form-label">Name</label>
+                                                <input type="text" className="form-control" id="eventName" />
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventLabel">Label</label>
-                                                <select className="form-select" id="eventLabel" name="eventLabel">
-                                                    <option value="Business">Business</option>
-                                                    <option value="Personal">Personal</option>
-                                                    <option value="Family">Family</option>
-                                                    <option value="Holiday">Holiday</option>
-                                                    <option value="ETC">ETC</option>
+                                                <label htmlFor="eventDeadline" className="form-label">Deadline</label>
+                                                <input type="date" className="form-control" id="eventDeadline" />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label htmlFor="eventCategory" className="form-label">Category</label>
+                                                <select className="form-select" id="eventCategory">
+                                                    <option value="work">Work</option>
+                                                    <option value="personal">Personal</option>
+                                                    <option value="other">Other</option>
                                                 </select>
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventStartDate">Start Date</label>
-                                                <input type="text" className="form-control" id="eventStartDate" name="eventStartDate" placeholder="Start Date" readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventEndDate">End Date</label>
-                                                <input type="text" className="form-control" id="eventEndDate" name="eventEndDate" placeholder="End Date" readOnly />
-                                            </div>
-                                            <div className="mb-3">
-                                                <div className="form-check form-switch">
-                                                    <input type="checkbox" className="form-check-input" id="allDaySwitch" />
-                                                    <label className="form-check-label" htmlFor="allDaySwitch">All Day</label>
-                                                </div>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventURL">Event URL</label>
-                                                <input type="url" className="form-control" id="eventURL" name="eventURL" placeholder="https://www.google.com" />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventGuests">Add Guests</label>
-                                                <select className="form-select" id="eventGuests" name="eventGuests" multiple>
-                                                    <option value="Jane Foster">Jane Foster</option>
-                                                    <option value="Donna Frank">Donna Frank</option>
-                                                    <option value="Gabrielle Robertson">Gabrielle Robertson</option>
-                                                    <option value="Lori Spears">Lori Spears</option>
-                                                    <option value="Sandy Vega">Sandy Vega</option>
-                                                    <option value="Cheryl May">Cheryl May</option>
+                                                <label htmlFor="eventPriority" className="form-label">Priority</label>
+                                                <select className="form-select" id="eventPriority">
+                                                    <option value="low">Low</option>
+                                                    <option value="medium">Medium</option>
+                                                    <option value="high">High</option>
                                                 </select>
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventLocation">Location</label>
-                                                <input type="text" className="form-control" id="eventLocation" name="eventLocation" placeholder="Enter Location" />
+                                                <label htmlFor="eventStatus" className="form-label">Status</label>
+                                                <select className="form-select" id="eventStatus">
+                                                    <option value="pending">Pending</option>
+                                                    <option value="in-progress">In Progress</option>
+                                                    <option value="completed">Completed</option>
+                                                </select>
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label" htmlFor="eventDescription">Description</label>
-                                                <textarea className="form-control" id="eventDescription" name="eventDescription"></textarea>
+                                                <label htmlFor="eventDetail" className="form-label">Detail</label>
+                                                <textarea className="form-control" id="eventDetail" rows="3"></textarea>
+                                            </div>
+                                            <div className="mb-3">
+                                                <label htmlFor="eventReminderDate" className="form-label">Reminder Date</label>
+                                                <input type="date" className="form-control" id="eventReminderDate" />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label htmlFor="eventAssigned" className="form-label">Assigned</label>
+                                                <select className="form-select" id="eventAssigned">
+                                                    <option value="user1">User 1</option>
+                                                    <option value="user2">User 2</option>
+                                                    <option value="user3">User 3</option>
+                                                </select>
+                                            </div>
+                                            <div className="mb-3">
+                                                <label htmlFor="eventReference" className="form-label">Reference</label>
+                                                <select className="form-select" id="eventReference">
+                                                    <option value="ref1">Reference 1</option>
+                                                    <option value="ref2">Reference 2</option>
+                                                    <option value="ref3">Reference 3</option>
+                                                </select>
                                             </div>
                                             <div className="d-flex justify-content-between mt-4">
                                                 <button type="submit" className="btn btn-primary" onClick={handleAddEvent}>Add</button>
