@@ -9,7 +9,7 @@ function App() {
                         location.pathname.includes("error") ||
                         location.pathname.includes("under-maintenance") || 
                         location.pathname.includes("blank")||
-                        location.pathname.includes("home");
+                        location.pathname.includes("home") ;
     
     return (
         <>
