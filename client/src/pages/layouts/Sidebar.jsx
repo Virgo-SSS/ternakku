@@ -9,8 +9,6 @@ const Sidebar = () => {
                 <Link aria-label='Navigate to sneat homepage' to="/" className="app-brand-link">
                     <span className="app-brand-logo demo">
                         <img src="/assets/img/ternakku-logo.png" alt="sneat-logo" aria-label='Sneat logo image' width={"160px"}/>
-                        <h3>Ini ternakku</h3>
-                        <h6>Ternakku copyright</h6>
                     </span>
                 </Link>
                 <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
