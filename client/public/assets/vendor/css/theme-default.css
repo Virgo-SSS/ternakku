@@ -139,7 +139,7 @@
 }
 
 .text-primary {
-  color: #696cff !important
+  color: #93A603 !important
 }
 
 .text-body[href]:hover,.text-heading[href]:hover {
@@ -147,7 +147,7 @@
 }
 
 .bg-primary {
-  background-color: #696cff !important
+  background-color: #93A603 !important
 }
 
 a.bg-primary:hover,a.bg-primary:focus {
@@ -424,21 +424,21 @@ a.list-group-item-primary.active,button.list-group-item-primary.active {
 
 .btn-primary {
   color: #fff;
-  background-color: #696cff;
-  border-color: #696cff;
-  box-shadow: 0 .125rem .25rem 0 rgba(105,108,255,.4)
+  background-color: #93A603;
+  border-color: #93A603;
+  box-shadow: 0 .125rem .25rem 0 rgb(42 66 17 / 40%)
 }
 
 .btn-primary:hover {
   color: #fff !important;
-  background-color: #5f61e6 !important;
-  border-color: #5f61e6 !important
+  background-color: #7A8A07 !important;
+  border-color: #7A8A07 !important
 }
 
 .btn-check:focus+.btn-primary,.btn-primary:focus,.btn-primary.focus {
   color: #fff;
-  background-color: #5f61e6;
-  border-color: #5f61e6
+  background-color: #93A603;
+  border-color: #93A603
 }
 
 .btn-check:checked+.btn-primary,.btn-check:active+.btn-primary,.btn-primary:active,.btn-primary.active,.btn-primary.show.dropdown-toggle,.show>.btn-primary.dropdown-toggle {
@@ -1064,15 +1064,15 @@ table.dataTable.dtr-column>tbody>tr>td.control:before,table.dataTable.dtr-column
 
 .flatpickr-day.today,.flatpickr-day.today:hover {
   color: #fff !important;
-  border-color: #696cff;
-  background-color: #696cff !important;
+  border-color: #93A603;
+  background-color: #93A603 !important;
   box-shadow: 0 .125rem .25rem 0 rgba(105,108,255,.4)
 }
 
 .flatpickr-day.selected,.flatpickr-day.selected:focus,.flatpickr-day.selected:hover,.flatpickr-day.inRange,.flatpickr-day.nextMonthDay.inRange,.flatpickr-day.prevMonthDay.inRange,.flatpickr-day.today.inRange,.flatpickr-day.prevMonthDay.today.inRange,.flatpickr-day.nextMonthDay.today.inRange {
-  color: #696cff !important;
-  background: #e7e7ff !important;
-  border-color: #e7e7ff !important
+  color: #74998d  !important;
+  background: #e8fadf  !important;
+  border-color: #e8fadf  !important
 }
 
 .flatpickr-day.selected.inRange,.flatpickr-day.selected.nextMonthDay,.flatpickr-day.selected.prevMonthDay,.flatpickr-day.startRange,.flatpickr-day.startRange.inRange,.flatpickr-day.startRange:focus,.flatpickr-day.startRange:hover,.flatpickr-day.startRange.nextMonthDay,.flatpickr-day.startRange.prevMonthDay,.flatpickr-day.endRange,.flatpickr-day.endRange.inRange,.flatpickr-day.endRange:focus,.flatpickr-day.endRange:hover,.flatpickr-day.endRange.nextMonthDay,.flatpickr-day.endRange.prevMonthDay,.flatpickr-day.week.selected {
@@ -1203,14 +1203,14 @@ li.ui-timepicker-selected,.ui-timepicker-list .ui-timepicker-selected:hover {
 }
 
 .fc .fc-button-primary:not(.fc-prev-button):not(.fc-next-button) {
-  background-color: rgba(105,108,255,.16) !important;
+  background-color: rgba(147, 166, 3,.16) !important;
   border: 0;
-  color: #696cff
+  color: #93A603
 }
 
 .fc .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active,.fc .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
-  background-color: #696cff !important;
-  border-color: #696cff !important;
+  background-color: #93A603 !important;
+  border-color: #93A603 !important;
   color: #fff
 }
 
@@ -1568,16 +1568,16 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open>.men
 }
 
 .bg-menu-theme .menu-inner .menu-sub>.menu-item.active:not(:has(.menu-sub)) .menu-icon {
-  color: #696cff
+  color: #93A603
 }
 
 .bg-menu-theme .menu-inner>.menu-item.active>.menu-link,.bg-menu-theme.menu-horizontal .menu-inner>.menu-item.active>.menu-sub>.menu-item.active:not(:has(.menu-sub))>.menu-link {
-  color: #696cff;
-  background-color: rgba(105,108,255,.16) !important
+  color: #93A603;
+  background-color: rgba(147, 166, 3,.16) !important
 }
 
 .bg-menu-theme .menu-inner>.menu-item.active:before {
-  background: #696cff
+  background: #93A603
 }
 
 .bg-menu-theme .menu-sub>.menu-item>.menu-link:before {
@@ -1585,12 +1585,12 @@ html:not(.layout-menu-collapsed) .bg-menu-theme .menu-inner .menu-item.open>.men
 }
 
 .bg-menu-theme .menu-sub>.menu-item.active>.menu-link:not(.menu-toggle):before {
-  background-color: #696cff !important;
+  background-color: #93A603 !important;
   border: 3px solid #e7e7ff !important
 }
 
 .app-brand .layout-menu-toggle {
-  background-color: #696cff;
+  background-color: #93A603;
   border: 7px solid #f5f5f9
 }
 

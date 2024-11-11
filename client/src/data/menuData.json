@@ -6,7 +6,7 @@
                 "text": "Dashboard",
                 "icon": "bx bx-home",
                 "available": true,
-                "link": "/"
+                "link": "/dashboard"
             },
             {
                 "text": "Ternak",

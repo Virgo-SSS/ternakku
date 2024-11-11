@@ -241,7 +241,7 @@ html:not([dir=rtl]) .fc .fc-view-harness .fc-scrollgrid-section-header>* {
 }
 
 .light-style .fc .fc-col-header-cell-cushion {
-    color: #384551
+    color: #fff
 }
 
 .light-style .fc.fc-theme-standard .fc-list-day-cushion {

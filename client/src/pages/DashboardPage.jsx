@@ -7,12 +7,12 @@ export const DashboardPage = () => {
                         <div className="d-flex align-items-end row">
                             <div className="col-sm-7">
                                 <div className="card-body">
-                                    <h5 className="card-title text-primary">
-                                        Congratulations John! 🎉
-                                    </h5>
+                                    <h3 className="card-title text-primary">
+                                        Selamat Datang Andrianto 🎉
+                                    </h3>
                                     <p className="mb-4">
-                                        You have done <span className="fw-medium">72%</span> more
-                                        sales today. Check your new badge in your profile.
+                                        Anda telah melakukan 72% lebih banyak tugas hari ini.
+                                        Periksa tugas baru anda di Kalender anda.
                                     </p>
                                 </div>
                             </div>
