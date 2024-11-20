@@ -371,6 +371,10 @@ thead,tbody,tfoot,tr,td,th {
   border-width: 0
 }
 
+thead {
+  background-color: #93A603;
+}
+
 label {
   display: inline-block
 }
@@ -8145,7 +8149,7 @@ a.invert-bg-dark:hover,a.invert-bg-dark:focus {
   text-transform: uppercase;
   font-size: .8125rem;
   letter-spacing: .2px;
-  color: #384551
+  color: white
 }
 
 .table-dark th {
