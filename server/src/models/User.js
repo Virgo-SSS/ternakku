@@ -9,6 +9,14 @@ const addUser = async (data) => {
     return db.execute(query, values);
 }
 
+const findByEmail = async (email) => {
+    const query = "SELECT * FROM users WHERE email = ?";
+    const values = [email];
+
+    return db.execute(query, values);
+};
+
 export default {
-    addUser
+    addUser,
+    findByEmail
 }

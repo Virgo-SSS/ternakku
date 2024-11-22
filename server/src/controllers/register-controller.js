@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import UserModel from '../models/User.js';
 import UserProfileModel from '../models/UserProfile.js';
 
+// TODO: Add validation
 const register = async (req, res) => {
     try {
         const { body } = req;
