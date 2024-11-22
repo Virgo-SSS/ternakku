@@ -1,4 +1,4 @@
-
+import bcrypt from 'bcrypt';
 import UserModel from '../models/User.js';
 import UserProfileModel from '../models/UserProfile.js';
 
@@ -6,10 +6,18 @@ const register = async (req, res) => {
     try {
         const { body } = req;
 
-        const [rows] = await UserModel.addUser(body);
+        const [rows] = await UserModel.addUser({
+            name: body.name,
+            email: body.email,
+            password: await bcrypt.hash(body.password, 13)
+        });
+
         const userId = rows.insertId;
 
-        await UserProfileModel.addUserProfile(userId, body);
+        await UserProfileModel.addUserProfile({
+            user_id: userId,
+            phone_number: body.phone_number
+        });
 
         res.status(201)
         .json({
