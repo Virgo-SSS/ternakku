@@ -11,7 +11,7 @@ const login = async (req, res) => {
         if (rows.length === 0) {
             return res.status(401)
             .json({
-                message: "Invalid credentials"
+                message: "Email or password is incorrect"
             });
         }
 
