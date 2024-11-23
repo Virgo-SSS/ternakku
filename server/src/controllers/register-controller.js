@@ -7,7 +7,7 @@ const register = async (req, res) => {
     try {
         const { body } = req;
 
-        const [rows] = await UserModel.addUser({
+        const [rows] = await UserModel.create({
             name: body.name,
             email: body.email,
             password: await bcrypt.hash(body.password, 13)
@@ -15,7 +15,7 @@ const register = async (req, res) => {
 
         const userId = rows.insertId;
 
-        await UserProfileModel.addUserProfile({
+        await UserProfileModel.create({
             user_id: userId,
             phone_number: body.phone_number
         });

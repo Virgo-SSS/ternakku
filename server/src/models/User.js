@@ -1,6 +1,6 @@
 import db from '../config/database.js';
 
-const addUser = async (data) => {
+const create = async (data) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
 
@@ -17,6 +17,6 @@ const findByEmail = async (email) => {
 };
 
 export default {
-    addUser,
+    create,
     findByEmail
 }

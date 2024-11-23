@@ -1,6 +1,6 @@
 import db from '../config/database.js';
 
-const addUserProfile = async (data) => {
+const create = async (data) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
 
@@ -10,5 +10,5 @@ const addUserProfile = async (data) => {
 }
 
 export default {
-    addUserProfile
+    create
 }
