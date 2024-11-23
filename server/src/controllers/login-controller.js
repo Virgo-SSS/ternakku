@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import UserModel from '../models/User.js';
+import UserModel from '../models/user.js';
 
 // TODO: ADD VALIDATION
 const login = async (req, res) => {
