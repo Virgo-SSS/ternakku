@@ -1,5 +1,9 @@
 import db from '../config/database.js';
 
+const all = async () => {
+    return db.execute('SELECT * FROM workers');
+}
+
 const create = async (data) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -9,7 +13,7 @@ const create = async (data) => {
     return db.execute(query, values);
 }
 
-
 export default {
+    all,
     create
 }

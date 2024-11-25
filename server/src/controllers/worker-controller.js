@@ -1,5 +1,19 @@
 import WorkerModel from '../models/worker.js';
 
+
+const index = async (req, res) => {
+    try {
+        const [rows] = await WorkerModel.all();
+        res.status(200)
+        .send({
+            message: 'Success',
+            data: rows
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
 const store = async (req, res) => {
     try {
         const { body } = req;
@@ -27,4 +41,5 @@ const store = async (req, res) => {
 
 export default {
     store,
+    index
 };
