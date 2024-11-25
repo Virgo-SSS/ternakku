@@ -12,6 +12,10 @@ const fields = [
     'cow_id'
 ];
 
+const all = async () => {
+    return await db.execute('SELECT * FROM tasks');
+};
+
 const create = async (data) => {
     // get all user keys and value data that are in the fields array
     const keys = Object.keys(data).filter(key => fields.includes(key));
@@ -23,5 +27,6 @@ const create = async (data) => {
 };
 
 export default {
+    all,
     create
 }

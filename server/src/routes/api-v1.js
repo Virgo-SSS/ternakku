@@ -10,8 +10,9 @@ const router = express.Router();
 
 router.post('/login', LoginController.login);
 router.post('/register', RegisterController.register);
-router.post('/task', TaskController.store);
 
+router.get('/task', TaskController.index);
+router.post('/task', TaskController.store);
 
 router.post('/cow', CowController.store);
 router.get('/cow', CowController.index);
