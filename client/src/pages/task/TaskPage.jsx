@@ -1,72 +1,10 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import usePerfectScrollbar from "../../hooks/usePerfectScrollbar";
-
-const DEFAULT_CARDS = [
-    {
-        title: "Look into render bug in dashboard",
-        label: "bug",
-        id: "1",
-        column: "open",
-        image: "../../assets/img/elements/1.jpg",
-        assigned: ["Bruce", "Clark"]
-    },
-    {
-        title: "SOX compliance checklist",
-        label: "compliance",
-        id: "2",
-        column: "open"
-    },
-    {
-        title: "[SPIKE] Migrate to Azure",
-        label: "spike",
-        id: "3",
-        column: "open"
-    },
-    {
-        title: "Document Notifications service",
-        label: "docs",
-        id: "4",
-        column: "open"
-    },
-    {
-        title: "Research DB options for new microservice",
-        label: "research",
-        id: "5",
-        column: "finished",
-    },
-    {
-        title: "Postmortem for outage",
-        label: "postmortem",
-        id: "6",
-        column: "canceled"
-    },
-    {
-        title: "Sync with product on Q3 roadmap",
-        label: "sync",
-        id: "7",
-        column: "canceled"
-    },
-    {
-        title: "Refactor context providers to use Zustand",
-        label: "refactor",
-        id: "8",
-        column: "doing",
-    },
-    {
-        title: "Add logging to daily CRON",
-        label: "logging",
-        id: "9",
-        column: "doing"
-    },
-    {
-        title: "Set up DD dashboards for Lambda listener",
-        label: "dashboards",
-        id: "10",
-        column: "finished",
-    },
-];
+import axios from "../../api/api";
+import taskHelper from "../../helper/taskHelper";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export const TaskPage = () => {
     usePerfectScrollbar('kanban-wrapper');
@@ -81,42 +19,63 @@ export const TaskPage = () => {
 };
 
 const Board = () => {
-    const [cards, setCards] = useState(DEFAULT_CARDS);
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const getTasks = async () => {
+            try {
+                const response = await axios.get('/task');
+    
+                const tasks = response.data.data.map((task) => ({
+                    id: task.id,
+                    title: task.title,
+                    priority: task.priority,
+                    column: taskHelper.getStatusLabel(task.status),
+                    worker: task.worker_id,
+                }));
+    
+                setTasks(tasks);
+            } catch (error) {
+                withReactContent(Swal).fire({
+                    title: 'Error',
+                    text: error.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+
+        getTasks();
+    }, []);
 
     return (
         <div className="kanban-wrapper" id="kanban-wrapper">
             <div className="kanban-container" style={{ width: "1370px" }}>
                 <Column
                     title="Belum Mulai"
-                    column="open"
-                    cards={cards}
-                    setCards={setCards}
+                    column="Pending"
+                    cards={tasks}
+                    setTasks={setTasks}
                 />
                 <Column
                     title="In progress"
-                    column="doing"
-                    cards={cards}
-                    setCards={setCards}
+                    column="Dalam Proses"
+                    cards={tasks}
+                    setTasks={setTasks}
                 />
                 <Column
                     title="Sudah Selesai"
-                    column="finished"
-                    cards={cards}
-                    setCards={setCards}
+                    column="Selesai"
+                    cards={tasks}
+                    setTasks={setTasks}
                 />
-                <Column
-                    title="Batal"
-                    column="Canceled"
-                    cards={cards}
-                    setCards={setCards}
-                />
-                <BurnBarrel setCards={setCards} />
+                <BurnBarrel setTasks={setTasks} />
             </div>
         </div>
     );
 };
 
-const Column = ({ title, cards, column, setCards }) => {
+const Column = ({ title, cards, column, setTasks }) => {
     const [active, setActive] = useState(false);
 
     const handleDragStart = (e, card) => {
@@ -154,7 +113,7 @@ const Column = ({ title, cards, column, setCards }) => {
                 copy.splice(insertAtIndex, 0, cardToTransfer);
             }
 
-            setCards(copy);
+            setTasks(copy);
         }
     };
 
@@ -234,14 +193,14 @@ const Column = ({ title, cards, column, setCards }) => {
                     return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
                 })}
                  <DropIndicator beforeId={null} column={column} />
-                 <AddCard column={column} setCards={setCards} />
+                 <AddCard column={column} setTasks={setTasks} />
             </main>
             <footer></footer>
         </div>
     );
 };
 
-const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => {
+const Card = ({ id, title, priority, column, worker, handleDragStart}) => {
     const [selectedTask, setSelectedTask] = useState(null); // State to store selected task data
     const [isModalOpen, setIsModalOpen] = useState(false);
     
@@ -256,6 +215,8 @@ const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => 
         setIsModalOpen(false); // Hide the modal
     };
 
+    const image = null;
+
     return (
         <>
             <DropIndicator beforeId={id} column={column} />
@@ -265,11 +226,13 @@ const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => 
                 draggable="true"
                 onDragStart={(e) => handleDragStart(e, { title, id, column })}
                 className="kanban-item" 
-                onClick={() => handleCardClick({ title, label, id, image, assigned })}
+                onClick={() => handleCardClick({ title, priority, id, worker })}
             >
                 <div className="d-flex justify-content-between flex-wrap align-items-center mb-2">
                     <div className="item-badges">
-                        <div className="badge bg-label-success">{label}</div>
+                        <div className={`badge bg-label-${taskHelper.getPriorityColor(Number(priority))}`}>
+                            {taskHelper.getPriorityLabel(Number(priority))}
+                        </div>
                     </div>
                 </div>
                 {
@@ -277,26 +240,10 @@ const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => 
                 }
                 <span className="kanban-text">{title}</span>
                 <div className="d-flex justify-content-between align-items-center flex-wrap mt-2">
-                    <div className="d-flex"> 
-                        <span className="d-flex align-items-center me-2">
-                            <i className="bx bx-paperclip me-1"></i>
-                            <span className="attachments">4</span>
-                        </span>
-                        <span className="d-flex align-items-center ms-2">
-                            <i className="bx bx-chat me-1"></i>
-                            <span>12 </span>
-                        </span>
-                    </div>
                     {
-                        assigned ?
-                        <div className="avatar-group d-flex align-items-center assigned-avatar">
-                        {
-                            assigned.map((a, i) => (
-                                <div key={i} className="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label={a} data-bs-original-title={a}>
-                                    <img src={`../../assets/img/avatars/${i + 1}.png`} alt="Avatar" className="rounded-circle  pull-up"/>
-                                </div>
-                            ))
-                        }
+                        worker ?
+                        <div className="d-flex align-items-center">
+                            <span>{worker}</span>
                         </div> : null
                     }
                 </div>
@@ -309,7 +256,7 @@ const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => 
                         <div className="modal-dialog">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h5 className="modal-title" id="updateTaskModalLabel">Add Event</h5>
+                                    <h5 className="modal-title" id="updateTaskModalLabel">Update Task</h5>
                                     <button type="button" className="btn-close" onClick={handleModalClose}></button>
                                 </div>
                                 <div className="modal-body">
@@ -319,12 +266,16 @@ const Card = ({ title, label, id, image, assigned, column, handleDragStart}) => 
                                             <input type="text" id="title" className="form-control" defaultValue={selectedTask.title} />
                                         </div>
                                         <div className="mb-3">
-                                            <label className="form-label" htmlFor="label">Label</label>
-                                            <input type="text" id="label" className="form-control" defaultValue={selectedTask.label} />
+                                            <label className="form-label" htmlFor="priority">Priority</label>
+                                            <select id="priority" className="form-select">
+                                                <option value="1" selected={selectedTask.priority === 1}>Low</option>
+                                                <option value="2" selected={selectedTask.priority === 2}>Medium</option>
+                                                <option value="3" selected={selectedTask.priority === 3}>High</option>
+                                            </select>
                                         </div>
                                         <div className="mb-3">
-                                            <label className="form-label">Assigned</label>
-                                            <div>{selectedTask.assigned}</div>
+                                            <label className="form-label">Worker</label>
+                                            <div>{selectedTask.worker}</div>
                                         </div>
                                         <div className="mb-3">
                                             <label className="form-label" htmlFor="attachments">Attachments</label>
@@ -361,7 +312,7 @@ const DropIndicator = ({ beforeId, column }) => {
     );
 };
 
-const BurnBarrel = ({ setCards }) => {
+const BurnBarrel = ({ setTasks }) => {
     const [active, setActive] = useState(false);
 
     const handleDragOver = (e) => {
@@ -376,7 +327,7 @@ const BurnBarrel = ({ setCards }) => {
     const handleDragEnd = (e) => {
         const cardId = e.dataTransfer.getData("cardId");
 
-        setCards((pv) => pv.filter((c) => c.id !== cardId));
+        setTasks((pv) => pv.filter((c) => c.id !== cardId));
 
         setActive(false);
     };
@@ -398,7 +349,7 @@ const BurnBarrel = ({ setCards }) => {
     );
 };
 
-const AddCard = ({ column, setCards }) => {
+const AddCard = ({ column, setTasks }) => {
     const [text, setText] = useState("");
     const [adding, setAdding] = useState(false);
 
@@ -413,7 +364,7 @@ const AddCard = ({ column, setCards }) => {
             id: Math.random().toString(),
         };
 
-        setCards((pv) => [...pv, newCard]);
+        setTasks((pv) => [...pv, newCard]);
 
         setAdding(false);
     };

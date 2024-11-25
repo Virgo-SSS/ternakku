@@ -11,6 +11,19 @@ const getEventClassBasedOnPriority = (priority) => {
     }
 }
 
+const getPriorityColor = (priority) => {
+    switch (priority) {
+        case 1: // low
+            return 'success';
+        case 2: // medium
+            return 'warning';
+        case 3: // high
+            return 'danger';
+        default:
+            return 'primary';
+    }
+}
+
 const getStatusLabel = (status) => {
     switch (status) {
         case 0:
@@ -40,5 +53,6 @@ const getPriorityLabel = (priority) => {
 export default {
     getEventClassBasedOnPriority,
     getStatusLabel,
-    getPriorityLabel
+    getPriorityLabel,
+    getPriorityColor
 }
