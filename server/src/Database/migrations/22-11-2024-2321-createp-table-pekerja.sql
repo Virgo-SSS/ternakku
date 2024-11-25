@@ -1,4 +1,4 @@
-use ternakku;
+use ternakku_db;
 
 CREATE TABLE IF NOT EXISTS workers (
     id SERIAL PRIMARY KEY,

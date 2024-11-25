@@ -593,11 +593,11 @@ a.list-group-item-primary.active,button.list-group-item-primary.active {
 }
 
 .nav-pills .nav-link.active {
-  box-shadow: 0 .125rem .25rem 0 rgba(105,108,255,.4)
+  box-shadow: 0 .125rem .25rem 0 rgba(55, 57, 142, 0.4)
 }
 
 .nav-pills .nav-link.active,.nav-pills .nav-link.active:hover,.nav-pills .nav-link.active:focus {
-  background-color: #696cff;
+  background-color: #93A603;
   color: #fff
 }
 
@@ -697,14 +697,7 @@ a.list-group-item-primary.active,button.list-group-item-primary.active {
   box-shadow: 0 0 0 .25rem rgba(105,108,255,.06)
 }
 
-.timeline .timeline-point-primary {
-  background-color: #696cff !important;
-  outline: 3px solid rgba(105,108,255,.12)
-}
 
-.timeline.timeline-outline .timeline-point-primary {
-  border: 2px solid #696cff !important
-}
 
 .timeline .timeline-indicator-primary {
   background-color: rgba(105,108,255,.16)

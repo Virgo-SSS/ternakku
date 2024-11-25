@@ -1,5 +1,5 @@
 -- create table user if the talbe does not exist
-use ternakku;
+use ternakku_db;
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,

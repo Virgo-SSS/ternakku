@@ -6,7 +6,7 @@ import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { TernakPage } from "../pages/ternak/TernakPage";
 import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
-import { DetailTernakPage } from "../pages/ternak/DetailTernakPage";
+import InformasiSapi from "../pages/ternak/InformasiSapi";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
 import { KeuanganPage } from "../pages/keuangan/keuanganPage";
@@ -53,6 +53,7 @@ import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
 
 
+
 const AppRoutes = () => {
     return (
         <Routes>
@@ -66,7 +67,7 @@ const AppRoutes = () => {
             {/* Ternak */}
             <Route path="/ternak" element={<TernakPage />} />
             <Route path="/ternak/create" element={<CreateTernakPage />} />
-            <Route path="/ternak/detail/:id" element={<DetailTernakPage />} />
+            <Route path="/ternak/informasisapi" element={<InformasiSapi />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />
             <Route path="/keuangan" element={<KeuanganPage />} />

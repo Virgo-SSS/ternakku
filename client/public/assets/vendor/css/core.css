@@ -11850,7 +11850,7 @@ html:not([dir=rtl]) .form-select:focus,html:not([dir=rtl]) .was-validated .form-
   padding: calc(.7075rem - var(--bs-border-width)) calc(1.3125rem - var(--bs-border-width));
   padding-inline-end:calc(3.9375rem - var(--bs-border-width))}
 
-html: not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-lg {
+html:not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-lg {
   padding:calc(.7075rem - 2px) calc(3.9375rem - 2px) calc(.7075rem - 2px) calc(1.3125rem - 2px)
 }
 
@@ -11864,7 +11864,7 @@ html: not([dir=rtl]) .form-select.form-select-lg:focus,html:not([dir=rtl]) .was-
   padding: calc(.3165rem - var(--bs-border-width)) calc(.8125rem - var(--bs-border-width));
   padding-inline-end:calc(2.4375rem - var(--bs-border-width))}
 
-html: not([dir=rtl]) .form-select.form-select-sm:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-sm {
+html:not([dir=rtl]) .form-select.form-select-sm:focus,html:not([dir=rtl]) .was-validated .form-select.form-select-sm {
   padding:calc(.3165rem - 2px) calc(2.4375rem - 2px) calc(.3165rem - 2px) calc(.8125rem - 2px)
 }
 
@@ -12306,7 +12306,7 @@ html: not([dir=rtl]) .form-select.form-select-sm:focus,html:not([dir=rtl]) .was-
 .input-group.input-group-merge>:not(:first-child):not(.dropdown-menu):not(.btn):not(.dropdown-menu+.form-control):not(.btn+.form-control):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
   margin-inline-start:calc((2px + var(--bs-border-width))*-1)}
 
-.input-group.input-group-merge: focus-within>.form-control:first-child,.input-group.input-group-merge:focus-within>.form-select:first-child {
+.input-group.input-group-merge:focus-within>.form-control:first-child,.input-group.input-group-merge:focus-within>.form-select:first-child {
   padding-inline:calc(.9375rem - 2px)
 }
 
@@ -32029,7 +32029,7 @@ body {
   -khtml-user-drag: none;
   -moz-user-drag: none;
   -o-user-drag: none;
-  user-drag: none
+  user-drag: none;
 }
 
 .ui-stars {
@@ -35081,6 +35081,35 @@ html:not([dir=rtl]) .avatar-group .avatar-xl {
   border-radius: 50%;
   background-color: #696cff;
   box-shadow: 0 0 0 10px #fff
+}
+
+.timeline-with-icons {
+  border-left: 1px solid hsl(0, 0%, 90%);
+  position: relative;
+  list-style: none;
+}
+
+.timeline-with-icons .timeline-item {
+  position: relative;
+}
+
+.timeline-with-icons .timeline-item:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+.timeline-with-icons .timeline-icon {
+  position: absolute;
+  left: -48px;
+  background-color: hsl(217, 88.2%, 90%);
+  color: hsl(217, 88.8%, 35.1%);
+  border-radius: 50%;
+  height: 31px;
+  width: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .timeline .timeline-item.timeline-item-transparent .timeline-event {
