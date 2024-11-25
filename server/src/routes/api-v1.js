@@ -12,6 +12,7 @@ router.post('/login', LoginController.login);
 router.post('/register', RegisterController.register);
 
 router.get('/task', TaskController.index);
+router.get('/task/upcoming', TaskController.upcomingTask);
 router.post('/task', TaskController.store);
 
 router.post('/cow', CowController.store);

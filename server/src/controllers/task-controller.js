@@ -49,7 +49,20 @@ const store = async (req, res) => {
     }
 }
 
+const upcomingTask = async (req, res) => {
+    try {
+        const [rows] = await TaskModel.findUpcomingTask();
+        res.status(200).json({
+            message: 'Success',
+            data: rows
+        });
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
 export default {
     index,
-    store
+    store,
+    upcomingTask
 }

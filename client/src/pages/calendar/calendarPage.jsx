@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction"
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
-import getEventClassBasedOnPriority from '../../helper/task';
+import TaskHelper from '../../helper/taskHelper';
 
 export const CalendarPage = () => {
     const date  =  new Date();
@@ -44,7 +44,7 @@ export const CalendarPage = () => {
                 title: response.data.data.title,
                 start: response.data.data.deadline,
                 end: response.data.data.deadline,
-                classNames: getEventClassBasedOnPriority(Number(response.data.data.priority))
+                classNames: TaskHelper.getEventClassBasedOnPriority(Number(response.data.data.priority))
             }
 
             setTasks([...tasks, newTask]);
@@ -70,6 +70,8 @@ export const CalendarPage = () => {
             });
 
         } catch (error) {
+            console.log(error);
+
             withReactContent(Swal).fire({
                 title: 'Error',
                 text: error.response.data.message,
@@ -138,7 +140,7 @@ export const CalendarPage = () => {
                     title: task.title,
                     start: task.deadline,
                     end: task.deadline,
-                    classNames: getEventClassBasedOnPriority(task.priority)
+                    classNames: TaskHelper.getEventClassBasedOnPriority(task.priority)
                 }));
     
                 setTasks(tasks);
@@ -262,7 +264,7 @@ export const CalendarPage = () => {
                                                 <select className="form-select" name='status' id="status" value={formData.status} onChange={handleFormChange} required>
                                                     <option value="0">Pending</option>
                                                     <option value="1">In Progress</option>
-                                                    <option value="3">Completed</option>
+                                                    <option value="2">Completed</option>
                                                 </select>
                                             </div>
                                             <div className="mb-3">

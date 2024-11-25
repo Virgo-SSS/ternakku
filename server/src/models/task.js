@@ -26,7 +26,12 @@ const create = async (data) => {
     return await db.execute(query, values);
 };
 
+const findUpcomingTask = async () => {
+    return await db.execute('SELECT * FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline ASC LIMIT 1');
+}
+
 export default {
     all,
-    create
+    create,
+    findUpcomingTask
 }
