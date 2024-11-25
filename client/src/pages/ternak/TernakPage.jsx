@@ -1,8 +1,31 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import axios from "../../api/api.js";
+import { useEffect, useState } from "react";
 
 export const TernakPage = () => {
+    const [cows, setCows] = useState([]);
+
+    const getCows = async () => {
+        try {
+            const response = await axios.get('/cow');
+            setCows(response.data.data);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+    useEffect(() => {
+        getCows();
+    }, []);
+
     return (
-        
         <>
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                 <div className="d-block mb-4 mb-md-0">
@@ -16,49 +39,37 @@ export const TernakPage = () => {
             </div>
         
             <div className="card">
-                <div className="table-responsive text-nowrap">
-                    <table className="table">
+                <div className="text-nowrap">
+                    <table className="table table-responsive">
                         <thead>
                             <tr>
-                                <th>
-                                    <input type="checkbox" name="all" id="all" />
-                                </th>
                                 <th>Nama</th>
                                 <th>Status</th>
+                                <th>Jenis Kelamin</th>
                                 <th>Tanggal Lahir</th>
+                                <th>Berat Badan</th>
                                 <th>Jenis Sapi</th>
                             </tr>
                         </thead>
                         <tbody className="table-border-bottom-0">
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="" id="" />
-                                </td>
-                                <td>
-                                    {/* if clicked redirect to detail ternak page */}
-                                    <Link to={{ 
-                                        pathname: "/ternak/detail/1", 
-                                        state: {
-                                            id: 1
-                                        }
-                                     }}
-                                    >
-                                        <span className="text-primary">John Doe</span>
-                                    </Link>
-                                </td>
-                                <td><span className="badge bg-label-primary me-1">Active</span></td>
-                                <td>2024-10-12</td>
-                                <td>Sapi simental</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="" id="" />
-                                </td>
-                                <td>Barry Hunter</td>
-                                <td><span className="badge bg-label-success me-1">Completed</span></td>
-                                <td>2024-10-12</td>
-                                <td>Sapi simental</td>
-                            </tr>
+                            {cows.map((cow, index) => (
+                                <tr key={index}>
+                                    <td>{cow.name}</td>
+                                    <td>{cow.status}</td>
+                                    <td>
+                                        {cow.gender === 'M' ? 'Jantan' : 'Betina'}
+                                    </td>
+                                    <td>
+                                        {new Date(cow.birth_date).toLocaleDateString('id-ID', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}
+                                    </td>
+                                    <td>{cow.weight} Kg</td>
+                                    <td>{cow.type}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

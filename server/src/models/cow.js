@@ -1,5 +1,9 @@
 import db from '../config/database.js';
 
+const all = async () => {
+    return db.execute('SELECT * FROM cows');
+}
+
 const create = async (data) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -10,5 +14,6 @@ const create = async (data) => {
 }
 
 export default {
+    all,
     create
 }
