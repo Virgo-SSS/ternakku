@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import { AuthWrapper } from "./AuthWrapper";
+import axios from "../../api/api"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 export const RegisterPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        nomerHandphone: '',
+        phone_number: '',
         password: '',
         confirmPassword: '',
-        terms: false,
     });
 
     const handleChange = (e) => {
@@ -23,50 +25,35 @@ export const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
-
-        // Validasi awal
-        if (formData.password !== formData.confirmPassword) {
-            setError("Password dan konfirmasi password tidak cocok.");
-            return;
-        }
-        setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: formData.name,
-                    email: formData.email,
-                    nomerHandphone: formData.nomerHandphone,
-                    password: formData.password,
-                    confirmPassword: formData.confirmPassword,
-                }),
+            const response = await axios.post('/register', formData);
+
+            // Reset the form
+            setFormData({
+                name: '',
+                email: '',
+                phone_number: '',
+                password: '',
+                confirmPassword: '',
+            });
+        
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
             });
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                // Menampilkan pesan error dari server
-                setError(result.message || 'Registrasi gagal. Silakan coba lagi.');
-            } else {
-                // Berhasil, redirect atau tampilkan pesan sukses
-                alert('Registrasi berhasil!');
-                setFormData({
-                    name: '',
-                    email: '',
-                    nomerHandphone: '',
-                    password: '',
-                    confirmPassword: '',
-                    terms: false,
-                });
-            }
-        } catch (err) {
-            setError('Terjadi kesalahan jaringan. Silakan coba lagi.');
-        } finally {
-            setLoading(false);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
+
     };
 
     return (
@@ -104,14 +91,14 @@ export const RegisterPage = () => {
                     />
                 </div>
                 <div className="mb-5">
-                    <label htmlFor="nomerHandphone" className="form-label">Nomer Handphone</label>
+                    <label htmlFor="phone_number" className="form-label">Nomer Handphone</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="nomerHandphone"
-                        value={formData.nomerHandphone}
+                        id="phone_number"
+                        value={formData.phone_number}
                         onChange={handleChange}
-                        name="nomerHandphone"
+                        name="phone_number"
                         placeholder="Enter your phone number"
                         required
                     />
@@ -150,8 +137,7 @@ export const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button aria-label='Click me' className="btn btn-primary d-grid w-100" disabled={loading}>
-                    {loading ? 'Loading...' : 'Daftar'}
+                <button aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar
                 </button>
             </form>
 
