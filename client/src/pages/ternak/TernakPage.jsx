@@ -33,7 +33,7 @@ export const TernakPage = () => {
                 </div>
                 <div className="btn-toolbar mb-2 mb-md-0">
                     <Link to="/ternak/create">
-                        <button type="button" className="btn btn-primary">Tambah Sapi</button>
+                        <button type="button" className="btn btn-primary bg-primary ">Tambah Sapi</button>
                     </Link>
                 </div>
             </div>

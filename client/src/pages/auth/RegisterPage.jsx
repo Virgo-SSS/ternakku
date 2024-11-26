@@ -4,7 +4,7 @@ import { AuthWrapper } from "./AuthWrapper";
 
 export const RegisterPage = () => {
     const [formData, setFormData] = useState({
-        nama: '',
+        name: '',
         email: '',
         nomerHandphone: '',
         password: '',
@@ -21,10 +21,52 @@ export const RegisterPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted:', formData);
+        setError(null);
+
+        // Validasi awal
+        if (formData.password !== formData.confirmPassword) {
+            setError("Password dan konfirmasi password tidak cocok.");
+            return;
+        }
+        setLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: formData.email,
+                    nomerHandphone: formData.nomerHandphone,
+                    password: formData.password,
+                    confirmPassword: formData.confirmPassword,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                // Menampilkan pesan error dari server
+                setError(result.message || 'Registrasi gagal. Silakan coba lagi.');
+            } else {
+                // Berhasil, redirect atau tampilkan pesan sukses
+                alert('Registrasi berhasil!');
+                setFormData({
+                    name: '',
+                    email: '',
+                    nomerHandphone: '',
+                    password: '',
+                    confirmPassword: '',
+                    terms: false,
+                });
+            }
+        } catch (err) {
+            setError('Terjadi kesalahan jaringan. Silakan coba lagi.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -34,6 +76,7 @@ export const RegisterPage = () => {
             <p className="mb-4">Masuk dan kelola peternakan Anda dengan mudah!</p>
 
             <form id="formAuthentication" className="mb-3" onSubmit={handleSubmit}>
+
                 <div className="mb-5">
                     <label htmlFor="name" className="form-label">Nama</label>
                     <input
@@ -46,9 +89,19 @@ export const RegisterPage = () => {
                         placeholder="Enter your name"
                         autoFocus />
                 </div>
+
                 <div className="mb-5">
                     <label htmlFor="email" className="form-label">Email</label>
-                    <input type="text" className="form-control" id="email" name="email" placeholder="Enter your email" />
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    />
                 </div>
                 <div className="mb-5">
                     <label htmlFor="nomerHandphone" className="form-label">Nomer Handphone</label>
@@ -60,8 +113,10 @@ export const RegisterPage = () => {
                         onChange={handleChange}
                         name="nomerHandphone"
                         placeholder="Enter your phone number"
+                        required
                     />
                 </div>
+
                 <div className="mb-5 form-password-toggle">
                     <label className="form-label" htmlFor="password">Kata Sandi</label>
                     <div className="input-group input-group-merge">
@@ -77,6 +132,7 @@ export const RegisterPage = () => {
                         <span className="input-group-text cursor-pointer"><i className="bx bx-hide"></i></span>
                     </div>
                 </div>
+
                 <div className="mb-5 form-password-toggle">
                     <label className="form-label" htmlFor="confirmPassword">Konfirmasi Kata Sandi</label>
                     <div className="input-group input-group-merge">
@@ -94,7 +150,9 @@ export const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar</button>
+                <button aria-label='Click me' className="btn btn-primary d-grid w-100" disabled={loading}>
+                    {loading ? 'Loading...' : 'Daftar'}
+                </button>
             </form>
 
             <p className="text-center">
