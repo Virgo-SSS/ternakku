@@ -1,0 +1,19 @@
+#contact {
+    background-color: #dde1bc;
+    padding: 50px 0px 50px 0px;
+    border-top-left-radius: 50px  ;
+    border-top-right-radius: 50px  ;
+}
+  
+  .footer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+  }
+  
+  .footer-section {
+    width: 20%;
+    margin: 0 auto;
+  }

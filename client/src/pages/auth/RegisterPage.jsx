@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import { AuthWrapper } from "./AuthWrapper";
+import axios from "../../api/api"
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 export const RegisterPage = () => {
     const [formData, setFormData] = useState({
-        nama: '',
+        name: '',
         email: '',
-        nomerHandphone: '',
+        phone_number: '',
         password: '',
         confirmPassword: '',
-        terms: false,
     });
 
     const handleChange = (e) => {
@@ -21,10 +23,37 @@ export const RegisterPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted:', formData);
+
+        try {
+            const response = await axios.post('/register', formData);
+
+            // Reset the form
+            setFormData({
+                name: '',
+                email: '',
+                phone_number: '',
+                password: '',
+                confirmPassword: '',
+            });
+        
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+
     };
 
     return (
@@ -34,6 +63,7 @@ export const RegisterPage = () => {
             <p className="mb-4">Masuk dan kelola peternakan Anda dengan mudah!</p>
 
             <form id="formAuthentication" className="mb-3" onSubmit={handleSubmit}>
+
                 <div className="mb-5">
                     <label htmlFor="name" className="form-label">Nama</label>
                     <input
@@ -46,22 +76,34 @@ export const RegisterPage = () => {
                         placeholder="Enter your name"
                         autoFocus />
                 </div>
+
                 <div className="mb-5">
                     <label htmlFor="email" className="form-label">Email</label>
-                    <input type="text" className="form-control" id="email" name="email" placeholder="Enter your email" />
+                    <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    />
                 </div>
                 <div className="mb-5">
-                    <label htmlFor="nomerHandphone" className="form-label">Nomer Handphone</label>
+                    <label htmlFor="phone_number" className="form-label">Nomer Handphone</label>
                     <input
                         type="text"
                         className="form-control"
-                        id="nomerHandphone"
-                        value={formData.nomerHandphone}
+                        id="phone_number"
+                        value={formData.phone_number}
                         onChange={handleChange}
-                        name="nomerHandphone"
+                        name="phone_number"
                         placeholder="Enter your phone number"
+                        required
                     />
                 </div>
+
                 <div className="mb-5 form-password-toggle">
                     <label className="form-label" htmlFor="password">Kata Sandi</label>
                     <div className="input-group input-group-merge">
@@ -77,6 +119,7 @@ export const RegisterPage = () => {
                         <span className="input-group-text cursor-pointer"><i className="bx bx-hide"></i></span>
                     </div>
                 </div>
+
                 <div className="mb-5 form-password-toggle">
                     <label className="form-label" htmlFor="confirmPassword">Konfirmasi Kata Sandi</label>
                     <div className="input-group input-group-merge">
@@ -94,7 +137,8 @@ export const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar</button>
+                <button aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar
+                </button>
             </form>
 
             <p className="text-center">
