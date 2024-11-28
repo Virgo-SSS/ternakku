@@ -9,7 +9,7 @@ import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
 import InformasiSapi from "../pages/ternak/InformasiSapi";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
-import { KeuanganPage } from "../pages/keuangan/keuanganPage";
+import { FinancePage } from "../pages/finance/FinancePage";
 
 
 import { AccountPage } from "../pages/account/AccountPage";
@@ -70,7 +70,7 @@ const AppRoutes = () => {
             <Route path="/ternak/informasisapi" element={<InformasiSapi />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />
-            <Route path="/keuangan" element={<KeuanganPage />} />
+            <Route path="/keuangan" element={<FinancePage />} />
             
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />
