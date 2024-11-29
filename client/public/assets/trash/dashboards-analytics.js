@@ -1,3 +1,5 @@
+// TODO: Delete this file, it's only for demo purposes but we can use it as a reference for the final implementation
+
 /**
  * Dashboard Analytics
  */
