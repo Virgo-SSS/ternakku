@@ -1,32 +1,6 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 
-export const FinancePage = () => {
-    return (
-        <>
-            <div className="d-flex justify-content-end mb-4">
-                <button className="btn btn-primary">Input Data</button>
-            </div>
-            <div className="row">
-                <MoneyCard title="Total Saldo" money="Rp. 25.000.000" percentage="+3.42%" />
-                <MoneyCard title="Pengeluaran" money="Rp. 20.000.000" percentage="-1.42%" />
-                <MoneyCard title="Pendapatan" money="Rp. 24.000.000" percentage="+3.42%" />
-                <MoneyCard title="Penghematan" money="Rp. 5.000.000" percentage="+3.42%" />
-            </div>
-
-            <div className="row">
-                <div className="col-12 col-lg-9 order-2 order-md-3 order-lg-2 mb-4">
-                    <MoneyFlow />
-                </div>
-
-                <div className="col-12 col-lg-3 order-3 order-md-2 order-lg-3 mb-4">
-                    <MoneyCardChart />
-                </div>
-            </div>
-        </>
-    )
-}
-
 let config = {
     colors: {
         primary: '#696cff',
@@ -53,6 +27,33 @@ cardColor = config.colors.cardColor;
 headingColor = config.colors.headingColor;
 axisColor = config.colors.axisColor;
 borderColor = config.colors.borderColor;
+
+export const FinancePage = () => {
+    return (
+        <>
+            <div className="d-flex justify-content-end mb-4">
+                <button className="btn btn-primary">Input Data</button>
+            </div>
+
+            <div className="row">
+                <MoneyCard title="Total Saldo" money="Rp. 25.000.000" percentage="+3.42%" />
+                <MoneyCard title="Pengeluaran" money="Rp. 20.000.000" percentage="-1.42%" />
+                <MoneyCard title="Pendapatan" money="Rp. 24.000.000" percentage="+3.42%" />
+                <MoneyCard title="Penghematan" money="Rp. 5.000.000" percentage="+3.42%" />
+            </div>
+
+            <div className="row">
+                <div className="col-12 col-lg-9 order-2 order-md-3 order-lg-2 mb-4">
+                    <MoneyFlow />
+                </div>
+
+                <div className="col-12 col-lg-3 order-3 order-md-2 order-lg-3 mb-4">
+                    <MoneyCardChart />
+                </div>
+            </div>
+        </>
+    )
+}
 
 const MoneyCard = ({title, money, percentage}) => {
     const minus = {
