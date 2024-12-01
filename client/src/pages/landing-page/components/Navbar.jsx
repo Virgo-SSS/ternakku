@@ -17,9 +17,8 @@ return (
             <ul className="flex gap-12">
                 <li><a href="#home" className="text-gray-900">Home</a></li>
                 <li><a href="#courses" className="text-gray-900">Keunggulan</a></li>
-                <li><a href="#tutors" className="text-gray-900">Testimoni</a></li>
-                <li><a href="#partners" className="text-gray-900">Tentang</a></li>
-                <li><a href="#contact" className="text-gray-900">Contact</a></li>
+                <li><a href="#pricing" className="text-gray-900">Paket Harga</a></li>
+                <li><a href="#cta" className="text-gray-900">Contact</a></li>
             </ul>
         </nav>
         <Link to="/auth/login" className="hidden lg:flex bg-tw-primary text-white px-5 py-3 rounded-lg hover:bg-[#7a8a07]">
@@ -43,8 +42,7 @@ return (
         <ul className="flex flex-col items-start gap-4 p-5">
             <li><a href="#home" className="text-gray-900">Home</a></li>
             <li><a href="#courses" className="text-gray-900">Keunggulan</a></li>
-            <li><a href="#tutors" className="text-gray-900">Testimoni</a></li>
-            <li><a href="#partners" className="text-gray-900">Tentang</a></li>
+            <li><a href="#pricing" className="text-gray-900">Paket Harga</a></li>
             <li><a href="#contact" className="text-gray-900">Contact</a></li>
             <Link to="/auth/login" className="w-full text-center bg-tw-primary text-white px-5 py-3 rounded-lg hover:bg-[#7a8a07]">
                 Register
