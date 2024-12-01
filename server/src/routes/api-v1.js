@@ -23,6 +23,7 @@ router.get('/cow', CowController.index);
 router.post('/worker', WorkerController.store);
 router.get('/worker', WorkerController.index);
 
+router.get('/transaction', TransactionController.index);
 router.post('/transaction', TransactionController.store);
 
 router.get('/transaction/category', TransactionCategoryController.index);

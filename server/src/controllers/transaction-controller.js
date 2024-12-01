@@ -1,5 +1,21 @@
 import TransactionModel from '../models/transaction.js';
 
+
+const index = async (req, res) => {
+    try {
+        const [rows] = await TransactionModel.all();
+        res.status(200).json(
+            {
+                status: 'success',
+                message: 'Transactions retrieved successfully',
+                data: rows
+            }
+        );
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
 const store = async (req, res) => {
     try {
         const { body } = req;
@@ -15,6 +31,7 @@ const store = async (req, res) => {
 
         res.status(201)
         .json({
+            status: 'success',
             message: 'Transaction created successfully',
             data: {
                 id: rows.insertId,
@@ -32,5 +49,6 @@ const store = async (req, res) => {
 }
 
 export default {
+    index,
     store
 }

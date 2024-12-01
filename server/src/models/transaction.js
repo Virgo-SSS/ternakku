@@ -10,6 +10,10 @@ const fields = [
     'notes'
 ];
 
+const all = async () => {
+    return db.execute('SELECT * FROM transactions');
+}
+
 const create = async (data) => {
     const keys = Object.keys(data).filter(key => fields.includes(key) && data[key] !== undefined);
     const values = keys.map(key => data[key]);
@@ -20,5 +24,6 @@ const create = async (data) => {
 }
 
 export default {
+    all,
     create
 }
