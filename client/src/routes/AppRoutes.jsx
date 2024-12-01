@@ -10,7 +10,7 @@ import InformasiSapi from "../pages/ternak/InformasiSapi";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
 import { FinancePage } from "../pages/finance/FinancePage";
-
+import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -53,7 +53,6 @@ import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
 
 
-
 const AppRoutes = () => {
     return (
         <Routes>
@@ -71,6 +70,7 @@ const AppRoutes = () => {
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />
             <Route path="/keuangan" element={<FinancePage />} />
+            <Route path="/transaction/create" element={<CreateTransactionPage />} />
             
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />

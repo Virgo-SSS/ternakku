@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { Link } from "react-router-dom";
 
 let config = {
     colors: {
@@ -32,7 +33,9 @@ export const FinancePage = () => {
     return (
         <>
             <div className="d-flex justify-content-end mb-4">
-                <button className="btn btn-primary">Input Data</button>
+                <Link to="/transaction/create">
+                    <button className="btn btn-primary">Input Data</button>
+                </Link>
             </div>
 
             <div className="row">

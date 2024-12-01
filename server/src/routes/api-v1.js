@@ -5,6 +5,8 @@ import RegisterController from '../controllers/register-controller.js';
 import WorkerController from '../controllers/worker-controller.js';
 import CowController from '../controllers/cow-controller.js';
 import TaskController from '../controllers/task-controller.js';
+import TransactionController from '../controllers/transaction-controller.js';
+import TransactionCategoryController from '../controllers/transaction-category-controller.js';
 
 const router = express.Router();
 
@@ -20,5 +22,10 @@ router.get('/cow', CowController.index);
 
 router.post('/worker', WorkerController.store);
 router.get('/worker', WorkerController.index);
+
+router.post('/transaction', TransactionController.store);
+
+router.get('/transaction/category', TransactionCategoryController.index);
+router.post('/transaction/category', TransactionCategoryController.store);
 
 export default router;

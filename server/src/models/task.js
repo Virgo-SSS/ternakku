@@ -13,7 +13,7 @@ const fields = [
 ];
 
 const all = async () => {
-    return await db.execute('SELECT * FROM tasks');
+    return db.execute('SELECT * FROM tasks');
 };
 
 const create = async (data) => {
@@ -23,11 +23,11 @@ const create = async (data) => {
     
     const query = `INSERT INTO tasks (${keys.join()}) VALUES (${keys.map(() => '?').join()})`;
 
-    return await db.execute(query, values);
+    return db.execute(query, values);
 };
 
 const findUpcomingTask = async () => {
-    return await db.execute('SELECT * FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline ASC LIMIT 1');
+    return db.execute('SELECT * FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline ASC LIMIT 1');
 }
 
 export default {
