@@ -18,7 +18,19 @@
                 "text": "Keuangan",
                 "icon": "bx bx-dollar",
                 "available": true,
-                "link": "/keuangan"
+                "link": "",
+                "submenu": [
+                    {
+                        "text": "Dashboard",
+                        "link": "/keuangan",
+                        "available": true
+                    },
+                    {
+                        "text": "Detail",
+                        "link": "/keuangan/detail",
+                        "available": true
+                    }
+                ]
             },
             {
                 "text": "Pekerja",

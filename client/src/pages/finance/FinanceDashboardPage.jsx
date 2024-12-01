@@ -29,7 +29,7 @@ headingColor = config.colors.headingColor;
 axisColor = config.colors.axisColor;
 borderColor = config.colors.borderColor;
 
-export const FinancePage = () => {
+export const FinanceDashboardPage = () => {
     return (
         <>
             <div className="d-flex justify-content-end mb-4">

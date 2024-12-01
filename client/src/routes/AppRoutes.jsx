@@ -9,7 +9,7 @@ import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
 import InformasiSapi from "../pages/ternak/InformasiSapi";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
-import { FinancePage } from "../pages/finance/FinancePage";
+import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
 import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
@@ -21,6 +21,7 @@ import { PekerjaPage } from "../pages/pekerja/PekerjaPage";
 
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
+import FinanceDetailPage from "../pages/finance/FinanceDetailPage";
 
 
 const AppRoutes = () => {
@@ -39,8 +40,6 @@ const AppRoutes = () => {
             <Route path="/ternak/informasisapi" element={<InformasiSapi />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />
-            <Route path="/keuangan" element={<FinancePage />} />
-            <Route path="/transaction/create" element={<CreateTransactionPage />} />
             
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />
@@ -55,6 +54,11 @@ const AppRoutes = () => {
 
             {/* Pekerja */}
             <Route path="/pekerja" element={<PekerjaPage />} />
+
+            {/* Finance */}
+            <Route path="/keuangan" element={<FinanceDashboardPage />} />
+            <Route path="keuangan/detail" element={<FinanceDetailPage />} />
+            <Route path="/transaction/create" element={<CreateTransactionPage />} />
         </Routes>
     )
 }
