@@ -21,7 +21,7 @@ import { PekerjaPage } from "../pages/pekerja/PekerjaPage";
 
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
-import FinanceDetailPage from "../pages/finance/FinanceDetailPage";
+import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
 
 
 const AppRoutes = () => {
