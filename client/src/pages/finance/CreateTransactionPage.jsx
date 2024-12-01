@@ -162,7 +162,6 @@ export const CreateTransactionPage = () => {
                                         classNamePrefix="react-select"
                                         value={selectedCategory}
                                         onChange={(selected) => {
-                                            console.log(selected)
                                             setSelectedCategory(selected);
                                             setFormData({
                                                 ...formData,
