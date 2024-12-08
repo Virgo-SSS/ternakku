@@ -20,5 +20,7 @@ router.get('/cow', CowController.index);
 
 router.post('/worker', WorkerController.store);
 router.get('/worker', WorkerController.index);
+router.put('/worker/:id', WorkerController.update);
+router.delete('/worker/:id', WorkerController.destroy);
 
 export default router;

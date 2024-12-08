@@ -3,11 +3,13 @@ import Modal from "react-modal"
 import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { Link, NavLink, useLocation } from 'react-router-dom';
+
 
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
 
-export const PekerjaPage = () => {
+export const WorkerPage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [workers, setWorkers] = useState([]);
 
@@ -57,21 +59,54 @@ export const PekerjaPage = () => {
         setModalIsOpen(false)
     }
 
-    const getWorkers = async () => {
-        try {
-            const response = await axios.get('/worker');
-            setWorkers(response.data.data);
-        } catch (error) {
-            withReactContent(Swal).fire({
-                title: 'Error',
-                text: error.response.data.message,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
+    const handleDelete = async (id) => {
+        // Confirm dialog
+        await withReactContent(Swal).fire({
+            title: 'Konfirmasi',
+            text: 'Apakah anda yakin ingin menghapus data ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axios.delete(`/worker/${id}`);
+                    setWorkers(workers.filter(worker => worker.id !== id));
+                    withReactContent(Swal).fire({
+                        title: 'Success',
+                        text: 'Data berhasil dihapus',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } catch (error) {
+                    withReactContent(Swal).fire({
+                        title: 'Error',
+                        text: error.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
+
     }
 
     useEffect(() => {
+        const getWorkers = async () => {
+            try {
+                const response = await axios.get('/worker');
+                setWorkers(response.data.data);
+            } catch (error) {
+                withReactContent(Swal).fire({
+                    title: 'Error',
+                    text: error.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+
         getWorkers();
     }, []);
 
@@ -140,6 +175,7 @@ export const PekerjaPage = () => {
                                 <th>Nomor HP</th>
                                 <th>Email</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody className="table-border-bottom-0">
@@ -153,6 +189,15 @@ export const PekerjaPage = () => {
                                     <td>{worker.email}</td>
                                     <td>
                                         {worker.status === 1 ? 'Aktif' : 'Tidak Aktif'}
+                                    </td>
+                                    <td>
+                                        <Link to={`/pekerja/${worker.id}`} className="btn btn-sm btn-warning">
+                                            <i className="bx bx-edit"></i>
+                                        </Link>
+                                        |
+                                        <button className="btn btn-sm btn-danger me-2" onClick={() => handleDelete(worker.id)}>
+                                            <i className="bx bx-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
