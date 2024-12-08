@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import menuData from '../../data/menuData.json'
 
 const Sidebar = () => {
+    let i = 0;
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
@@ -19,16 +20,7 @@ const Sidebar = () => {
             <div className="menu-inner-shadow"></div>
 
             <ul className="menu-inner py-1">
-                {menuData.map((section) => (
-                    <React.Fragment key={section.header}>
-                        {section.header && (
-                            <li className="menu-header small text-uppercase">
-                                <span className="menu-header-text">{section.header}</span>
-                            </li>
-                        )}
-                        {section.items.map(MenuItem)}
-                    </React.Fragment>
-                ))}
+                {menuData.map(MenuItem)}
             </ul>
         </aside>
     );
@@ -41,7 +33,7 @@ const MenuItem = (item) => {
     const isSubmenuActive = hasSubmenu && item.submenu.some(subitem => location.pathname === subitem.link);
 
     return (
-        <li className={`menu-item ${isActive || isSubmenuActive ? 'active' : ''} ${hasSubmenu && isSubmenuActive ? 'open' : ''}`}>
+        <li className={`menu-item ${isActive || isSubmenuActive ? 'active' : ''} ${hasSubmenu && isSubmenuActive ? 'open' : ''}`} key={item.text}>
             <NavLink
                 aria-label={`Navigate to ${item.text} ${!item.available ? 'Pro' : ''}`}
                 to={item.link}
