@@ -17,10 +17,10 @@ export const ContactSection = [
     },
     {
         content : `<h3 className="font-black pb-2">Pages</h3>
-                    <p className="pb-0">Home</p>
-                    <p className="pb-0">Keunggulan</p>
-                     <p className="pb-0">Testimoni</p>
-                     <p className="pb-0">Tentang</p>
+                    <p className="pb-0"><a href="/home">Home</a></p>
+                    <p className="pb-0"><a href="#courses">Keunggulan</a></p>
+                     <p className="pb-0"><a href="#pricing">Paket Harga</a></p>
+                     <p className="pb-0"><a href="#contact">Contact</a></p>
                     </div>
                     `
     },

@@ -25,6 +25,7 @@ function Home() {
             import('../pages/landing-page/styles/Tutors.css').then();
         }
     }, [location]);
+
     
   return (
     <>
@@ -74,7 +75,7 @@ function Home() {
             </section>
 
             {/*Cta*/}    
-            <section className="grid md:grid-cols-2 px-10 md:px-80 bg-[#dde1bc]">
+            <section id="cta" className="grid md:grid-cols-2 px-10 md:px-80 bg-[#dde1bc]">
                 <div className="my-auto">
                     {parse(CtaSection.content)}
                 </div>
