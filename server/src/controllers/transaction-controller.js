@@ -3,7 +3,8 @@ import TransactionModel from '../models/transaction.js';
 
 const index = async (req, res) => {
     try {
-        const [rows] = await TransactionModel.all();
+        const filters = req.query;
+        const [rows] = await TransactionModel.all(filters);
         res.status(200).json(
             {
                 status: 'success',
@@ -48,7 +49,75 @@ const store = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+
+    try {
+        let [rows, fields] = await TransactionModel.exists(id);
+        
+        if(!rows[0].exist){
+            res.status(404).json(
+                {
+                    status: 'error',
+                    message: 'Transaction not found'
+                }
+            );
+            return;
+        }
+    } catch(error){
+        res.status(500).send({message: error.message});
+    }
+
+    try {
+        await TransactionModel.update(id, body);
+        res.status(200).json(
+            {
+                status: 'success',
+                message: 'Transaction updated successfully',
+                data: {
+                    id: id,
+                    ...body
+                }
+            }
+        );
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
+const destroy = async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+        let [rows, fields] = await TransactionModel.exists(id);
+        
+        if(!rows[0].exist){
+            res.status(404).json(
+                {
+                    status: 'error',
+                    message: 'Transaction not found'
+                }
+            );
+            return;
+        }
+
+        await TransactionModel.destroy(id);
+
+        res.status(200).json(
+            {
+                status: 'success',
+                message: 'Transaction deleted successfully'
+            }
+        );
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
 export default {
     index,
-    store
+    store,
+    destroy,
+    update
 }

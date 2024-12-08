@@ -12,7 +12,8 @@ import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
 import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
-
+import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
+import { EditTransactionPage } from "../pages/finance/EditTransacationPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -21,7 +22,7 @@ import { MaintenancePage } from "../pages/misc/MaintenancePage";
 
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
-import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
+
 
 
 const AppRoutes = () => {
@@ -45,8 +46,9 @@ const AppRoutes = () => {
 
             {/* Finance */}
             <Route path="/keuangan" element={<FinanceDashboardPage />} />
-            <Route path="keuangan/detail" element={<FinanceDetailPage />} />
-            <Route path="/transaction/create" element={<CreateTransactionPage />} />
+            <Route path="/keuangan/detail" element={<FinanceDetailPage />} />
+            <Route path="/keuangan/create" element={<CreateTransactionPage />} />
+            <Route path="/keuangan/edit/:id" element={<EditTransactionPage />} />
 
             {/* Auth */}
             <Route path="/auth/login" element={<LoginPage />} />

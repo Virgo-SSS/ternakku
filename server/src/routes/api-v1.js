@@ -27,6 +27,8 @@ router.delete('/worker/:id', WorkerController.destroy);
 
 router.get('/transaction', TransactionController.index);
 router.post('/transaction', TransactionController.store);
+router.put('/transaction/:id', TransactionController.update);
+router.delete('/transaction/:id', TransactionController.destroy);
 
 router.get('/transaction/category', TransactionCategoryController.index);
 router.post('/transaction/category', TransactionCategoryController.store);
