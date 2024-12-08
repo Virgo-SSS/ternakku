@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import { Link } from "react-router-dom";
+import axios from "../../api/api.js";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import Flatpickr from "react-flatpickr";
 
 let config = {
     colors: {
@@ -22,7 +25,7 @@ let config = {
     }
 };
 
-let cardColor, headingColor, axisColor, shadeColor, borderColor;
+let cardColor, headingColor, axisColor, borderColor;
 
 cardColor = config.colors.cardColor;
 headingColor = config.colors.headingColor;
@@ -30,19 +33,57 @@ axisColor = config.colors.axisColor;
 borderColor = config.colors.borderColor;
 
 export const FinanceDashboardPage = () => {
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        const getTransactions = async () => {
+            try {
+                const response = await axios.get('/transaction');
+                setTransactions(response.data.data);
+            } catch (error) {
+                withReactContent(Swal).fire({
+                    title: 'Error',
+                    text: error.response.data.message || error.message || "Something went wrong",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+
+        getTransactions();
+    }, []);
+
+    // get total income for current month
+    const totalIncome = transactions.filter(transaction => transaction.type === 1).reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalExpense = transactions.filter(transaction => transaction.type === 2).reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalBalance = totalIncome - totalExpense;
+
     return (
         <>
-            <div className="d-flex justify-content-end mb-4">
-                <Link to="/transaction/create">
-                    <button className="btn btn-primary">Input Data</button>
-                </Link>
+            <div className="d-flex mb-4">
+                <Flatpickr 
+                    render={
+                        ({defaultValue, value, ...props}, ref) => {
+                            return <button ref={ref} {...props} className="btn btn-icon btn-outline-primary me-2">
+                                <i className="bx bx-calendar"></i>
+                            </button>
+                        }
+                    }
+                    options={{ dateFormat: "F Y", defaultDate: new Date() }}
+                    onChange={(selectedDates, dateStr, instance) => {
+                        console.log(selectedDates, dateStr, instance);
+                    }}
+                />
+                <button className="btn btn-primary">
+                    Bulan Ini
+                </button>
             </div>
-
+            
             <div className="row">
-                <MoneyCard title="Total Saldo" money="Rp. 25.000.000" percentage="+3.42%" />
-                <MoneyCard title="Pengeluaran" money="Rp. 20.000.000" percentage="-1.42%" />
-                <MoneyCard title="Pendapatan" money="Rp. 24.000.000" percentage="+3.42%" />
-                <MoneyCard title="Penghematan" money="Rp. 5.000.000" percentage="+3.42%" />
+                {/* sum transactions based on the date */}
+                <MonthlyCard title="Total Saldo" money={`Rp. ` + totalBalance} percentage="+3.42%" />
+                <MonthlyCard title="Pendapatan" money={"Rp. " + totalIncome} percentage="+3.42%" />
+                <MonthlyCard title="Pengeluaran" money={"Rp. " + totalExpense} percentage="-1.42%" />
             </div>
 
             <div className="row">
@@ -51,14 +92,19 @@ export const FinanceDashboardPage = () => {
                 </div>
 
                 <div className="col-12 col-lg-3 order-3 order-md-2 order-lg-3 mb-4">
-                    <MoneyCardChart />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-lg-12">
+                <MonthlyChart />
+
                 </div>
             </div>
         </>
     )
 }
 
-const MoneyCard = ({title, money, percentage}) => {
+const MonthlyCard = ({title, money, percentage}) => {
     const minus = {
         'text': 'text-danger',
         'icon': 'bx-down-arrow-alt'
@@ -431,6 +477,10 @@ const MoneyFlow = () => {
         }
     };
 
+    const handleFilterChange = (e) => {
+        console.log(e.target.value);
+    }
+
     return (
         <>
             <div className="card">
@@ -455,22 +505,16 @@ const MoneyFlow = () => {
                         <div className="card-body">
                             <div className="text-center">
                                 <div className="dropdown">
-                                    <button aria-label='Years selection 2022'
-                                        className="btn btn-sm btn-outline-primary dropdown-toggle" type="button"
-                                        id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        2022
-                                    </button>
-                                    <div className="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">
-                                        <a aria-label="dropdown item 2021" className="dropdown-item" href="#">
-                                            2021
-                                        </a>
-                                        <a aria-label="dropdown item 2020" className="dropdown-item" href="#">
-                                            2020
-                                        </a>
-                                        <a aria-label="dropdown item 2019" className="dropdown-item" href="#">
-                                            2019
-                                        </a>
+                                    <div className="btn-group">
+                                        <select name="filter" id="" className="btn btn-outline-primary" onChange={handleFilterChange}>
+                                            {[...Array(3).keys()].map((year) => {
+                                                return (
+                                                    <option key={year} value={new Date().getFullYear() - year}>
+                                                        {new Date().getFullYear() - year}
+                                                    </option>
+                                                )
+                                            })}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -523,157 +567,215 @@ const MoneyFlow = () => {
     )
 }
 
-const MoneyCardChart = () => {
-    let  incomeChartConfig = {
+const MonthlyChart = () => {
+    // get a list of days in the current month in an array
+    // example current month is August 2021, the array will be [1, 2, 3, ..., 31]
+    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+    const days = [...Array(daysInMonth).keys()].map(day => day + 1);
+
+    let areaChartConfig = {
         series: [
-          {
-            data: [24, 21, 30, 22, 42, 26, 35, 29]
-          }
+            {
+                name: 'Income',
+                data: [
+                    [1327359600000,30.95],
+                    [1327446000000,31.34],
+                    [1327532400000,31.18],
+                    [1327618800000,31.05],
+                    [1327878000000,31.00],
+                    [1327964400000,30.95],
+                    [1328050800000,31.24],
+                    [1328137200000,31.29],
+                    [1328223600000,31.85],
+                    [1328482800000,31.86],
+                    [1328569200000,32.28],
+                    [1344290400000, 32.37],
+                    [1344376800000, 32.51],
+                    [1344463200000, 32.65],
+                    [1344549600000, 32.64],
+                    [1344808800000, 32.27],
+                    [1344895200000, 32.10],
+                    [1344981600000, 32.91],
+                    [1345068000000, 33.65],
+                    [1345154400000, 33.80],
+                    [1345413600000, 33.92],
+                    [1345500000000, 33.75],
+                    [1346968800000, 32.46],
+                    [1347228000000, 32.13],
+                    [1347314400000, 32.43],
+                    [1347400800000, 32.42],
+                    [1347487200000, 32.81],
+                    [1347573600000, 33.34],
+                    [1347832800000, 33.41],
+                    [1347919200000, 32.57],
+                    [1348005600000, 33.12],
+                    [1348092000000, 34.53],
+                    [1348178400000, 33.83],
+                    [1348437600000, 33.41],
+                    [1348524000000, 32.90],
+                    [1348610400000, 32.53],
+                    [1348696800000, 32.80],
+                    [1348783200000, 32.44],
+                    [1349042400000, 32.62],
+                    [1349128800000, 32.57],
+                    [1349215200000, 32.60],
+                    [1349301600000, 32.68],
+                    [1349388000000, 32.47],
+                    [1349647200000, 32.23],
+                    [1349733600000, 31.68],
+                    [1349820000000, 31.51],
+                    [1349906400000, 31.78],
+                    [1349992800000, 31.94],
+                    [1350252000000, 32.33],
+                    [1359932400000, 38.10],
+                    [1360018800000, 38.51],
+                    [1360105200000, 38.40],
+                    [1360191600000, 38.07],
+                    [1360278000000, 39.12],
+                    [1360537200000, 38.64],
+                    [1360623600000, 38.89],
+                    [1360710000000, 38.81],
+                    [1360796400000, 38.61],
+                    [1360882800000, 38.63],
+                    [1361228400000, 38.99],
+                    [1361314800000, 38.77],
+                    [1361401200000, 38.34],
+                    [1361487600000, 38.55],
+                    [1361746800000, 38.11],
+                    [1361833200000, 38.59],
+                    [1361919600000, 39.60],
+                ]
+            }
         ],
         chart: {
-          parentHeightOffset: 0,
-          parentWidthOffset: 0,
-          toolbar: {
-            show: false
-          },
+            parentHeightOffset: 0,
+            parentWidthOffset: 0,
+            toolbar: {
+                show: false
+            },
         },
         dataLabels: {
-          enabled: false
+            enabled: false
         },
         stroke: {
-          width: 2,
-          curve: 'smooth'
+            width: 2,
+            curve: 'smooth'
         },
         legend: {
-          show: false
+            show: false,
         },
         markers: {
-          size: 6,
-          colors: 'transparent',
-          strokeColors: 'transparent',
-          strokeWidth: 4,
-          discrete: [
-            {
-              fillColor: config.colors.white,
-              seriesIndex: 0,
-              dataPointIndex: 7,
-              strokeColor: config.colors.primary,
-              strokeWidth: 2,
-              size: 6,
-              radius: 8
+            size: 2,
+            colors: 'green',
+            strokeColors: 'green',
+            strokeWidth: 3,
+            hover: {
+                size: 7
             }
-          ],
-          hover: {
-            size: 7
-          }
         },
         colors: [config.colors.primary],
         fill: {
-          type: 'gradient',
-          gradient: {
-            shade: shadeColor,
-            shadeIntensity: 0.6,
-            opacityFrom: 0.5,
-            opacityTo: 0.25,
-            stops: [0, 95, 100]
-          }
+            type: 'gradient',
+            gradient: {
+                opacityFrom: 0.5,
+                opacityTo: 0.25,
+            }
         },
         grid: {
-          borderColor: borderColor,
-          strokeDashArray: 3,
-          padding: {
-            top: -20,
-            bottom: -8,
-            left: -10,
-            right: 8
-          }
+            show: true,
+            borderColor: borderColor,
+            strokeDashArray: 4,
+            padding: {
+                top: -20,
+                bottom: -8,
+                left: -10,
+                right: 8
+            }
         },
         xaxis: {
-          categories: ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: true,
-            style: {
-              fontSize: '13px',
-              colors: axisColor
+            type: 'datetime',
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            },
+            labels: {
+                show: true,
+                style: {
+                    fontSize: '13px',
+                    colors: axisColor
+                }
             }
-          }
         },
         yaxis: {
-          labels: {
-            show: false
-          },
-          min: 10,
-          max: 50,
-          tickAmount: 4
+            labels: {
+                show: false
+            },
         }
     };
 
-    let weeklyExpensesConfig = {
+    let radialBarConfig = {
         series: [65],
         plotOptions: {
-          radialBar: {
-            startAngle: 0,
-            endAngle: 360,
-            strokeWidth: '8',
-            hollow: {
-              margin: 2,
-              size: '45%'
-            },
-            track: {
-              strokeWidth: '50%',
-              background: borderColor
-            },
-            dataLabels: {
-              show: true,
-              name: {
-                show: false
-              },
-              value: {
-                formatter: function (val) {
-                  return '$' + parseInt(val);
+            radialBar: {
+                startAngle: 0,
+                endAngle: 360,
+                strokeWidth: '8',
+                hollow: {
+                margin: 2,
+                    size: '45%'
                 },
-                offsetY: 5,
-                color: '#697a8d',
-                fontSize: '13px',
-                show: true
-              }
+                track: {
+                strokeWidth: '50%',
+                    background: borderColor
+                },
+                dataLabels: {
+                    show: true,
+                    name: {
+                        show: false
+                    },
+                    value: {
+                        formatter: function (val) {
+                            return 'Rp.' + parseInt(val);
+                        },
+                        offsetY: 5,
+                        color: '#697a8d',
+                        fontSize: '13px',
+                        show: true
+                    }
+                }
             }
-          }
         },
         fill: {
-          type: 'solid',
-          colors: config.colors.primary
+            type: 'solid',
+            colors: config.colors.primary
         },
         stroke: {
-          lineCap: 'round'
+            lineCap: 'round'
         },
         grid: {
-          padding: {
-            top: -10,
-            bottom: -15,
-            left: -10,
-            right: -10
-          }
+            padding: {
+                top: -10,
+                bottom: -15,
+                left: -10,
+                right: -10
+            }
         },
         states: {
-          hover: {
-            filter: {
-              type: 'none'
+            hover: {
+                filter: {
+                    type: 'none'
+                }   
+            },
+            active: {
+                filter: {
+                    type: 'none'
+                }
             }
-          },
-          active: {
-            filter: {
-              type: 'none'
-            }
-          }
         }
-      };
+    };
+    
     return (
         <>
              <div className="card h-100">
@@ -713,8 +815,8 @@ const MoneyCardChart = () => {
                                 <div id="incomeChart" style={{ minHeight: "232px" }}>
                                     {/* Chart here */}
                                     <Chart
-                                        options={incomeChartConfig}
-                                        series={incomeChartConfig.series}
+                                        options={areaChartConfig}
+                                        series={areaChartConfig.series}
                                         type="area"
                                         height={215}
                                     />
@@ -726,8 +828,8 @@ const MoneyCardChart = () => {
                                     <div id="expensesOfWeek" style={{ minHeight: "57.7px" }}>
                                         {/* Chart here */}
                                         <Chart
-                                            options={weeklyExpensesConfig}
-                                            series={weeklyExpensesConfig.series}
+                                            options={radialBarConfig}
+                                            series={radialBarConfig.series}
                                             type="radialBar"
                                             width={60}
                                             height={60}
@@ -762,8 +864,8 @@ const MoneyCardChart = () => {
                                 <div id="incomeChart" style={{ minHeight: "232px" }}>
                                     {/* Chart here */}
                                     <Chart
-                                        options={incomeChartConfig}
-                                        series={incomeChartConfig.series}
+                                        options={areaChartConfig}
+                                        series={areaChartConfig.series}
                                         type="area"
                                         height={215}
                                     />
@@ -775,8 +877,8 @@ const MoneyCardChart = () => {
                                     <div id="expensesOfWeek" style={{ minHeight: "57.7px" }}>
                                         {/* Chart here */}
                                         <Chart
-                                            options={weeklyExpensesConfig}
-                                            series={weeklyExpensesConfig.series}
+                                            options={radialBarConfig}
+                                            series={radialBarConfig.series}
                                             type="radialBar"
                                             width={60}
                                             height={60}
@@ -811,8 +913,8 @@ const MoneyCardChart = () => {
                                 <div id="incomeChart" style={{ minHeight: "232px" }}>
                                     {/* Chart here */}
                                     <Chart
-                                        options={incomeChartConfig}
-                                        series={incomeChartConfig.series}
+                                        options={areaChartConfig}
+                                        series={areaChartConfig.series}
                                         type="area"
                                         height={215}
                                     />
@@ -824,8 +926,8 @@ const MoneyCardChart = () => {
                                     <div id="expensesOfWeek" style={{ minHeight: "57.7px" }}>
                                         {/* Chart here */}
                                         <Chart
-                                            options={weeklyExpensesConfig}
-                                            series={weeklyExpensesConfig.series}
+                                            options={radialBarConfig}
+                                            series={radialBarConfig.series}
                                             type="radialBar"
                                             width={60}
                                             height={60}

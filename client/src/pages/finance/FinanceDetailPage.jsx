@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import FinanceHelper from "../../helper/FinanceHelper.js";
 import { NumericFormat } from 'react-number-format';
+import { Link } from "react-router-dom";
 
 export const FinanceDetailPage = () => {
     const [transactions, setTransactions] = useState([]);
@@ -28,6 +29,11 @@ export const FinanceDetailPage = () => {
 
     return (
         <>
+            <div className="d-flex justify-content-end mb-4">
+                <Link to="/transaction/create">
+                    <button className="btn btn-primary">Input Data</button>
+                </Link>
+            </div>
             <div className="card">
                 <div className="table-responsive text-nowrap">
                     <table className="table">
