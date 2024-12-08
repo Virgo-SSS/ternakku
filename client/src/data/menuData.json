@@ -1,55 +1,50 @@
 [
     {
-        "header": "",
-        "items": [
+        "text": "Dashboard",
+        "icon": "bx bx-home",
+        "available": true,
+        "link": "/dashboard"
+    },
+    {
+        "text": "Ternak",
+        "icon": "bx bx-store",
+        "available": true,
+        "link": "/ternak"
+    },
+    {
+        "text": "Keuangan",
+        "icon": "bx bx-dollar",
+        "available": true,
+        "link": "",
+        "submenu": [
             {
                 "text": "Dashboard",
-                "icon": "bx bx-home",
-                "available": true,
-                "link": "/dashboard"
+                "link": "/keuangan",
+                "available": true
             },
             {
-                "text": "Ternak",
-                "icon": "bx bx-store",
-                "available": true,
-                "link": "/ternak"
-            },
-            {
-                "text": "Keuangan",
-                "icon": "bx bx-dollar",
-                "available": true,
-                "link": "",
-                "submenu": [
-                    {
-                        "text": "Dashboard",
-                        "link": "/keuangan",
-                        "available": true
-                    },
-                    {
-                        "text": "Detail",
-                        "link": "/keuangan/detail",
-                        "available": true
-                    }
-                ]
-            },
-            {
-                "text": "Pekerja",
-                "icon": "bx bx-user",
-                "available": true,
-                "link": "/pekerja"
-            },
-            {
-                "text": "Calendar",
-                "icon": "bx bx-calendar",
-                "available": true,
-                "link": "/calendar"
-            },
-            {
-                "text": "Task",
-                "icon": "bx bx-task",
-                "available": true,
-                "link": "/task"
+                "text": "Detail",
+                "link": "/keuangan/detail",
+                "available": true
             }
         ]
+    },
+    {
+        "text": "Pekerja",
+        "icon": "bx bx-user",
+        "available": true,
+        "link": "/pekerja"
+    },
+    {
+        "text": "Calendar",
+        "icon": "bx bx-calendar",
+        "available": true,
+        "link": "/calendar"
+    },
+    {
+        "text": "Task",
+        "icon": "bx bx-task",
+        "available": true,
+        "link": "/task"
     }
 ]

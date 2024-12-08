@@ -315,18 +315,22 @@ const Cows = () => {
 }
 
 const UpcomingDeadlineTask = () => {
-    const [upcomingTasks, setUpcomingTasks] = useState([]);
+    const [upcomingTask, setUpcomingTask] = useState(null);
 
     useEffect(() => {
-        const getUpcomingTasks = async () => {
+        const getUpcomingTask = async () => {
             try {
                 const response = await axios.get('/task/upcoming');
-                setUpcomingTasks({
-                    title: response.data.data[0].title,
-                    deadline: response.data.data[0].deadline,
-                    priority: response.data.data[0].priority,
-                    status: response.data.data[0].status
-                });
+                if (response.data.data.length > 0) {
+                    setUpcomingTask({
+                        title: response.data.data[0].title,
+                        deadline: response.data.data[0].deadline,
+                        priority: response.data.data[0].priority,
+                        status: response.data.data[0].status,
+                    });
+                } else {
+                    setUpcomingTask(null);
+                }
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
@@ -337,9 +341,8 @@ const UpcomingDeadlineTask = () => {
             }
         }
 
-        getUpcomingTasks();
+        getUpcomingTask();
     }, []);
-
 
     return (
         <>
@@ -348,38 +351,45 @@ const UpcomingDeadlineTask = () => {
                     <div className="col-12 mb-4">
                         <div className="card">
                             <div className="card-body">
-                                <div className="card-title d-flex align-items-start justify-content-between">
-                                    <div className="flex-shrink-0">
-                                        <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTasks.title}</h6>
-                                        <small className="text-muted">{new Date(upcomingTasks.deadline).toLocaleDateString('id-ID', {
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric'
-                                        })}</small>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <div className="d-flex align-items-center">
-                                        <div className="avatar flex-shrink-0 me-3">
-                                            <i className='bx bx-list-check text-primary' style={{ fontSize: "40px" }}></i>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-0">Status</h6>
-                                        </div>
-                                    </div>
-                                    <div className="badge bg-primary rounded-pill">{TaskHelper.getStatusLabel(upcomingTasks.status)}</div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <div className="d-flex align-items-center">
-                                        <div className="avatar flex-shrink-0 me-3">
-                                            <i className='bx bxs-pin text-primary' style={{ fontSize: "35px" }}></i>
-                                        </div>
-                                        <div>
-                                            <h6 className="mb-0">Priority</h6>
-                                        </div>
-                                    </div>
-                                    <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTasks.priority)}</div>
-                                </div>
+                                {upcomingTask === null
+                                ?   ( <p className="text-center">Tidak ada tugas yang akan datang</p> )
+                                :   (       
+                                        <>
+                                            <div className="card-title d-flex align-items-start justify-content-between">
+                                                <div className="flex-shrink-0">
+                                                    <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTasks.title}</h6>
+                                                    <small className="text-muted">{new Date(upcomingTasks.deadline).toLocaleDateString('id-ID', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}</small>
+                                                </div>
+                                            </div>
+                                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                                <div className="d-flex align-items-center">
+                                                    <div className="avatar flex-shrink-0 me-3">
+                                                        <i className='bx bx-list-check text-primary' style={{ fontSize: "40px" }}></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="mb-0">Status</h6>
+                                                    </div>
+                                                </div>
+                                                <div className="badge bg-primary rounded-pill">{TaskHelper.getStatusLabel(upcomingTasks.status)}</div>
+                                            </div>
+                                            <div className="d-flex justify-content-between align-items-center">
+                                                <div className="d-flex align-items-center">
+                                                    <div className="avatar flex-shrink-0 me-3">
+                                                        <i className='bx bxs-pin text-primary' style={{ fontSize: "35px" }}></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 className="mb-0">Priority</h6>
+                                                    </div>
+                                                </div>
+                                                <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTasks.priority)}</div>
+                                            </div>   
+                                        </>   
+                                    )
+                                }
                             </div>
                         </div>
                     </div>
@@ -422,7 +432,7 @@ const Tasks = () => {
                     <div className="card-body">
                         <ul className="p-0 m-0">
                             {tasks.map((task, index) => (
-                                <li className="d-flex mb-4 pb-1">
+                                <li className="d-flex mb-4 pb-1" key={task.id}>
                                     <div className="d-flex flex-column w-100">
                                         <div className="d-flex align-items-center ">
                                             <div className="me-3">
