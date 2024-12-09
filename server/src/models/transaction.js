@@ -1,4 +1,5 @@
 import db from '../config/database.js';
+import { GetFirstAndLastDate } from '../utils/utils.js';
 
 const fields = [
     'id',
@@ -22,6 +23,23 @@ const all = async (filters = {}) => {
         if (key === 'name' || key === 'notes') {
             params.push(`%${value}%`);
             return `t.${key} LIKE ?`;
+        }
+
+        if(key === 'date') {
+            // TODO: fix error search date 2024-04 gak bisa ketemu datanya
+            if (value.match(/^\d{4}-\d{2}$/)) {
+                const [year, month] = value.split('-');
+                const [start, end] = GetFirstAndLastDate(year, month);
+                params.push(start, end);
+                return `t.${key} BETWEEN ? AND ?`;
+            }
+        
+            if (value.match(/^\d{4}$/)) {
+                const start = `${value}-01-01`; // Start of the year
+                const end = `${value}-12-31`;  // End of the year
+                params.push(start, end);
+                return `t.${key} BETWEEN ? AND ?`;
+            }
         }
         
         params.push(value);

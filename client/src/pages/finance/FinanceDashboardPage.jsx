@@ -33,57 +33,10 @@ axisColor = config.colors.axisColor;
 borderColor = config.colors.borderColor;
 
 export const FinanceDashboardPage = () => {
-    const [transactions, setTransactions] = useState([]);
-
-    useEffect(() => {
-        const getTransactions = async () => {
-            try {
-                const response = await axios.get('/transaction');
-                setTransactions(response.data.data);
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response.data.message || error.message || "Something went wrong",
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
-
-        getTransactions();
-    }, []);
-
-    // get total income for current month
-    const totalIncome = transactions.filter(transaction => transaction.type === 1).reduce((acc, transaction) => acc + transaction.amount, 0);
-    const totalExpense = transactions.filter(transaction => transaction.type === 2).reduce((acc, transaction) => acc + transaction.amount, 0);
-    const totalBalance = totalIncome - totalExpense;
-
     return (
         <>
-            <div className="d-flex mb-4">
-                <Flatpickr 
-                    render={
-                        ({defaultValue, value, ...props}, ref) => {
-                            return <button ref={ref} {...props} className="btn btn-icon btn-outline-primary me-2">
-                                <i className="bx bx-calendar"></i>
-                            </button>
-                        }
-                    }
-                    options={{ dateFormat: "F Y", defaultDate: new Date() }}
-                    onChange={(selectedDates, dateStr, instance) => {
-                        console.log(selectedDates, dateStr, instance);
-                    }}
-                />
-                <button className="btn btn-primary">
-                    Bulan Ini
-                </button>
-            </div>
-            
-            <div className="row">
-                {/* sum transactions based on the date */}
-                <MonthlyCard title="Total Saldo" money={`Rp. ` + totalBalance} percentage="+3.42%" />
-                <MonthlyCard title="Pendapatan" money={"Rp. " + totalIncome} percentage="+3.42%" />
-                <MonthlyCard title="Pengeluaran" money={"Rp. " + totalExpense} percentage="-1.42%" />
+            <div className="row g-0">
+                <Monthly />
             </div>
 
             <div className="row">
@@ -98,6 +51,84 @@ export const FinanceDashboardPage = () => {
                 <div className="col-lg-12">
                 <MonthlyChart />
 
+                </div>
+            </div>
+        </>
+    )
+}
+
+const Monthly = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
+    const [isLoading, setIsLoading] = useState(false);
+
+    const getTransactions = async () => {
+        try {
+            setIsLoading(true);
+
+            const response = await axios.get('/transaction', {
+                params: {
+                    date: selectedMonth
+                }
+            });
+
+            setTransactions(response.data.data);
+            setIsLoading(false);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message || error.message || "Something went wrong",
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+    const handleMonthChange = (e) => {
+        setSelectedMonth(e.target.value);
+    }
+
+    useEffect(() => {
+        getTransactions();
+    },  [selectedMonth]);
+
+    // get total income for current month
+    const totalIncome = transactions.filter(transaction => transaction.type === 1).reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalExpense = transactions.filter(transaction => transaction.type === 2).reduce((acc, transaction) => acc + transaction.amount, 0);
+    const totalBalance = totalIncome - totalExpense;
+
+    return (
+        <>
+            {/* sum transactions based on the date */}
+            <MonthlyCard title="Total Saldo" money={`Rp. ` + totalBalance} percentage="+3.42%" />
+            <MonthlyCard title="Pendapatan" money={"Rp. " + totalIncome} percentage="+3.42%" />
+            <MonthlyCard title="Pengeluaran" money={"Rp. " + totalExpense} percentage="-1.42%" />
+
+            <div className="col-md-3 mb-4">
+                <div className="card h-100">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="dropdown mb-4">
+                            <select className="form-select" onChange={handleMonthChange} value={selectedMonth}>
+                                {
+                                    [...Array(8).keys()].map((month) => {
+                                        let date = new Date();
+                                        date.setMonth(date.getMonth() - month);
+                                        let monthYear = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+                                        let monthYearValue = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+                                        return (
+                                            <option key={month} value={monthYearValue}>{monthYear}</option>
+                                        );
+                                    })
+                                }
+                            </select>
+                        </div>
+                        
+                        {isLoading && (
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
@@ -126,7 +157,7 @@ const MonthlyCard = ({title, money, percentage}) => {
 
     return (
         <>
-            <div className="col-3 mb-4">
+            <div className="col-md-3 mb-4">
                 <div className="card h-100">
                     <div className="card-body">
                         <div className="card-title d-flex align-items-start justify-content-between mb-4">
