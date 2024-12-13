@@ -15,7 +15,6 @@ let config = {
         dark: '#233446',
         black: '#000',
         white: '#fff',
-        cardColor: '#fff',
         bodyBg: '#f5f5f9',
         bodyColor: '#697a8d',
         headingColor: '#566a7f',
@@ -23,13 +22,6 @@ let config = {
         borderColor: '#eceef1'
     }
 };
-
-let cardColor, headingColor, axisColor, borderColor;
-
-cardColor = config.colors.cardColor;
-headingColor = config.colors.headingColor;
-axisColor = config.colors.axisColor;
-borderColor = config.colors.borderColor;
 
 export const FinanceDashboardPage = () => {
     return (
@@ -40,10 +32,11 @@ export const FinanceDashboardPage = () => {
 
             <div className="row">
                 <div className="col-12 col-lg-9 order-2 order-md-3 order-lg-2 mb-4">
+                    <ProfitAndLossStatement />
                 </div>
 
                 <div className="col-12 col-lg-3 order-3 order-md-2 order-lg-3 mb-4">
-                    <CategoryChart />
+                    <Category />
                 </div>
             </div>
         </>
@@ -174,7 +167,7 @@ const MonthlyCard = ({title, money, percentage}) => {
     )
 }
 
-const CategoryChart = () => {
+const Category = () => {
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
@@ -221,16 +214,12 @@ const CategoryChart = () => {
 
     let incomeChartOptions = {
         series: incomeSeries,
-        chart: {
-            type: 'donut',
-            height: 350
-        },
         labels: incomeLabels,
-        colors: [config.colors.primary, config.colors.info, config.colors.success, config.colors.warning, config.colors.danger],
+        colors: [config.colors.primary, config.colors.secondary, config.colors.success, config.colors.info, config.colors.warning, config.colors.danger],
         legend: {
             position: 'bottom',
             labels: {
-                colors: axisColor
+                colors: 'black'
             }
         },
         dataLabels: {
@@ -239,26 +228,16 @@ const CategoryChart = () => {
                 return val.toFixed(2) + "%"
             },
         },
-        plotOptions: {
-            pie: {
-              donut: {
-                size: '65%'
-              }
-            }
-          }
     }
 
     let expenseChartOptions = {
         series: expenseSeries,
-        chart: {
-            type: 'donut',
-        },
         labels: expenseLabels,
-        colors: [config.colors.primary, config.colors.info, config.colors.success, config.colors.warning, config.colors.danger],
+        colors: [config.colors.primary, config.colors.secondary, config.colors.success, config.colors.info, config.colors.warning, config.colors.danger],
         legend: {
             position: 'bottom',
             labels: {
-                colors: axisColor
+                colors: 'black'
             }
         },
         dataLabels: {
@@ -267,13 +246,6 @@ const CategoryChart = () => {
                 return val.toFixed(2) + "%"
             },
         },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '65%'
-                }
-            }
-        }
     }
     
     return (
@@ -302,19 +274,19 @@ const CategoryChart = () => {
                             <i className="bx bx-calendar"></i>
                         </button>
                         <ul className="dropdown-menu dropdown-menu-end">
-                                {
-                                    [...Array(3).keys()].map((month) => {
-                                        let date = new Date();
-                                        date.setMonth(date.getMonth() - month);
-                                        let monthYear = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
-                                        let monthYearValue = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
-                                        return (
-                                            <li key={month} onClick={handleMonthChange.bind(this, monthYearValue)}>
-                                                <a href="#" className="dropdown-item d-flex align-items-center">{monthYear}</a>
-                                            </li>
-                                        );
-                                    })
-                                }
+                            {
+                                [...Array(3).keys()].map((month) => {
+                                    let date = new Date();
+                                    date.setMonth(date.getMonth() - month);
+                                    let monthYear = date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+                                    let monthYearValue = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
+                                    return (
+                                        <li key={month} onClick={handleMonthChange.bind(this, monthYearValue)}>
+                                            <a href="#" className="dropdown-item d-flex align-items-center">{monthYear}</a>
+                                        </li>
+                                    );
+                                })
+                            }
                         </ul>
                     </div>
                 </div>
@@ -328,6 +300,8 @@ const CategoryChart = () => {
                                         type="donut"
                                         options={incomeChartOptions}
                                         series={incomeChartOptions.series}
+                                        height={250}
+                                        width={250}
                                     />
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center mt-6 gap-3">
@@ -348,6 +322,8 @@ const CategoryChart = () => {
                                         type="donut"
                                         options={expenseChartOptions}
                                         series={expenseChartOptions.series}
+                                        height={250}
+                                        width={250}
                                     />
                                 </div>
                                 <div className="d-flex align-items-center justify-content-center mt-6 gap-3">
@@ -360,6 +336,149 @@ const CategoryChart = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+const ProfitAndLossStatement = () => {
+    const [transactions, setTransactions] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedYear, setselectedYear] = useState(new Date().getFullYear());
+
+    const handleMonthChange = (value) => {
+        setselectedYear(value);
+    }
+
+    useEffect(() => {
+        const getTransactions = async () => {
+            try {
+                setIsLoading(true);
+
+                const response = await axios.get('/transaction', {
+                    params: {
+                        date: selectedYear
+                    }
+                });
+
+                setTransactions(response.data.data);
+                setIsLoading(false);
+            } catch (error) {
+                withReactContent(Swal).fire({
+                    title: 'Error',
+                    text: error.response.data.message || error.message || "Something went wrong",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        }
+
+        getTransactions();
+    }, [selectedYear]);
+
+    // calculate profit and loss statement for each month
+    let profitLossStatement = transactions.reduce((acc, transaction) => {
+        let month = new Date(transaction.date).toLocaleString('default', { month: 'numeric' });
+        let income = transaction.type === 1 ? transaction.amount : 0;
+        let expense = transaction.type === 2 ? transaction.amount : 0;
+        let profit = income - expense;
+
+        acc[month] = (acc[month] || 0) + profit;
+        return acc;
+    }, {});
+
+    let data = Object.entries(profitLossStatement).map(([month, profit]) => ({
+        x: new Date(selectedYear, month - 1).toLocaleString('default', { month: 'long' }),
+        y: profit
+    }));
+
+    let statementOptions = {
+        series: [
+            {
+                name: 'Profit',
+                data: data
+            }
+        ],
+        colors: [config.colors.primary],
+        dataLabels: {
+            enabled: false,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '20%',
+                borderRadius: 5,
+                borderRadiusApplication: 'end'
+            },
+        },
+        colors: [
+            function({ value, seriesIndex, w }) {
+                return value > 0 ? config.colors.success : config.colors.danger;
+            }, 
+        ],
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "Rp " + val;
+                }
+            }
+        },
+    }
+
+    return (
+        <>
+            <div className="card h-100">
+                <div className="card-header d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 className="card-title mb-1">Profit and Loss Statement {selectedYear}</h6>
+                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    {
+                        isLoading && (
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        )
+                    }
+                    <div className="dropdown d-none d-sm-flex">
+                        <button type="button" className="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i className="bx bx-calendar"></i>
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                            {
+                                [...Array(3).keys()].map((year) => {
+                                    let date = new Date();
+                                    date.setFullYear(date.getFullYear() - year);
+                                    return (
+                                        <li key={year} onClick={handleMonthChange.bind(this, date.getFullYear())}>
+                                            <a href="#" className="dropdown-item d-flex align-items-center">{date.getFullYear()}</a>
+                                        </li>
+                                    );
+                                })
+                               
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div className="card-body">
+                    {
+                        transactions.length === 0 ? (
+                            <div className="d-flex align-items-center justify-content-center">
+                                <h6 className="text-muted">No data available</h6>
+                            </div>
+                        ) : (
+                            <div id="profitLossChart">
+                                <Chart 
+                                    type="bar"
+                                    options={statementOptions}
+                                    series={statementOptions.series}
+                                    height={300}
+                                />
+                            </div>
+                        )
+                    }
+                   
                 </div>
             </div>
         </>
