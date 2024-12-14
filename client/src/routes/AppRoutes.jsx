@@ -11,7 +11,7 @@ import { TaskPage } from "../pages/task/TaskPage";
 import { KeuanganPage } from "../pages/keuangan/keuanganPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
-
+import { EditTernakPage } from "../pages/ternak/EditTernakPage";
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -35,7 +35,9 @@ const AppRoutes = () => {
             <Route path="/ternak" element={<TernakPage />} />
             <Route path="/ternak/create" element={<CreateTernakPage />} />
             <Route path="/ternak/informasisapi" element={<InformasiSapi />} />
-
+            <Route path="/ternak/:id" element={<InformasiSapi />} />
+            <Route path="/ternak/edit/:id" element={<EditTernakPage />} />
+            
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />
             <Route path="/keuangan" element={<KeuanganPage />} />

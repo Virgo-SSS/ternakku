@@ -13,7 +13,28 @@ const create = async (data) => {
     return db.execute(query, values);
 }
 
+// Mengambil sapi berdasarkan ID
+const findById = async (id) => {
+    return db.execute('SELECT * FROM cows WHERE id = ?', [id]); // Query untuk mencari sapi berdasarkan ID
+};
+
+const destroy = async (id) => {
+    return db.execute('DELETE FROM cows WHERE id = ?', [id]);
+}
+
+const update = async(id, data) => {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+
+    const query = "UPDATE cows SET " + keys.map(key => `${key} = ?`).join(', ') + " WHERE id = ?";
+
+    return db.execute(query, [...values, id]);
+}
+
 export default {
     all,
-    create
+    create,
+    findById,
+    destroy,
+    update
 }

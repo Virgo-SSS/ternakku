@@ -17,6 +17,9 @@ router.post('/task', TaskController.store);
 
 router.post('/cow', CowController.store);
 router.get('/cow', CowController.index);
+router.get('/cow/:id', CowController.show);
+router.put('/cow/:id', CowController.update);
+router.delete('/cow/:id', CowController.destroy);
 
 router.post('/worker', WorkerController.store);
 router.get('/worker', WorkerController.index);

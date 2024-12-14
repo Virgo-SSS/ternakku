@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dropzone } from '../../components/dropzone/Dropzone';
+import { Dropzone } from '../../components/dropzone/Dropzone.jsx';
 import Flatpickr from "react-flatpickr";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -23,10 +23,28 @@ export const CreateTernakPage = () => {
         })
     }
 
+    const handleFileChange = (file) => {
+        
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setFormData({
+                ...formData,
+                photo: reader.result 
+            });
+        };
+    };
+
+
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post('/cow', formData);
+            const response = await axios.post('/cow', formData, {
+                headers: {
+                    'Content-Type': 'application/json' 
+                }
+            });
+
 
             withReactContent(Swal).fire({
                 title: 'Success',
@@ -100,7 +118,7 @@ export const CreateTernakPage = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fotoSapi" className="form-label">Foto Sapi</label>
-                                    <Dropzone />
+                                    <Dropzone onFileChange={handleFileChange} />
                                 </div>
                                 <h5 className="text-primary mt-3 mb-2">Informasi Pembelian</h5>
                                 <div className="mb-3">

@@ -3,10 +3,15 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
 import { useEffect, useState } from "react";
+import Modal from "react-modal"
+
+// Set elemen root agar modal di-overlay pada elemen utama
+Modal.setAppElement('#root')
 
 export const TernakPage = () => {
     const [cows, setCows] = useState([]);
 
+    // Function to get the list of cows
     const getCows = async () => {
         try {
             const response = await axios.get('/cow');
@@ -19,8 +24,42 @@ export const TernakPage = () => {
                 confirmButtonText: 'OK'
             });
         }
-    }
+    };
 
+    // Delete function for cows
+    const handleDelete = async (id) => {
+        // Confirmation before deleting
+        await withReactContent(Swal).fire({
+            title: 'Konfirmasi',
+            text: 'Apakah anda yakin ingin menghapus data ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await axios.delete(`/cow/${id}`);
+                    setCows(cows.filter(cow => cow.id !== id));
+                    withReactContent(Swal).fire({
+                        title: 'Success',
+                        text: 'Data sapi berhasil dihapus',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } catch (error) {
+                    withReactContent(Swal).fire({
+                        title: 'Error',
+                        text: error.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
+        });
+    };
+
+    // Load cows on component mount
     useEffect(() => {
         getCows();
     }, []);
@@ -49,12 +88,17 @@ export const TernakPage = () => {
                                 <th>Tanggal Lahir</th>
                                 <th>Berat Badan</th>
                                 <th>Jenis Sapi</th>
+                                <th>Action</th> {/* Action column for edit and delete */}
                             </tr>
                         </thead>
                         <tbody className="table-border-bottom-0">
                             {cows.map((cow, index) => (
                                 <tr key={index}>
-                                    <td>{cow.name}</td>
+                                    <td>
+                                    <Link to={`/ternak/${cow.id}`} className="text-primary">
+                                        {cow.name}
+                                    </Link>
+                                    </td>
                                     <td>{cow.status}</td>
                                     <td>
                                         {cow.gender === 'M' ? 'Jantan' : 'Betina'}
@@ -68,6 +112,15 @@ export const TernakPage = () => {
                                     </td>
                                     <td>{cow.weight} Kg</td>
                                     <td>{cow.type}</td>
+                                    <td>
+                                        <Link to={`/ternak/edit/${cow.id}`} className="btn btn-sm btn-warning">
+                                            <i className="bx bx-edit"></i>
+                                        </Link>
+                                        |
+                                        <button className="btn btn-sm btn-danger" onClick={() => handleDelete(cow.id)}>
+                                            <i className="bx bx-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
