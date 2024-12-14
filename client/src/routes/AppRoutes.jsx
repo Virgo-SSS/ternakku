@@ -12,6 +12,8 @@ import { KeuanganPage } from "../pages/keuangan/keuanganPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
 import { EditTernakPage } from "../pages/ternak/EditTernakPage";
+import { ProfilePage } from "../pages/profile/ProfilePage";
+
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -29,6 +31,7 @@ const AppRoutes = () => {
             {/* Home */}
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<ProfilePage />} />
 
             <Route path="/Dashboard" element={<DashboardPage />} />
             
