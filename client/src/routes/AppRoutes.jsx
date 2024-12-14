@@ -12,15 +12,11 @@ import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
 import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
-<<<<<<< HEAD
-import { EditTernakPage } from "../pages/ternak/EditTernakPage";
 import { ProfilePage } from "../pages/profile/ProfilePage";
 
-=======
 import { EditCowPage } from "../pages/cow/EditCowPage";
 import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
 import { EditTransactionPage } from "../pages/finance/EditTransacationPage";
->>>>>>> ed39d88730727d4a16d5d57c64e1bb20e2bae0e2
 
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
@@ -71,4 +67,5 @@ const AppRoutes = () => {
         </Routes>
     )
 }
+
 export default AppRoutes;
