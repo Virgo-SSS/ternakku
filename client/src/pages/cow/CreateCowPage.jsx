@@ -4,8 +4,11 @@ import Flatpickr from "react-flatpickr";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
+import CowHelper from '../../helper/cowHelper.js';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateCowPage = () => {
+    const Navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         status: '',
@@ -24,7 +27,6 @@ export const CreateCowPage = () => {
     }
 
     const handleFileChange = (file) => {
-        
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
@@ -35,16 +37,10 @@ export const CreateCowPage = () => {
         };
     };
 
-
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post('/cow', formData, {
-                headers: {
-                    'Content-Type': 'application/json' 
-                }
-            });
-
+            const response = await axios.post('/cow', formData);
 
             withReactContent(Swal).fire({
                 title: 'Success',
@@ -52,7 +48,7 @@ export const CreateCowPage = () => {
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
-                window.location.href = '/ternak';
+                Navigate('/ternak');
             });
         } catch (error) {
             withReactContent(Swal).fire({
@@ -67,6 +63,7 @@ export const CreateCowPage = () => {
     return (
         <>
             <h5>Tambah Sapi</h5>
+
             <div className="row">
                 <div className="col-md-12">
                     <div className="card mb-4">
@@ -80,8 +77,13 @@ export const CreateCowPage = () => {
                                 <div className="mb-3">
                                     <label htmlFor="status" className="form-label">Status</label>
                                     <select name="status" id="status" className="form-select" required value={formData.status} onChange={handleChange}>
-                                        <option value="1">Sehat</option>
-                                        <option value="0">Tidak Sehat</option>
+                                        {
+                                            Object.keys(CowHelper.getAllStatus()).map((key) => {
+                                                return (
+                                                    <option key={key} value={key}>{CowHelper.getStatusLabel(key)}</option>
+                                                )
+                                            })
+                                        }
                                     </select>
                                 </div>
                                 <div className="mb-3">

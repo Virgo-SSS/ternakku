@@ -71,16 +71,21 @@ const update = async (req, res) => {
     const { body } = req;
 
     try {
-        await CowModel.findById(id);
+        const [rows] = await CowModel.findById(id); // Memanggil model untuk mencari sapi berdasarkan ID
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Cow not found' }); // Jika sapi tidak ditemukan
+        }
     } catch (error) {
         return res.status(404).send({ message: error.message });
     }
 
     try {
         await CowModel.update(id, body);
+
         res.status(200).send({
             status: 'Success',
-            message: 'Cow updated',
+            message: 'Cow updated successfully',
             data: {
                 id: id,
                 ...body
@@ -96,7 +101,11 @@ const destroy = async (req, res) => {
     const id = req.params.id;
 
     try {
-        await CowModel.findById(id);
+        const [rows] = await CowModel.findById(id); // Memanggil model untuk mencari sapi berdasarkan ID
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Cow not found' }); // Jika sapi tidak ditemukan
+        }
     } catch (error) {
         return res.status(404).send({ message: error.message });
     }

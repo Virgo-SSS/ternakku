@@ -5,7 +5,8 @@ const status = {
 
 const getStatusLabel = (status) => {
     let label;
-
+    status = Number(status);
+    
     switch (status) {
         case 0:
             label = 'Tidak Sehat';
@@ -36,7 +37,12 @@ const getStatusKey = (label) => {
     return key;
 }
 
+const getAllStatus = () => {
+    return status;
+}
+
 export default {
     getStatusLabel,
-    getStatusKey
+    getStatusKey,
+    getAllStatus
 }

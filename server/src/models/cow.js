@@ -1,5 +1,14 @@
 import db from '../config/database.js';
 
+const fields = [
+    'name',
+    'status',
+    'gender',
+    'birth_date',
+    'weight',
+    'picture',
+];
+
 const all = async () => {
     return db.execute('SELECT * FROM cows');
 }
@@ -23,8 +32,8 @@ const destroy = async (id) => {
 }
 
 const update = async(id, data) => {
-    const keys = Object.keys(data);
-    const values = Object.values(data);
+    const keys = Object.keys(data).filter(key => fields.includes(key));
+    const values = keys.map(key => data[key]);
 
     const query = "UPDATE cows SET " + keys.map(key => `${key} = ?`).join(', ') + " WHERE id = ?";
 

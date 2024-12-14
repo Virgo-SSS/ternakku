@@ -3,65 +3,11 @@ import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api";
-import Modal from "react-modal"
 import CowHelper from "../../helper/cowHelper";
-
-// Set elemen root agar modal di-overlay pada elemen utama
-Modal.setAppElement('#root')
 
 export const CowDetailPage = () => {
     const { id } = useParams(); // Ambil ID sapi dari URL
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [nestedModalIsOpen, setNestedModalIsOpen] = useState(false);
-
-    const [formData, setFormData] = useState({
-        name: '',
-        gender: '',
-        phone_number: '',
-        email: '',
-    }); 
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSubmit = async (e) => {
-      e.preventDefault()
-    //   try {
-    //       const response = await axios.post('/worker', formData);
-    //       setWorkers([...workers, response.data.data]);
-
-    //       // Reset the form
-    //       setFormData({
-    //           name: '',
-    //           gender: '',
-    //           phone_number: '',
-    //           email: '',
-    //       });
-
-    //       withReactContent(Swal).fire({
-    //           title: 'Success',
-    //           text: response.data.message,
-    //           icon: 'success',
-    //           confirmButtonText: 'OK'
-    //       });
-    //   } catch (error) {
-    //       withReactContent(Swal).fire({
-    //           title: 'Error',
-    //           text: error.response.data.message,
-    //           icon: 'error',
-    //           confirmButtonText: 'OK'
-    //       });
-    //   }
-
-    //   setNestedModalIsOpen(false);
-    }
-     
     return (
         <>
             <h6>Informasi Sapi</h6>
