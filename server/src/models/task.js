@@ -30,8 +30,18 @@ const findUpcomingTask = async () => {
     return db.execute('SELECT * FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline ASC LIMIT 1');
 }
 
+const destroy = async (id) => {
+    return db.execute('DELETE FROM tasks WHERE id = ?', [id]);
+}
+
+const updateStatus = async (id, status) => {
+    return db.execute('UPDATE tasks SET status = ? WHERE id = ?', [status, id]);
+}
+
 export default {
     all,
     create,
-    findUpcomingTask
+    findUpcomingTask,
+    destroy,
+    updateStatus
 }

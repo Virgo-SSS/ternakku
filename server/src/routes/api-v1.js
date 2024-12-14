@@ -17,6 +17,8 @@ router.post('/register', RegisterController.register);
 router.get('/task', TaskController.index);
 router.get('/task/upcoming', TaskController.upcomingTask);
 router.post('/task', TaskController.store);
+router.delete('/task/:id', TaskController.destroy);
+router.patch('/task/:id', TaskController.updateStatus);
 
 router.post('/cow', CowController.store);
 router.get('/cow', CowController.index);
