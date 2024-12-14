@@ -133,7 +133,7 @@ export const DashboardPage = () => {
                 </div>
 
                 {/* Status */}
-                <Status />
+                <StatusTasks />
 
                 {/* Upcoming Deadline Task */}
                 <UpcomingDeadlineTask />
@@ -151,7 +151,7 @@ export const DashboardPage = () => {
     );
 };
 
-const Status = () => {
+const StatusTasks = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
@@ -162,13 +162,13 @@ const Status = () => {
                 // categorize tasks based on status
                 const tasks = {
                     total: response.data.data.length,
+                    pending: response.data.data.filter(task => task.status === 0).length,
+                    inProgress: response.data.data.filter(task => task.status === 1).length,
                     completed: response.data.data.filter(task => task.status === 2).length,
-                    inProgress: response.data.data.filter(task => task.status === 1).length
                 };
     
                 setTasks(tasks);
             } catch (error) {
-                console.log(error);
                 withReactContent(Swal).fire({
                     title: 'Error',
                     text: error.response.data.message,
@@ -192,7 +192,7 @@ const Status = () => {
                     <div className="card-body">
                         <div className="row">
                             {/* 3 rounded card with icon at left side for each card */}
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="card bg-primary">
                                     <div className="card-body d-flex align-items-center">
                                         <div className="avatar flex-shrink-0 me-3">
@@ -207,7 +207,7 @@ const Status = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="card bg-primary">
                                     <div className="card-body d-flex align-items-center">
                                         <div className="avatar flex-shrink-0 me-3">
@@ -222,7 +222,7 @@ const Status = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                                 <div className="card bg-primary">
                                     <div className="card-body d-flex align-items-center">
                                         <div className="avatar flex-shrink-0 me-3">
@@ -232,7 +232,22 @@ const Status = () => {
                                         </div>
                                         <div>
                                             <h4 className="mb-0 text-white">{tasks.inProgress}</h4>
-                                            <small className="text-white">Tugas Belum Selesai</small>
+                                            <small className="text-white">Tugas Proses</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="card bg-primary">
+                                    <div className="card-body d-flex align-items-center">
+                                        <div className="avatar flex-shrink-0 me-3">
+                                            <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
+                                                <i className="bx bx-task text-primary"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="mb-0 text-white">{tasks.pending}</h4>
+                                            <small className="text-white">Tugas Pending</small>
                                         </div>
                                     </div>
                                 </div>
