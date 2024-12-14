@@ -357,8 +357,8 @@ const UpcomingDeadlineTask = () => {
                                         <>
                                             <div className="card-title d-flex align-items-start justify-content-between">
                                                 <div className="flex-shrink-0">
-                                                    <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTasks.title}</h6>
-                                                    <small className="text-muted">{new Date(upcomingTasks.deadline).toLocaleDateString('id-ID', {
+                                                    <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTask.title}</h6>
+                                                    <small className="text-muted">{new Date(upcomingTask.deadline).toLocaleDateString('id-ID', {
                                                         year: 'numeric',
                                                         month: 'long',
                                                         day: 'numeric'
@@ -374,7 +374,7 @@ const UpcomingDeadlineTask = () => {
                                                         <h6 className="mb-0">Status</h6>
                                                     </div>
                                                 </div>
-                                                <div className="badge bg-primary rounded-pill">{TaskHelper.getStatusLabel(upcomingTasks.status)}</div>
+                                                <div className="badge bg-primary rounded-pill">{TaskHelper.getStatusLabel(upcomingTask.status)}</div>
                                             </div>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <div className="d-flex align-items-center">
@@ -385,7 +385,7 @@ const UpcomingDeadlineTask = () => {
                                                         <h6 className="mb-0">Priority</h6>
                                                     </div>
                                                 </div>
-                                                <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTasks.priority)}</div>
+                                                <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTask.priority)}</div>
                                             </div>   
                                         </>   
                                     )

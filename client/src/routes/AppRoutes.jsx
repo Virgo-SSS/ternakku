@@ -5,7 +5,7 @@ import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { TernakPage } from "../pages/ternak/TernakPage";
 import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
-import InformasiSapi from "../pages/ternak/InformasiSapi";
+import { InformasiSapi } from "../pages/ternak/InformasiSapi";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
 import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
