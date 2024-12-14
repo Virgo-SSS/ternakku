@@ -7,6 +7,7 @@ import CowController from '../controllers/cow-controller.js';
 import TaskController from '../controllers/task-controller.js';
 import TransactionController from '../controllers/transaction-controller.js';
 import TransactionCategoryController from '../controllers/transaction-category-controller.js';
+import EventController from '../controllers/event-controller.js';
 
 const router = express.Router();
 
@@ -32,5 +33,10 @@ router.delete('/transaction/:id', TransactionController.destroy);
 
 router.get('/transaction/category', TransactionCategoryController.index);
 router.post('/transaction/category', TransactionCategoryController.store);
+
+router.get('/event', EventController.index);
+router.post('/event', EventController.store);
+router.put('/event/:id', EventController.update);
+router.delete('/event/:id', EventController.destroy);
 
 export default router;
