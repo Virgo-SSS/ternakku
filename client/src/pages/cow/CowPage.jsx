@@ -8,7 +8,7 @@ import Modal from "react-modal"
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
 
-export const TernakPage = () => {
+export const CowPage = () => {
     const [cows, setCows] = useState([]);
 
     // Function to get the list of cows

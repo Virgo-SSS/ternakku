@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
 
-export const CreateTernakPage = () => {
+export const CreateCowPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         status: '',

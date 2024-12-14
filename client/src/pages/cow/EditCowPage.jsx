@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content'
 import Flatpickr from "react-flatpickr";
 import { Dropzone } from '../../components/dropzone/Dropzone.jsx';
 
-export const EditTernakPage = () => {
+export const EditCowPage = () => {
     let { id } = useParams();
     const Navigate = useNavigate();
     const [cows, setCows] = useState({});

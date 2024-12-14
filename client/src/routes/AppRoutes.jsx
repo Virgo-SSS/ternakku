@@ -3,16 +3,16 @@ import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPasswordPage } from "../pages/auth/ForgotPasswordPage";
 import { DashboardPage } from "../pages/DashboardPage";
-import { TernakPage } from "../pages/ternak/TernakPage";
-import { CreateTernakPage } from "../pages/ternak/CreateTernakPage";
-import { InformasiSapi } from "../pages/ternak/InformasiSapi";
+import { CowPage } from "../pages/cow/CowPage";
+import { CreateCowPage } from "../pages/cow/CreateCowPage";
+import { CowDetailPage } from "../pages/cow/CowDetailPage";
 import { CalendarPage } from "../pages/calendar/calendarPage";
 import { TaskPage } from "../pages/task/TaskPage";
 import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
 import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
-import { EditTernakPage } from "../pages/ternak/EditTernakPage";
+import { EditCowPage } from "../pages/cow/EditCowPage";
 import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
 import { EditTransactionPage } from "../pages/finance/EditTransacationPage";
 
@@ -25,7 +25,6 @@ import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
 
 
-
 const AppRoutes = () => {
     return (
         <Routes>
@@ -35,11 +34,10 @@ const AppRoutes = () => {
 
             <Route path="/Dashboard" element={<DashboardPage />} />
             
-            <Route path="/ternak" element={<TernakPage />} />
-            <Route path="/ternak/create" element={<CreateTernakPage />} />
-            <Route path="/ternak/informasisapi" element={<InformasiSapi />} />
-            <Route path="/ternak/:id" element={<InformasiSapi />} />
-            <Route path="/ternak/edit/:id" element={<EditTernakPage />} />
+            <Route path="/ternak" element={<CowPage />} />
+            <Route path="/ternak/create" element={<CreateCowPage />} />
+            <Route path="/ternak/edit/:id" element={<EditCowPage />} />
+            <Route path="/ternak/:id" element={<CowDetailPage />} />
             
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/task" element={<TaskPage />} />

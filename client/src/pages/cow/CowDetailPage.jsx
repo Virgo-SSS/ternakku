@@ -9,7 +9,7 @@ import CowHelper from "../../helper/cowHelper";
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
 
-export const InformasiSapi = () => {
+export const CowDetailPage = () => {
     const { id } = useParams(); // Ambil ID sapi dari URL
 
     const [isLoading, setIsLoading] = useState(true);
@@ -91,13 +91,13 @@ export const InformasiSapi = () => {
 
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="timeline-tab" role="tabpanel">
-                                <CowTimeline id={id}/>
+                                <CowTimeline/>
                             </div>
                             <div className="tab-pane fade" id="performance-tab" role="tabpanel">
-                                <CowPerformance id={id}/>
+                                <CowPerformance/>
                             </div>
                             <div className="tab-pane fade" id="health-tab" role="tabpanel">
-                                <CowHealth id={id}/>
+                                <CowHealth/>
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ const CowProfile = ({ id }) => {
     )
 }
 
-const CowTimeline = ({ id }) => {
+const CowTimeline = () => {
     return (
         <>
             <ul className="timeline mb-0">
@@ -295,7 +295,7 @@ const CowTimeline = ({ id }) => {
     )
 }
 
-const CowPerformance = ({ id }) => {
+const CowPerformance = () => {
     return (
         <>
             <h5 className="pb-5 text-primary">Berat Badan</h5>
@@ -347,7 +347,7 @@ const CowPerformance = ({ id }) => {
     )
 }
 
-const CowHealth = ({ id }) => {
+const CowHealth = () => {
     return (
         <>
             <h5 className="pb-5 text-primary">Pengobatan</h5>
