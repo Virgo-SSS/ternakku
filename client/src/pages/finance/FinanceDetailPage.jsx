@@ -3,7 +3,6 @@ import axios from "../../api/api.js";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import FinanceHelper from "../../helper/FinanceHelper.js";
-import { NumericFormat } from 'react-number-format';
 import { Link } from "react-router-dom";
 
 export const FinanceDetailPage = () => {
