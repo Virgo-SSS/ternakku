@@ -3,28 +3,10 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
 import { useEffect, useState } from "react";
-import Modal from "react-modal"
+import CowHelper from "../../helper/cowHelper";
 
-// Set elemen root agar modal di-overlay pada elemen utama
-Modal.setAppElement('#root')
-
-export const TernakPage = () => {
+export const CowPage = () => {
     const [cows, setCows] = useState([]);
-
-    // Function to get the list of cows
-    const getCows = async () => {
-        try {
-            const response = await axios.get('/cow');
-            setCows(response.data.data);
-        } catch (error) {
-            withReactContent(Swal).fire({
-                title: 'Error',
-                text: error.response.data.message,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
-    };
 
     // Delete function for cows
     const handleDelete = async (id) => {
@@ -40,7 +22,9 @@ export const TernakPage = () => {
             if (result.isConfirmed) {
                 try {
                     await axios.delete(`/cow/${id}`);
+
                     setCows(cows.filter(cow => cow.id !== id));
+                    
                     withReactContent(Swal).fire({
                         title: 'Success',
                         text: 'Data sapi berhasil dihapus',
@@ -50,7 +34,7 @@ export const TernakPage = () => {
                 } catch (error) {
                     withReactContent(Swal).fire({
                         title: 'Error',
-                        text: error.response.data.message,
+                        text: error.response.data.message || error.message || error || 'Something went wrong',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
@@ -59,8 +43,23 @@ export const TernakPage = () => {
         });
     };
 
-    // Load cows on component mount
     useEffect(() => {
+        // Function to get the list of cows
+        const getCows = async () => {
+            try {
+                const response = await axios.get('/cow');
+
+                setCows(response.data.data);
+            } catch (error) {
+                withReactContent(Swal).fire({
+                    title: 'Error',
+                    text: error.response.data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        };
+
         getCows();
     }, []);
 
@@ -99,7 +98,7 @@ export const TernakPage = () => {
                                         {cow.name}
                                     </Link>
                                     </td>
-                                    <td>{cow.status}</td>
+                                    <td>{CowHelper.getStatusLabel(cow.status)}</td>
                                     <td>
                                         {cow.gender === 'M' ? 'Jantan' : 'Betina'}
                                     </td>
