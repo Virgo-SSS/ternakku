@@ -61,8 +61,50 @@ const upcomingTask = async (req, res) => {
     }
 }
 
+const updateStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { body } = req;
+        
+        const [rows] = await TaskModel.updateStatus(id, body.status);
+        
+        if (rows.affectedRows > 0) {
+            res.status(200).json({
+                message: 'Task status updated successfully'
+            });
+        } else {
+            res.status(404).json({
+                message: 'Task not found'
+            });
+        }
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+}
+
+const destroy = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [rows] = await TaskModel.destroy(id);
+        
+        if (rows.affectedRows > 0) {
+            res.status(200).json({
+                message: 'Task deleted successfully'
+            });
+        } else {
+            res.status(404).json({
+                message: 'Task not found'
+            });
+        }
+    } catch (error) {
+        res.status(500).send({message: error.message});
+    }
+
+}
 export default {
     index,
     store,
+    destroy,
+    updateStatus,
     upcomingTask
 }

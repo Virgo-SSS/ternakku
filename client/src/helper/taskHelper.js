@@ -24,6 +24,19 @@ const getPriorityColor = (priority) => {
     }
 }
 
+const getStatusKey = (status) => {
+    switch (status) {
+        case 'Pending':
+            return 0;
+        case 'Dalam Proses':
+            return 1;
+        case 'Selesai':
+            return 2;
+        default:
+            return -1;
+    }
+}
+
 const getStatusLabel = (status) => {
     switch (status) {
         case 0:
@@ -53,6 +66,7 @@ const getPriorityLabel = (priority) => {
 export default {
     getEventClassBasedOnPriority,
     getStatusLabel,
+    getStatusKey,
     getPriorityLabel,
     getPriorityColor
 }
