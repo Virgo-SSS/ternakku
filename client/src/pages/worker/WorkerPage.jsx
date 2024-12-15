@@ -12,6 +12,16 @@ Modal.setAppElement('#root')
 export const WorkerPage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [workers, setWorkers] = useState([]);
+    const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+    const handleFilter = async (e) => {
+      e.preventDefault();
+      setIsFilterLoading(true);
+  
+      sleep(5000).then(() => {
+          setIsFilterLoading(false);
+      });
+    }
 
     const [formData, setFormData] = useState({
         name: '',
@@ -113,62 +123,56 @@ export const WorkerPage = () => {
     return (
         <>
 
-        <h5 className="mb-0">Filter</h5>
-                <div className="d-flex gap-2">
-                <div>
-                <input type="text" placeholder='Nama' className="form-control form-control-sm text-start" isClearable/>
-                </div>
+        <div className="row">
+            <form onSubmit={handleFilter}>
+                <div className="card">
+                    <div className="card-body">
+                        <div className="row g-3">
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="name"><b>Nama</b></label>
+                                    <input type="text" name="name" id="name" className="form-control" placeholder="Nama Pekerja" />
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="status"><b>Jenis Kelamin</b></label>
+                                    <select name="status" id="status" className="form-select">
+                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                        <option value="1">Laki-Laki</option>
+                                        <option value="0">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                <div className="btn-group">
-                <button type="button" className="btn btn-primary btn-sm">
-                    Gender
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu">
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Sehat
-                    </a>
-                    </li>
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Tidak Sehat
-                    </a>
-                    </li>
-                </ul>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Status</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                    <option value="" disabled selected>Pilih Status</option>
+                                        <option value="M">Aktif</option>
+                                        <option value="F">Tidak Aktif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card-footer">
+                        <div className="d-flex justify-content-end">
+                            <button type="button" className="btn btn-secondary me-2">Reset</button>
+                            <button type="submit" className="btn btn-primary">Search</button>
+                            {
+                                isFilterLoading && (
+                                    <div className="spinner-border text-primary ms-2" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
                 </div>
-
-                <div className="btn-group">
-                <button type="button" className="btn btn-primary btn-sm">
-                    Status
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu">
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Sehat
-                    </a>
-                    </li>
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Tidak Sehat
-                    </a>
-                    </li>
-                </ul>
-                </div>
-                </div>
+            </form>
+        </div>
 
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                 <div className="d-block mb-4 mb-md-0">

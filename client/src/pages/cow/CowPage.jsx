@@ -4,9 +4,6 @@ import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
 import { useEffect, useState } from "react";
 import CowHelper from "../../helper/cowHelper";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import Flatpickr from "react-flatpickr";
 
 export const CowPage = () => {
@@ -87,17 +84,18 @@ export const CowPage = () => {
                 <div className="card">
                     <div className="card-body">
                         <div className="row g-3">
+                            
                             <div className="col-md-3">
                                 <div className="mb-2 p-auto">
                                     <label className="form-label" htmlFor="name"><b>Nama</b></label>
-                                    <input type="text" name="name" id="name" className="form-control" placeholder="Search nama sapi" />
+                                    <input type="text" name="name" id="name" className="form-control" placeholder="Nama Sapi" />
                                 </div>
                             </div>
                             <div className="col-md-3">
                                 <div className="mb-2 p-auto">
                                     <label className="form-label" htmlFor="status"><b>Status</b></label>
                                     <select name="status" id="status" className="form-select">
-                                        <option value="">Search sapi by status</option>
+                                    <option value="" disabled selected>Pilih Status</option>
                                         <option value="1">Sehat</option>
                                         <option value="0">Tidak Sehat</option>
                                     </select>
@@ -112,7 +110,7 @@ export const CowPage = () => {
                                             altInput: true,
                                             dateFormat: 'Y-m-d',
                                             enableTime: false,
-                                            mode: 'range'
+                                            mode: 'range',
                                         }}
                                     />
                                 </div>
@@ -121,7 +119,7 @@ export const CowPage = () => {
                                 <div className="mb-2 p-auto">
                                     <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
                                     <select name="gender" id="gender" className="form-select">
-                                        <option value="">Search sapi by jenis kelamin</option>
+                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
                                         <option value="M">Jantan</option>
                                         <option value="F">Betina</option>
                                     </select>
