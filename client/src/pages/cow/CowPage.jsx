@@ -7,19 +7,20 @@ import CowHelper from "../../helper/cowHelper";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Flatpickr from "react-flatpickr";
 
 export const CowPage = () => {
   const [cows, setCows] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
 
-  const handleFocus = () => {
-    setIsInputFocused(true); // Menyembunyikan ikon ketika input difokuskan
-  };
+  const handleFilter = async (e) => {
+    e.preventDefault();
+    setIsFilterLoading(true);
 
-  const handleBlur = () => {
-    setIsInputFocused(false); // Menampilkan ikon kembali jika input tidak difokuskan
-  };
+    sleep(5000).then(() => {
+        setIsFilterLoading(false);
+    });
+  }
 
   // Delete function for cows
   const handleDelete = async (id) => {
@@ -81,97 +82,84 @@ export const CowPage = () => {
 
   return (
     <>
-        <h5 className="mb-0">Filter</h5>
-        <div className="d-flex gap-2">
-                <div>
-                <input type="text" placeholder='Nama' className="form-control form-control-sm text-start" isClearable/>
+        <div className="row">
+            <form onSubmit={handleFilter}>
+                <div className="card">
+                    <div className="card-body">
+                        <div className="row g-3">
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="name"><b>Nama</b></label>
+                                    <input type="text" name="name" id="name" className="form-control" placeholder="Search nama sapi" />
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="status"><b>Status</b></label>
+                                    <select name="status" id="status" className="form-select">
+                                        <option value="">Search sapi by status</option>
+                                        <option value="1">Sehat</option>
+                                        <option value="0">Tidak Sehat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label htmlFor="status" className="form-label"><b>Tanggal Lahir</b></label>
+                                    <Flatpickr
+                                        value={new Date()}
+                                        options={{
+                                            altInput: true,
+                                            dateFormat: 'Y-m-d',
+                                            enableTime: false,
+                                            mode: 'range'
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                        <option value="">Search sapi by jenis kelamin</option>
+                                        <option value="M">Jantan</option>
+                                        <option value="F">Betina</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card-footer">
+                        <div className="d-flex justify-content-end">
+                            <button type="button" className="btn btn-secondary me-2">Reset</button>
+                            <button type="submit" className="btn btn-primary">Search</button>
+                            {
+                                isFilterLoading && (
+                                    <div className="spinner-border text-primary ms-2" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
                 </div>
-
-                <div className="btn-group">
-                <button type="button" className="btn btn-primary btn-sm">
-                    Status
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <span className="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu">
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Sehat
-                    </a>
-                    </li>
-                    <li>
-                    <a className="dropdown-item" href="#">
-                        Tidak Sehat
-                    </a>
-                    </li>
-                </ul>
-                </div>
-
-                <div className="position-relative">
-                {!isInputFocused && (
-                <i
-                    className="bi bi-calendar position-absolute top-50 start-0 translate-middle-y ms-3"
-                    style={{pointerEvents: "none", zIndex: 1}}>
-                </i>
-                )}
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
-                        dateFormat="dd/MM/yyyy"
-                        placeholderText="Pilih tanggal"
-                        isClearable
-                        className="form-control form-control-sm text-start ps-8 pb-2"
-                        onFocus={handleFocus} // Menyembunyikan ikon ketika input difokuskan
-                        onBlur={handleBlur}   // Menampilkan ikon kembali ketika input kehilangan fokus
-                        />
-                </div>
-
-        <div className="btn-group">
-          <button type="button" className="btn btn-primary btn-sm">
-            Jenis Kelamin
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary dropdown-toggle dropdown-toggle-split"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <span className="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul className="dropdown-menu">
-            <li>
-              <a className="dropdown-item" href="#">
-                Jantan
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Betina
-              </a>
-            </li>
-          </ul>
+            </form>
         </div>
 
+    <div className="d-flex justify-content-between align-items-center py-4">
+        <div className="d-block mb-4 mb-md-0">
+          <h2 className="h4 ">Data Sapi</h2>
         </div>
+        <div className="btn-toolbar mb-2 mb-md-0">
+          <Link to="/ternak/create">
+            <button type="button" className="btn btn-primary bg-primary">Tambah Sapi</button>
+          </Link>
+        </div>
+    </div>
 
-      <div className="d-flex justify-content-between align-items-center py-4">
-      <div className="d-block mb-4 mb-md-0">
-        <h2 className="h4 ">Data Sapi</h2>
-      </div>
-      <div className="btn-toolbar mb-2 mb-md-0">
-        <Link to="/ternak/create">
-          <button type="button" className="btn btn-primary bg-primary">Tambah Sapi</button>
-        </Link>
-      </div>
-      </div>
-
-      <div className="card">
+    <div className="card">
         <div className="text-nowrap">
-          <table className="table table-responsive">
+            <table className="table table-responsive">
             <thead>
               <tr>
                 <th>Nama</th>
@@ -184,47 +172,47 @@ export const CowPage = () => {
               </tr>
             </thead>
             <tbody className="table-border-bottom-0">
-              {cows.map((cow, index) => (
-                <tr key={index}>
-                  <td>
-                    <Link to={`/ternak/${cow.id}`} className="text-primary">
-                      {cow.name}
-                    </Link>
-                  </td>
-                  <td>{CowHelper.getStatusLabel(cow.status)}</td>
-                  <td>{cow.gender === 'M' ? 'Jantan' : 'Betina'}
+                {cows.map((cow, index) => (
+                    <tr key={index}>
+                    <td>
+                        <Link to={`/ternak/${cow.id}`} className="text-primary">
+                        {cow.name}
+                        </Link>
+                    </td>
+                    <td>{CowHelper.getStatusLabel(cow.status)}</td>
+                    <td>{cow.gender === 'M' ? 'Jantan' : 'Betina'}
 
-                  </td>
-                  <td>
-                    {new Date(cow.birth_date).toLocaleDateString('id-ID', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </td>
-                  <td>{cow.weight} Kg</td>
-                  <td>{cow.type}</td>
-                  <td>
-                    <Link
-                      to={`/ternak/edit/${cow.id}`}
-                      className="btn btn-sm btn-warning"
-                    >
-                      <i className="bx bx-edit"></i>
-                    </Link>
-                    |
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => handleDelete(cow.id)}
-                    >
-                      <i className="bx bx-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td>
+                        {new Date(cow.birth_date).toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                        })}
+                    </td>
+                    <td>{cow.weight} Kg</td>
+                    <td>{cow.type}</td>
+                    <td>
+                        <Link
+                        to={`/ternak/edit/${cow.id}`}
+                        className="btn btn-sm btn-warning"
+                        >
+                        <i className="bx bx-edit"></i>
+                        </Link>
+                        |
+                        <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDelete(cow.id)}
+                        >
+                        <i className="bx bx-trash"></i>
+                        </button>
+                    </td>
+                    </tr>
+                ))}
             </tbody>
-          </table>
+            </table>
         </div>
-      </div>
+    </div>
     </>
   );
 };
