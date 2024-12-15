@@ -259,7 +259,7 @@ const Navbar = () => {
                         </a>
                         <ul className="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a aria-label='go to profile' className="dropdown-item" href="#">
+                                <a aria-label='go to profile' className="dropdown-item" href="/profile">
                                     <div className="d-flex">
                                         <div className="flex-shrink-0 me-3">
                                             <div className="avatar avatar-online">
@@ -278,7 +278,7 @@ const Navbar = () => {
                                 <div className="dropdown-divider"></div>
                             </li>
                             <li>
-                                <a aria-label='go to profile' className="dropdown-item" href="#">
+                                <a aria-label='go to profile' className="dropdown-item" href="/profile">
                                     <i className="bx bx-user me-2"></i>
                                     <span className="align-middle">My Profile</span>
                                 </a>

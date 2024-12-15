@@ -2,31 +2,23 @@ import { useState, useRef, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import Flatpickr from "react-flatpickr";
-import interactionPlugin from "@fullcalendar/interaction" 
+import interactionPlugin from "@fullcalendar/interaction"
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
-import TaskHelper from '../../helper/taskHelper';
+import dateHelper from '../../helper/dateHelper.js';
 
 export const CalendarPage = () => {
-    const date  =  new Date();
+    const date = new Date();
 
-    // State to manage modal visibility and selected date
     const calendarRef = useRef(null)
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [workers, setWorkers] = useState([]);
-    const [cows, setCows] = useState([]);
-    const [tasks, setTasks] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [formData, setFormData] = useState({
         title: '',
-        deadline: '',
-        category: '',
-        priority: '',
-        status: '',
-        detail: '',
-        reminder_date: '',
-        worker_id: '',
-        cow_id: ''
+        start_date: '',
+        end_date: '',
+        details: '',
     });
 
     const handleFormChange = (e) => {
@@ -35,43 +27,33 @@ export const CalendarPage = () => {
             [e.target.name]: e.target.value
         });
     };
-      
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await  axios.post('/task', formData);
-            const newTask = {
+            const response = await axios.post('/event', formData);
+
+            const newEvent = {
+                id: response.data.data.id,
                 title: response.data.data.title,
-                start: response.data.data.deadline,
-                end: response.data.data.deadline,
-                classNames: TaskHelper.getEventClassBasedOnPriority(Number(response.data.data.priority))
+                start_date: response.data.data.start_date,
+                end_date: response.data.data.end_date,
+                details: response.data.data.details,
             }
 
-            setTasks([...tasks, newTask]);
-            handleModalClose();
-
+            setEvents([...events, newEvent]);
+            bootstrap.Modal.getInstance(document.getElementById('addEventModal')).hide();
+            
             withReactContent(Swal).fire({
                 title: 'Success',
-                text: 'Task added successfully',
+                text: response.data.message,
                 icon: 'success',
                 confirmButtonText: 'OK'
             });
 
-            setFormData({
-                title: '',
-                deadline: '',
-                category: '',
-                priority: '',
-                status: '',
-                details: '',
-                reminder_date: '',
-                worker_id: '',
-                cow_id: ''
-            });
-
+            resetForm();
         } catch (error) {
-            console.log(error);
-
             withReactContent(Swal).fire({
                 title: 'Error',
                 text: error.response.data.message,
@@ -81,80 +63,129 @@ export const CalendarPage = () => {
         }
     }
 
+    const handleUpdateSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.put(`/event/${selectedEvent.id}`, formData);
+
+            const newEvent = {
+                title: response.data.data.title,
+                start_date: response.data.data.start_date,
+                end_date: response.data.data.end_date,
+                details: response.data.data.details,
+            }
+
+            setEvents(events.map(event => 
+                event.id === selectedEvent.id 
+                ? {...event, ...newEvent} 
+                : event
+            ));
+
+            bootstrap.Modal.getInstance(document.getElementById('updateEventModal')).hide();
+
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            resetForm();
+        } catch (error) {
+            resetForm();
+            bootstrap.Modal.getInstance(document.getElementById('updateEventModal')).hide();
+
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message || error || 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(`/event/${selectedEvent.id}`);
+
+            const newEvents = events.filter((event) => event.id !== selectedEvent.id);
+
+            setEvents(newEvents);
+            bootstrap.Modal.getInstance(document.getElementById('updateEventModal')).hide();
+
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            resetForm();
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message || error || 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+    const handleModalClose = () => {
+        resetForm();
+    }
+
+    const resetForm = () => {
+        setFormData({
+            title: '',
+            start_date: '',
+            end_date: '',
+            details: '',
+        });
+    }
+
     // Handle event click (Optional if needed)
     const handleTaskClick = (info) => {
-        console.log('Task clicked:', info.event.title);
-    };
+        const event = events.find((event) => event.id === Number(info.event.id));
 
-    // Handle date click to open modal
-    const handleModalOpen = () => {
-        setIsModalOpen(true); // Show the modal
-    };
-    // Handle modal close
-    const handleModalClose = () => {
-        setIsModalOpen(false); // Hide the modal
+        setSelectedEvent(event);
+
+        setFormData({
+            title: event.title,
+            start_date: event.start,
+            end_date: event.end,
+            details: event.details,
+        });
+
+        new bootstrap.Modal(document.getElementById('updateEventModal')).show();
     };
 
     useEffect(() => {
-        const getWorkers = async () => {
+        const geEvents = async () => {
             try {
-                const response = await axios.get('/worker');
-                setWorkers(response.data.data);
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response.data.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
+                const response = await axios.get('/event');
 
-        getWorkers();
-    }, []);
-
-    useEffect(() => {
-        const getCows = async () => {
-            try {
-                const response = await axios.get('/cow');
-                setCows(response.data.data);
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response.data.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
-    
-        getCows();
-    }, []);
-
-    useEffect(() => {
-        const getTasks = async () => {
-            try {
-                const response = await axios.get('/task');
-    
-                const tasks = response.data.data.map((task) => ({
-                    title: task.title,
-                    start: task.deadline,
-                    end: task.deadline,
-                    classNames: TaskHelper.getEventClassBasedOnPriority(task.priority)
+                const events = response.data.data.map((event) => ({
+                    id: event.id,
+                    title: event.title,
+                    start: dateHelper.formatDate(event.start_date),
+                    end: dateHelper.formatDate(event.end_date),
+                    details: event.details,
                 }));
-    
-                setTasks(tasks);
+
+                setEvents(events);
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error || error.response.data.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
         }
 
-        getTasks();
+        geEvents();
     }, []);
 
     return (
@@ -164,28 +195,29 @@ export const CalendarPage = () => {
                     {/* <!-- Calendar Sidebar --> */}
                     <div className="col app-calendar-sidebar border-end" id="app-calendar-sidebar">
                         <div className="border-bottom p-6 my-sm-0 mb-4">
-                            <button className="btn btn-primary btn-toggle-sidebar w-100" onClick={handleModalOpen}>
-                                <i className="bx bx-plus bx-16px me-2"></i>
-                                <span className="align-middle">Add Task</span>
+                            <button aria-label='Click me' type="button" className="btn btn-primary btn-toggle-sidebar w-100" data-bs-toggle="modal"
+                                data-bs-target="#addEventModal">
+                               <i className="bx bx-plus bx-16px me-2"></i>
+                               <span className="align-middle">Add Event</span>
                             </button>
                         </div>
                         <div className="px-3 pt-2">
                             <Flatpickr
                                 value={date}
-                                options={{ 
+                                options={{
                                     inline: true,
                                     altInput: true,
                                     dateFormat: 'Y-m-d',
                                     enableTime: false,
                                     altInputClass: 'invisible',
                                 }}
-                                onChange= {(selectedDates, dateStr, instance) => {
+                                onChange={(selectedDates, dateStr, instance) => {
                                     const calendarApi = calendarRef.current.getApi()
                                     calendarApi.gotoDate(dateStr)
                                 }}
                             />
                         </div>
-                        <hr className="mb-6 mx-n4 mt-3"/>
+                        <hr className="mb-6 mx-n4 mt-3" />
                     </div>
                     {/* <!-- /Calendar Sidebar --> */}
 
@@ -194,16 +226,16 @@ export const CalendarPage = () => {
                         <div className="card shadow-none border-0">
                             <div className="card-body pb-0">
                                 {/* <!-- FullCalendar --> */}
-                                 <FullCalendar
+                                <FullCalendar
                                     plugins={[dayGridPlugin, interactionPlugin]}
                                     weekends={true}
-                                    events={tasks}
-                                    headerToolbar= {{
+                                    events={events}
+                                    headerToolbar={{
                                         start: 'prev,next, title',
                                         center: '',
                                         end: 'dayGridMonth,dayGridWeek,dayGridDay'
                                     }}
-                                    buttonText={ {
+                                    buttonText={{
                                         week: 'Minggu',
                                         month: 'Bulan',
                                         day: 'Hari',
@@ -215,105 +247,167 @@ export const CalendarPage = () => {
                         </div>
                         {/* /Calendar */}
                     </div>
-                    
-                    {/* Modal To add task */}
-                    {isModalOpen && (
-                        <div className="modal fade show d-block" id="addTaskModal" tabIndex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                                <div className="modal-content">
+
+                    {/* <!-- Add Event Modal --> */}
+                    <div className="modal fade" data-bs-backdrop="static" id="addEventModal" tabIndex="-1" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <form onSubmit={handleSubmit}>
                                     <div className="modal-header">
-                                        <h5 className="modal-title" id="addTaskModalLabel">Tambah Tugas</h5>
-                                        <button type="button" className="btn-close" onClick={handleModalClose}></button>
+                                        <h5 className="modal-title" id="exampleModalLabel1">Add Event</h5>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleModalClose}></button>
                                     </div>
                                     <div className="modal-body">
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="mb-3">
-                                                <label htmlFor="title" className="form-label">Name</label>
-                                                <input type="text" name='title' id="title" value={formData.title} onChange={handleFormChange} className="form-control" required/>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="deadline" className="form-label">Deadline</label>
-                                                <Flatpickr
-                                                    value={formData.deadline}
-                                                    onChange={(selectedDates, dateStr, instance) => { 
-                                                        setFormData({
-                                                            ...formData,
-                                                            deadline: dateStr
-                                                        })
-                                                    }}
-                                                    className='form-control flatpickr-input active'
-                                                    name="deadline"
-                                                    id="deadline"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="category" className="form-label">Category</label>
-                                                <input type="text" name="category" id="category" value={formData.category} onChange={handleFormChange} required className="form-control"/>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="priority" className="form-label">Priority</label>
-                                                <select name='priority' id="priority" value={formData.priority} onChange={handleFormChange} className="form-select" required>
-                                                    <option value="1">Low</option>
-                                                    <option value="2">Medium</option>
-                                                    <option value="3">High</option>
-                                                </select>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="status" className="form-label">Status</label>
-                                                <select className="form-select" name='status' id="status" value={formData.status} onChange={handleFormChange} required>
-                                                    <option value="0">Pending</option>
-                                                    <option value="1">In Progress</option>
-                                                    <option value="2">Completed</option>
-                                                </select>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="detail" className="form-label">Detail</label>
-                                                <textarea className="form-control" name='details' id="details" rows="3" required value={formData.details} onChange={handleFormChange}></textarea>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="reminder" className="form-label">Reminder Date</label>
-                                                <Flatpickr
-                                                    value={formData.reminder_date}
-                                                    onChange={(selectedDates, dateStr, instance) => { 
-                                                        setFormData({
-                                                            ...formData,
-                                                            reminder_date: dateStr
-                                                        })
-                                                    }}
-                                                    className='form-control flatpickr-input active'
-                                                    name="reminder_date"
-                                                    id="reminder_date"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="worker_id" className="form-label">Assigned</label>
-                                                <select className="form-select" id="worker_id" name='worker_id' value={formData.worker_id} onChange={handleFormChange} required>
-                                                    {workers.map((worker, index) => (
-                                                        <option key={index} value={worker.id}>{worker.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label htmlFor="cow_id" className="form-label">Reference</label>
-                                                <select className="form-select" id="cow_id" name='cow_id' value={formData.cow_id} onChange={handleFormChange} required>
-                                                    {cows.map((cow, index) => (
-                                                        <option key={index} value={cow.id}>{cow.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="d-flex justify-content-between mt-4">
-                                                <button type="reset" className="btn btn-secondary" onClick={handleModalClose}>Cancel</button>
-                                                <button type="submit" className="btn btn-primary">Tambah</button>
-                                            </div>
-                                        </form>
+                                        <div className="mb-3">
+                                            <label htmlFor="title" className="form-label">Title</label>
+                                            <input type="text" className="form-control" id="title" name="title" value={formData.title} onChange={handleFormChange} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="start_date" className="form-label">Start Date</label>
+                                            <Flatpickr
+                                                className='form-control'
+                                                id="start_date"
+                                                name="start_date"
+                                                required
+                                                value={formData.start_date}
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: 'F j, Y H:i',
+                                                    dateFormat: 'Y-m-d H:i',
+                                                    enableTime: true,
+                                                    altInputClass: 'form-control',
+                                                }}
+                                                onChange={(selectedDates, dateStr, instance) => {
+                                                    setFormData({
+                                                        ...formData,
+                                                        start_date: dateStr
+                                                    });
+                                                }}
+                                            
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="end_date" className="form-label">End Date</label>
+                                            <Flatpickr
+                                                className='form-control'
+                                                id="end_date"
+                                                name="end_date"
+                                                required
+                                                value={formData.end_date}
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: 'F j, Y H:i',
+                                                    dateFormat: 'Y-m-d H:i',
+                                                    enableTime: true,
+                                                    altInputClass: 'form-control',
+                                                }}
+                                                onChange={(selectedDates, dateStr, instance) => {
+                                                    setFormData({
+                                                        ...formData,
+                                                        end_date: dateStr
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="details" className="form-label">Details</label>
+                                            <textarea className="form-control" id="details" name="details" value={formData.details} onChange={handleFormChange}></textarea>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="modal-footer">
+                                        <button aria-label='Click me' type="button" className="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal" onClick={handleModalClose}>
+                                            Close
+                                        </button>
+                                        <button aria-label='Click me' type="submit" className="btn btn-primary">Tambah</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    )}
-                    {/* /Modal To add task */}
+                    </div>
+
+                    {/* Update Event Modal */}
+                    <div className="modal fade" data-bs-backdrop="static" id="updateEventModal" tabIndex="-1" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <form onSubmit={handleUpdateSubmit}>
+                                    <div className="modal-header">
+                                        <h5 className="modal-title" id="exampleModalLabel1">Update Event</h5>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleModalClose}>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label htmlFor="title" className="form-label">Title</label>
+                                            <input type="text" className="form-control" id="title" name="title" value={formData.title} onChange={handleFormChange} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="start_date" className="form-label">Start Date</label>
+                                            <Flatpickr
+                                                className='form-control'
+                                                id="start_date"
+                                                name="start_date"
+                                                required
+                                                value={formData.start_date}
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: 'F j, Y H:i',
+                                                    dateFormat: 'Y-m-d H:i',
+                                                    enableTime: true,
+                                                    altInputClass: 'form-control',
+                                                }}
+                                                onChange={(selectedDates, dateStr, instance) => {
+                                                    setFormData({
+                                                        ...formData,
+                                                        start_date: dateStr
+                                                    });
+                                                }}
+                                            
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="end_date" className="form-label">End Date</label>
+                                            <Flatpickr
+                                                className='form-control'
+                                                id="end_date"
+                                                name="end_date"
+                                                required
+                                                value={formData.end_date}
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: 'F j, Y H:i',
+                                                    dateFormat: 'Y-m-d H:i',
+                                                    enableTime: true,
+                                                    altInputClass: 'form-control',
+                                                }}
+                                                onChange={(selectedDates, dateStr, instance) => {
+                                                    setFormData({
+                                                        ...formData,
+                                                        end_date: dateStr
+                                                    });
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label htmlFor="details" className="form-label">Details</label>
+                                            <textarea className="form-control" id="details" name="details" value={formData.details} onChange={handleFormChange}></textarea>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        {/* add delete button at right side */}
+                                        <button aria-label='Click me' type="button" className="btn btn-danger me-auto" onClick={handleDelete}>
+                                            Delete
+                                        </button>
+                                        <button aria-label='Click me' type="button" className="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal" onClick={handleModalClose}>
+                                            Close
+                                        </button>
+                                        <button aria-label='Click me' type="submit" className="btn btn-primary">Updates</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

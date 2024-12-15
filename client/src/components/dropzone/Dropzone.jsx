@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
 
-export const Dropzone = () => {
+export const Dropzone = ({onFileChange}) => {
     const onDrop = useCallback(acceptedFiles => {
-      // Do something with the files
-    }, [])
+        onFileChange(acceptedFiles[0]);
+    }, [onFileChange]);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
   
     return (

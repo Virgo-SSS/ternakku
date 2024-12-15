@@ -34116,14 +34116,14 @@ html:not(.layout-footer-fixed) .content-wrapper {
 
 .custom-option {
   padding-left: 0;
-  border: 1px solid #e4e6e8;
+  border: 2px solid #93a603;
   border-radius: .375rem;
   margin: 1px
 }
 
 .custom-option:hover {
-  border-width: 1px;
-  border-color: #7a838b
+  border-width: 2px;
+  border-color: #7a8a07
 }
 
 .custom-option.custom-option-image {

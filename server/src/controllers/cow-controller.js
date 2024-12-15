@@ -45,7 +45,83 @@ const store =   async (req, res) => {
     }
 };
 
+// Menampilkan sapi berdasarkan ID
+const show = async (req, res) => {
+    try {
+        const { id } = req.params; // Mengambil ID dari parameter URL
+
+        const [rows] = await CowModel.findById(id); // Memanggil model untuk mencari sapi berdasarkan ID
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Cow not found' }); // Jika sapi tidak ditemukan
+        }
+
+        res.status(200).json({
+            message: 'Cow details fetched successfully',
+            data: rows[0] // Mengembalikan data sapi pertama (karena hasil query adalah array)
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
+
+// Update/Edit
+const update = async (req, res) => {
+    const id = req.params.id;
+    const { body } = req;
+
+    try {
+        const [rows] = await CowModel.findById(id); // Memanggil model untuk mencari sapi berdasarkan ID
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Cow not found' }); // Jika sapi tidak ditemukan
+        }
+    } catch (error) {
+        return res.status(404).send({ message: error.message });
+    }
+
+    try {
+        await CowModel.update(id, body);
+
+        res.status(200).send({
+            status: 'Success',
+            message: 'Cow updated successfully',
+            data: {
+                id: id,
+                ...body
+            }
+        });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
+// Delete
+const destroy = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const [rows] = await CowModel.findById(id); // Memanggil model untuk mencari sapi berdasarkan ID
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'Cow not found' }); // Jika sapi tidak ditemukan
+        }
+    } catch (error) {
+        return res.status(404).send({ message: error.message });
+    }
+
+    try {
+        await CowModel.destroy(id);
+        res.status(200).send({ message: 'Cow deleted' });
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+}
+
 export default {
     store,
-    index
+    index,
+    show,
+    update,
+    destroy
 }

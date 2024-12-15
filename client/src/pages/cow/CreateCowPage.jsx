@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Dropzone } from '../../components/dropzone/Dropzone';
+import { Dropzone } from '../../components/dropzone/Dropzone.jsx';
 import Flatpickr from "react-flatpickr";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from "../../api/api.js";
+import CowHelper from '../../helper/cowHelper.js';
+import { useNavigate } from 'react-router-dom';
 
-export const CreateTernakPage = () => {
+export const CreateCowPage = () => {
+    const Navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         status: '',
@@ -23,6 +26,17 @@ export const CreateTernakPage = () => {
         })
     }
 
+    const handleFileChange = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setFormData({
+                ...formData,
+                photo: reader.result 
+            });
+        };
+    };
+
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
@@ -34,7 +48,7 @@ export const CreateTernakPage = () => {
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
-                window.location.href = '/ternak';
+                Navigate('/ternak');
             });
         } catch (error) {
             withReactContent(Swal).fire({
@@ -49,6 +63,7 @@ export const CreateTernakPage = () => {
     return (
         <>
             <h5>Tambah Sapi</h5>
+
             <div className="row">
                 <div className="col-md-12">
                     <div className="card mb-4">
@@ -62,8 +77,13 @@ export const CreateTernakPage = () => {
                                 <div className="mb-3">
                                     <label htmlFor="status" className="form-label">Status</label>
                                     <select name="status" id="status" className="form-select" required value={formData.status} onChange={handleChange}>
-                                        <option value="1">Sehat</option>
-                                        <option value="0">Tidak Sehat</option>
+                                        {
+                                            Object.keys(CowHelper.getAllStatus()).map((key) => {
+                                                return (
+                                                    <option key={key} value={key}>{CowHelper.getStatusLabel(key)}</option>
+                                                )
+                                            })
+                                        }
                                     </select>
                                 </div>
                                 <div className="mb-3">
@@ -100,7 +120,7 @@ export const CreateTernakPage = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="fotoSapi" className="form-label">Foto Sapi</label>
-                                    <Dropzone />
+                                    <Dropzone onFileChange={handleFileChange} />
                                 </div>
                                 <h5 className="text-primary mt-3 mb-2">Informasi Pembelian</h5>
                                 <div className="mb-3">
