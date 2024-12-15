@@ -15,7 +15,6 @@ const router = express.Router();
 
 router.post('/login', guestMiddleware, LoginController.login);
 router.post('/register', guestMiddleware, RegisterController.register);
-
 router.post('/logout', authMiddleware, LoginController.logout);
 
 router.get('/task', authMiddleware, TaskController.index);
@@ -35,7 +34,7 @@ router.get('/worker', authMiddleware, WorkerController.index);
 router.put('/worker/:id', authMiddleware, WorkerController.update);
 router.delete('/worker/:id', authMiddleware, WorkerController.destroy);
 
-router.get('/transaction', authMiddleware, TransactionController.index);
+router.get('/transaction', authMiddleware,  TransactionController.index);
 router.post('/transaction', authMiddleware, TransactionController.store);
 router.put('/transaction/:id', authMiddleware, TransactionController.update);
 router.delete('/transaction/:id', authMiddleware, TransactionController.destroy);

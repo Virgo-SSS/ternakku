@@ -1,50 +1,46 @@
-import passport from 'passport';
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import 'dotenv/config'
+import UserModel from '../models/user.js';
 
 // TODO: ADD VALIDATION
 const login = async (req, res, next) => {
     try {
-        console.log("Step 1: We call passport.authenticate('local') to authenticate the user");
+        const { body } = req;
 
-        // Auth logic will handled by the passport using the strategy we defined
-        // for example we defined 'local' at first parameter of passport.authenticate() function
-        // so passport will search for the 'local' strategy we defined.
-        passport.authenticate('local', (err, user, info) => {
-            console.log("Step 3: After the authentication processed by passport, we handle the response here");
+        const [rows] = await UserModel.findByEmail(body.email);
 
-            if (err) {
-                return res.status(500)
-                .json({
-                    status: "error",
-                    message: err.message
-                });
-            }
-
-            if(!user) {
-                return res.status(401)
-                .json({
-                    message: "Email or password is incorrect"
-                });
-            }
-
-            // call req.logIn() to establish a login session
-            // this will trigger the passport.serializeUser() function we defined in the passport.js
-            req.logIn(user, (err) => {
-                console.log("Step 5: after passport.serializeUser() is called, we handle the response here");
-
-                if (err) {
-                    throw new Error(err);
-                }
-
-                res.status(200)
-                .json({
-                    message: "Login successful",
-                });
+        if (rows.length === 0) {
+            return res.status(401)
+            .json({
+                message: "Email or password is incorrect"
             });
-        })(req, res, next);
+        }
+
+        const user = rows[0];
+
+        if (!await bcrypt.compare(body.password, user.password)) {
+            return res.status(401)
+            .json({
+                message: "Email or password is incorrect"
+            });
+        }
+
+        res.status(200)
+        .json({
+            message: "Login successful",
+            data: {
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    token: "Bearer " + jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+                }
+            }
+        });
     } catch (error) {
         res.status(500)
         .json({
-            status: "error",
             message: error.message
         });
     }
