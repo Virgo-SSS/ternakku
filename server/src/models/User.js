@@ -16,7 +16,12 @@ const findByEmail = async (email) => {
     return db.execute(query, values);
 };
 
+const findById = async (id) => {
+    return db.execute('SELECT * FROM users WHERE id = ?', [id]);
+}
+
 export default {
     create,
-    findByEmail
+    findByEmail,
+    findById
 }

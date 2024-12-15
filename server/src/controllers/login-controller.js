@@ -1,48 +1,63 @@
-import bcrypt from 'bcrypt';
-import UserModel from '../models/user.js';
+import passport from 'passport';
 
 // TODO: ADD VALIDATION
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
-        const { body } = req;
+        console.log("Step 1: We call passport.authenticate('local') to authenticate the user");
 
-        const [rows] = await UserModel.findByEmail(body.email);
+        // Auth logic will handled by the passport using the strategy we defined
+        // for example we defined 'local' at first parameter of passport.authenticate() function
+        // so passport will search for the 'local' strategy we defined.
+        passport.authenticate('local', (err, user, info) => {
+            console.log("Step 3: After the authentication processed by passport, we handle the response here");
 
-        if (rows.length === 0) {
-            return res.status(401)
-            .json({
-                message: "Email or password is incorrect"
-            });
-        }
-
-        const user = rows[0];
-
-        if (!await bcrypt.compare(body.password, user.password)) {
-            return res.status(401)
-            .json({
-                message: "Email or password is incorrect"
-            });
-        }
-
-        res.status(200)
-        .json({
-            message: "Login successful",
-            data: {
-                user: {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email
-                }
+            if (err) {
+                return res.status(500)
+                .json({
+                    status: "error",
+                    message: err.message
+                });
             }
-        });
+
+            if(!user) {
+                return res.status(401)
+                .json({
+                    message: "Email or password is incorrect"
+                });
+            }
+
+            // call req.logIn() to establish a login session
+            // this will trigger the passport.serializeUser() function we defined in the passport.js
+            req.logIn(user, (err) => {
+                console.log("Step 5: after passport.serializeUser() is called, we handle the response here");
+
+                if (err) {
+                    throw new Error(err);
+                }
+
+                res.status(200)
+                .json({
+                    message: "Login successful",
+                });
+            });
+        })(req, res, next);
     } catch (error) {
         res.status(500)
         .json({
+            status: "error",
             message: error.message
         });
     }
 }
 
+const logout = async (req, res) => {
+    res.status(200)
+    .json({
+        message: "Logout successful"
+    });
+}
+
 export default {
-    login
+    login,
+    logout
 }
