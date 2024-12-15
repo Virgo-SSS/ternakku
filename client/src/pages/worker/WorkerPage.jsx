@@ -112,6 +112,64 @@ export const WorkerPage = () => {
 
     return (
         <>
+
+        <h5 className="mb-0">Filter</h5>
+                <div className="d-flex gap-2">
+                <div>
+                <input type="text" placeholder='Nama' className="form-control form-control-sm text-start" isClearable/>
+                </div>
+
+                <div className="btn-group">
+                <button type="button" className="btn btn-primary btn-sm">
+                    Gender
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu">
+                    <li>
+                    <a className="dropdown-item" href="#">
+                        Sehat
+                    </a>
+                    </li>
+                    <li>
+                    <a className="dropdown-item" href="#">
+                        Tidak Sehat
+                    </a>
+                    </li>
+                </ul>
+                </div>
+
+                <div className="btn-group">
+                <button type="button" className="btn btn-primary btn-sm">
+                    Status
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <span className="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul className="dropdown-menu">
+                    <li>
+                    <a className="dropdown-item" href="#">
+                        Sehat
+                    </a>
+                    </li>
+                    <li>
+                    <a className="dropdown-item" href="#">
+                        Tidak Sehat
+                    </a>
+                    </li>
+                </ul>
+                </div>
+                </div>
+
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                 <div className="d-block mb-4 mb-md-0">
                     <h2 className="h4">Pekerja</h2>
