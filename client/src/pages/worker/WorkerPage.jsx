@@ -12,6 +12,16 @@ Modal.setAppElement('#root')
 export const WorkerPage = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [workers, setWorkers] = useState([]);
+    const [isFilterLoading, setIsFilterLoading] = useState(false);
+
+    const handleFilter = async (e) => {
+      e.preventDefault();
+      setIsFilterLoading(true);
+  
+      sleep(5000).then(() => {
+          setIsFilterLoading(false);
+      });
+    }
 
     const [formData, setFormData] = useState({
         name: '',
@@ -112,6 +122,58 @@ export const WorkerPage = () => {
 
     return (
         <>
+
+        <div className="row">
+            <form onSubmit={handleFilter}>
+                <div className="card">
+                    <div className="card-body">
+                        <div className="row g-3">
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="name"><b>Nama</b></label>
+                                    <input type="text" name="name" id="name" className="form-control" placeholder="Nama Pekerja" />
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="status"><b>Jenis Kelamin</b></label>
+                                    <select name="status" id="status" className="form-select">
+                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                        <option value="1">Laki-Laki</option>
+                                        <option value="0">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Status</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                    <option value="" disabled selected>Pilih Status</option>
+                                        <option value="M">Aktif</option>
+                                        <option value="F">Tidak Aktif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card-footer">
+                        <div className="d-flex justify-content-end">
+                            <button type="button" className="btn btn-secondary me-2">Reset</button>
+                            <button type="submit" className="btn btn-primary">Search</button>
+                            {
+                                isFilterLoading && (
+                                    <div className="spinner-border text-primary ms-2" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                 <div className="d-block mb-4 mb-md-0">
                     <h2 className="h4">Pekerja</h2>
