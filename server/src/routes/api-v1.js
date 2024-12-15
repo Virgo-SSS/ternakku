@@ -8,10 +8,13 @@ import TaskController from '../controllers/task-controller.js';
 import TransactionController from '../controllers/transaction-controller.js';
 import TransactionCategoryController from '../controllers/transaction-category-controller.js';
 import EventController from '../controllers/event-controller.js';
+import TokenController from '../controllers/token-controller.js';
 import authMiddleware from '../middleware/auth-middleware.js';
 import guestMiddleware from '../middleware/guest-middleware.js';
 
 const router = express.Router();
+
+router.get('/token', TokenController.refreshToken);
 
 router.post('/login', guestMiddleware, LoginController.login);
 router.post('/register', guestMiddleware, RegisterController.register);

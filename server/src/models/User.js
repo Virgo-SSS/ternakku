@@ -20,8 +20,23 @@ const findById = async (id) => {
     return db.execute('SELECT * FROM users WHERE id = ?', [id]);
 }
 
+const updateRefreshToken = async (id, refreshToken) => {
+    return db.execute('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, id]);
+}
+
+const findByRefreshToken = async (refreshToken) => {
+    return db.execute('SELECT * FROM users WHERE refresh_token = ?', [refreshToken]);
+}
+
+const deleteRefreshToken = async (refreshToken) => {
+    return db.execute('UPDATE users SET refresh_token = NULL WHERE refresh_token = ?', [refreshToken]);
+}
+
 export default {
     create,
     findByEmail,
-    findById
+    findById,
+    updateRefreshToken,
+    findByRefreshToken,
+    deleteRefreshToken
 }

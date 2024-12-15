@@ -26,6 +26,21 @@ const login = async (req, res, next) => {
             });
         }
 
+        const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '2d' });
+
+        const [ update ] = await UserModel.updateRefreshToken(user.id, refreshToken);
+        if (update.affectedRows === 0) {
+            throw new Error("Failed to update refresh token");
+        }
+
+        res.cookie("ternakku_refresh_token", refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 2 * 24 * 60 * 60 * 1000,
+        });
+
         res.status(200)
         .json({
             message: "Login successful",
@@ -34,7 +49,7 @@ const login = async (req, res, next) => {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    token: "Bearer " + jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+                    token: "Bearer " + accessToken,
                 }
             }
         });
@@ -47,6 +62,33 @@ const login = async (req, res, next) => {
 }
 
 const logout = async (req, res) => {
+    const refreshToken = req.cookies.ternakku_refresh_token;
+
+    if (!refreshToken) {
+        return res.status(401)
+        .json({
+            message: "Refresh token is required"
+        });
+    }
+
+    const [ rows ] = await UserModel.findByRefreshToken(refreshToken);
+
+    if (rows.length === 0) {
+        return res.status(401)
+        .json({
+            message: "Invalid refresh token"
+        });
+    }
+
+    const [ update ] = await UserModel.deleteRefreshToken(refreshToken);
+    if (update.affectedRows === 0) {
+        return res.status(500)
+        .json({
+            message: "Failed to delete refresh token"
+        });
+    }
+
+    res.clearCookie("ternakku_refresh_token");
     res.status(200)
     .json({
         message: "Logout successful"
