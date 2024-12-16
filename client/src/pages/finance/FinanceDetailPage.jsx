@@ -76,49 +76,42 @@ export const FinanceDetailPage = () => {
 
     return (
         <>
-
-            <div className="row">
+            <div>
                 <form onSubmit={handleFilter}>
                     <div className="card">
-                        <div className="card-body">
-                            <div className="row g-3">
-                
-                        <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label htmlFor="status" className="form-label"><b>Tanggal</b></label>
-                            <Flatpickr
-                                value={new Date()}
-                                options={{
-                                    altInput: true,
-                                    dateFormat: 'Y-m-d',
-                                    enableTime: false,
-                                    mode: 'range',
-                                }}
-                            />
+                        <div className="card-body row" >
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label htmlFor="status" className="form-label"><b>Tanggal</b></label>
+                                    <Flatpickr
+                                        value={new Date()}
+                                        options={{
+                                            altInput: true,
+                                            dateFormat: 'Y-m-d',
+                                            enableTime: false,
+                                            mode: 'range',
+                                        }}
+                                    />
+                                </div>
+                            </div>                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Type</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                        <option value="M">Income</option>
+                                        <option value="F">Expense</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Category</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                        <option value="M">Category 1</option>
+                                        <option value="F">Category 2</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label className="form-label" htmlFor="gender"><b>Type</b></label>
-                            <select name="gender" id="gender" className="form-select">
-                            <option value="" disabled selected>Pilih Type</option>
-                                <option value="M">Income</option>
-                                <option value="F">Expense</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label className="form-label" htmlFor="gender"><b>Category</b></label>
-                            <select name="gender" id="gender" className="form-select">
-                            <option value="" disabled selected>Pilih Category</option>
-                                <option value="M">Category 1</option>
-                                <option value="F">Category 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
                         <div className="card-footer">
                             <div className="d-flex justify-content-end">

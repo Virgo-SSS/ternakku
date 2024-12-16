@@ -96,7 +96,6 @@ export const CowPage = () => {
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="status"><b>Status</b></label>
                                         <select name="status" id="status" className="form-select">
-                                        <option value="" disabled selected>Pilih Status</option>
                                             <option value="1">Sehat</option>
                                             <option value="0">Tidak Sehat</option>
                                         </select>
@@ -119,8 +118,7 @@ export const CowPage = () => {
                                 <div className="col-md-3">
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
-                                        <select name="gender" id="gender" className="form-select">
-                                        <option value="" disabled selected>Pilih Jenis Kelamin</option>
+                                        <select name="gender" id="gender" className="form-select" defaultValue={''}>
                                             <option value="M">Jantan</option>
                                             <option value="F">Betina</option>
                                         </select>

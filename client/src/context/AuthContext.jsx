@@ -12,9 +12,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // Add loading state
     const location = useLocation(); // Get the current route
 
-    console.log("context");
     useEffect(() => {
-        console.log("refresh token");
         const refreshToken = async () => {
             try {
                 const response = await axios.get('/token', { withCredentials: true });
@@ -33,7 +31,6 @@ export const AuthProvider = ({ children }) => {
         };
 
         refreshToken();
-      
     }, [location.pathname]); // Re-run effect if the route changes
 
     return (

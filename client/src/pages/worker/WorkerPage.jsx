@@ -140,7 +140,6 @@ export const WorkerPage = () => {
                                 <div className="mb-2 p-auto">
                                     <label className="form-label" htmlFor="status"><b>Jenis Kelamin</b></label>
                                     <select name="status" id="status" className="form-select">
-                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
                                         <option value="1">Laki-Laki</option>
                                         <option value="0">Perempuan</option>
                                     </select>
@@ -151,7 +150,6 @@ export const WorkerPage = () => {
                                 <div className="mb-2 p-auto">
                                     <label className="form-label" htmlFor="gender"><b>Status</b></label>
                                     <select name="gender" id="gender" className="form-select">
-                                    <option value="" disabled selected>Pilih Status</option>
                                         <option value="M">Aktif</option>
                                         <option value="F">Tidak Aktif</option>
                                     </select>
