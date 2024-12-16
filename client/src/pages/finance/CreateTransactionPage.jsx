@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import CreatableSelect from 'react-select/creatable';
 import { NumericFormat } from 'react-number-format';
 import Flatpickr from "react-flatpickr";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const CreateTransactionPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [categories, setCategories] = useState([]);
     const [isCreateCategoryLoading, setIsCreateCategoryLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -29,9 +30,10 @@ export const CreateTransactionPage = () => {
     useEffect(() => {
         const getTransacationCategories = async () => {
             try {
-                const response = await axios.get('/transaction/category');
+                const response = await axiosPrivate.get('/transaction/category');
 
                 const data = [];
+
                 response.data.data.forEach((category) => {
                     data.push({
                         value: category.id,
@@ -56,7 +58,7 @@ export const CreateTransactionPage = () => {
     const handleCreateCategory = async (name) => {
         try {
             setIsCreateCategoryLoading(true);
-            const response = await axios.post('/transaction/category', {
+            const response = await axiosPrivate.post('/transaction/category', {
                 name: name
             });
 
@@ -67,6 +69,7 @@ export const CreateTransactionPage = () => {
 
             setCategories([...categories, data]);
             setIsCreateCategoryLoading(false);
+            
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -80,7 +83,8 @@ export const CreateTransactionPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('/transaction', formData);
+            const response = await axiosPrivate.post('/transaction', formData);
+
             withReactContent(Swal).fire({
                 title: 'Success',
                 text: response.data.message,

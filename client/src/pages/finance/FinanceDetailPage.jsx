@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import FinanceHelper from "../../helper/FinanceHelper.js";
 import { NumericFormat } from 'react-number-format';
 import { Link } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const FinanceDetailPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
         const getTransactions = async () => {
             try {
-                const response = await axios.get('/transaction');
+                const response = await axiosPrivate.get('/transaction');
                 setTransactions(response.data.data);
             } catch (error) {
                 withReactContent(Swal).fire({
@@ -41,7 +42,7 @@ export const FinanceDetailPage = () => {
             }
             
             try {
-                await axios.delete(`/transaction/${id}`);
+                await axiosPrivate.delete(`/transaction/${id}`);
 
                 withReactContent(Swal).fire({
                     title: 'Success',

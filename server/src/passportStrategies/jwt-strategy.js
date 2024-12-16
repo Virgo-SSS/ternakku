@@ -1,5 +1,4 @@
 import JwtPassport from 'passport-jwt';
-import { ExtractJwt } from 'passport-jwt';
 import 'dotenv/config'
 import UserModel from '../models/user.js';
 
@@ -8,7 +7,7 @@ const strategy = () => {
     
     return new JwtStrategy({
         secretOrKey: process.env.JWT_SECRET,
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+        jwtFromRequest: JwtPassport.ExtractJwt.fromAuthHeaderAsBearerToken()
     }, async (payload, done) => {
         console.log('Step 2: Verify the user\'s credentials', payload);
     

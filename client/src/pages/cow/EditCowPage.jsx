@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import Flatpickr from "react-flatpickr";
 import { Dropzone } from '../../components/dropzone/Dropzone.jsx';
 import CowHelper from '../../helper/cowHelper.js';
 import DateHelper from '../../helper/dateHelper.js';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const EditCowPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     let { id } = useParams();
     
     const Navigate = useNavigate();
@@ -44,7 +45,7 @@ export const EditCowPage = () => {
     useEffect(() => {
         const getCow = async () => {
             try {
-                const response = await axios.get(`/cow/${id}`);
+                const response = await axiosPrivate.get(`/cow/${id}`);
 
                 setCow(response.data.data);
 
@@ -78,7 +79,7 @@ export const EditCowPage = () => {
 
         try {
             console.log(id);
-            const response = await axios.put(`/cow/${id}`, formData);
+            const response = await axiosPrivate.put(`/cow/${id}`, formData);
 
             withReactContent(Swal).fire({
                 title: 'Success',

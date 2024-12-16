@@ -23,6 +23,8 @@ import { MaintenancePage } from "../pages/misc/MaintenancePage";
 
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
+import RequireAuth from "../components/auth/RequireAuth";
+import RequireGuest from "../components/auth/RequireGuest";
 
 
 const AppRoutes = () => {
@@ -32,35 +34,37 @@ const AppRoutes = () => {
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
 
-            <Route path="/Dashboard" element={<DashboardPage />} />
-            
-            <Route path="/ternak" element={<CowPage />} />
-            <Route path="/ternak/create" element={<CreateCowPage />} />
-            <Route path="/ternak/edit/:id" element={<EditCowPage />} />
-            <Route path="/ternak/:id" element={<CowDetailPage />} />
-            
-            <Route path="/calendar" element={<CalendarPage />} />
-            <Route path="/task" element={<TaskPage />} />
-            
-            <Route path="/pekerja" element={<WorkerPage />} />
-            <Route path="/pekerja/:id" element={<EditWorkerPage />} />
+            <Route element={<RequireAuth />}>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/ternak" element={<CowPage />} />
+                <Route path="/ternak/create" element={<CreateCowPage />} />
+                <Route path="/ternak/edit/:id" element={<EditCowPage />} />
+                <Route path="/ternak/:id" element={<CowDetailPage />} />
+                
+                <Route path="/calendar" element={<CalendarPage />} />
+                <Route path="/task" element={<TaskPage />} />
+                
+                <Route path="/pekerja" element={<WorkerPage />} />
+                <Route path="/pekerja/:id" element={<EditWorkerPage />} />
 
-            {/* Finance */}
-            <Route path="/keuangan" element={<FinanceDashboardPage />} />
-            <Route path="/keuangan/detail" element={<FinanceDetailPage />} />
-            <Route path="/keuangan/create" element={<CreateTransactionPage />} />
-            <Route path="/keuangan/edit/:id" element={<EditTransactionPage />} />
+                {/* Finance */}
+                <Route path="/keuangan" element={<FinanceDashboardPage />} />
+                <Route path="/keuangan/detail" element={<FinanceDetailPage />} />
+                <Route path="/keuangan/create" element={<CreateTransactionPage />} />
+                <Route path="/keuangan/edit/:id" element={<EditTransactionPage />} />
+            </Route>
 
-            {/* Auth */}
-            <Route path="/auth/login" element={<LoginPage />} />
-            <Route path="/auth/register" element={<RegisterPage />} />
-            <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+            <Route element={<RequireGuest/>}>
+                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/register" element={<RegisterPage />} />
+                <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+            </Route>
 
             {/* not used i think ? */}
+            <Route path="/misc/under-maintenance" element={<MaintenancePage />} />
             <Route path="/account/settings" element={<AccountPage />} />
             <Route path="/account/notifications" element={<NotificationPage />} />
             <Route path="/account/connections" element={<Connections />} />
-            <Route path="/misc/under-maintenance" element={<MaintenancePage />} />
         </Routes>
     )
 }

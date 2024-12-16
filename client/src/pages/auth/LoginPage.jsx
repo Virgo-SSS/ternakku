@@ -1,27 +1,55 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import { AuthWrapper } from "./AuthWrapper";
+import axios from "../../api/api.js";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import useAuth from "../../hooks/useAuth.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
+    const { setAuth } = useAuth();
+    const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        password: '',
         email: '',
-        rememberMe: false,
+        password: ''
     });
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-
         setFormData((prevData) => ({
             ...prevData,
-            [name]: type === 'checkbox' ? checked : value,
+            [e.target.name]: e.target.value
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted:', formData);
+        setIsLoading(true);
+
+        try {
+            const response = await axios.post('/login', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+
+            console.log("Login : ", response.data.data.user);
+            setAuth({
+                user: response.data.data.user,
+                token: response.data.data.token
+            });
+            navigate('/Dashboard');
+        } catch (error) {
+            withReactContent(Swal).fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || 'Something went wrong!',
+            })
+        }
+        setIsLoading(false);
     };
     
     return (
@@ -40,7 +68,9 @@ export const LoginPage = () => {
                         onChange={handleChange}
                         name="email"
                         placeholder="Enter your email"
-                        autoFocus />
+                        autoFocus 
+                        required
+                        />
                 </div>
                 <div className="mb-5 form-password-toggle">
                     <label className="form-label" htmlFor="password">Kata Sandi</label>
@@ -48,6 +78,7 @@ export const LoginPage = () => {
                         <input
                             type="password"
                             id="password"
+                            required
                             value={formData.password}
                             onChange={handleChange}
                             className="form-control"
@@ -64,9 +95,17 @@ export const LoginPage = () => {
                     </Link>
                 </div>
                 <div className="mb-5">
-                    <Link to="/dashboard" className="btn btn-primary d-grid w-100" type="submit" aria-label='Click me'>
-                        Masuk
-                    </Link>
+                    {
+                        isLoading ? (
+                            <div className="d-flex justify-content-center">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        ) : <button className="btn btn-primary d-grid w-100" type="submit">
+                                Masuk
+                            </button>
+                    }
                 </div>
             </form>
 

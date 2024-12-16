@@ -26,8 +26,8 @@ const login = async (req, res, next) => {
             });
         }
 
-        const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
-        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '2d' });
+        const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+        const refreshToken = jwt.sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN });
 
         const [ update ] = await UserModel.updateRefreshToken(user.id, refreshToken);
         if (update.affectedRows === 0) {
@@ -36,21 +36,22 @@ const login = async (req, res, next) => {
 
         res.cookie("ternakku_refresh_token", refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 2 * 24 * 60 * 60 * 1000,
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
+            sameSite: 'Lax', // Required for cross-origin requests
         });
 
         res.status(200)
         .json({
+            status: "Success",
             message: "Login successful",
             data: {
                 user: {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    token: "Bearer " + accessToken,
-                }
+                },
+                token: "Bearer " + accessToken,
             }
         });
     } catch (error) {

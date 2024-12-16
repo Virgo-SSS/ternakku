@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "../api/api.js";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import TaskHelper from "../helper/taskHelper";
 import CowHelper from '../helper/cowHelper.js';
+import useAuth from "../hooks/useAuth.jsx";
+import useAxiosPrivate from "../hooks/useAxiosPrivate.jsx";
 
 export const DashboardPage = () => {
     return (
@@ -39,6 +40,8 @@ export const DashboardPage = () => {
 };
 
 const WelcomeCard = () => {
+    const { auth } = useAuth();
+
     return (
         <>
             <div className="card">
@@ -46,7 +49,7 @@ const WelcomeCard = () => {
                     <div className="col-sm-7">
                         <div className="card-body">
                             <h3 className="card-title text-primary">
-                                Selamat Datang Andrianto 🎉
+                                Selamat Datang {auth.user.name || 'user'} 🎉
                             </h3>
                             <p className="mb-4">
                                 Anda telah melakukan 72% lebih banyak tugas hari ini.
@@ -158,12 +161,13 @@ const FinanceCard = () => {
 }
 
 const StatusTasks = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await axios.get('/task');
+                const response = await axiosPrivate.get('/task');
 
                 // categorize tasks based on status
                 const tasks = {
@@ -264,12 +268,14 @@ const StatusTasks = () => {
 }
 
 const UpcomingDeadlineTask = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [upcomingTask, setUpcomingTask] = useState(null);
 
     useEffect(() => {
         const getUpcomingTask = async () => {
             try {
-                const response = await axios.get('/task/upcoming');
+                const response = await axiosPrivate.get('/task/upcoming');
+
                 if (response.data.data.length > 0) {
                     setUpcomingTask({
                         title: response.data.data[0].title,
@@ -347,15 +353,15 @@ const UpcomingDeadlineTask = () => {
 }
 
 const Cows = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [cows, setCows] = useState([]);
 
     useEffect(() => {
         const getCows = async () => {
             try {
-                const response = await axios.get('/cow');
+                const response = await axiosPrivate.get('/cow');
                 setCows(response.data.data);
             } catch (error) {
-                console.log(error);
                 withReactContent(Swal).fire({
                     title: 'Error',
                     text: error.response.data.message,
@@ -409,16 +415,16 @@ const Cows = () => {
             </div>
         </>
     )
-
 }
 
 const Tasks = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await axios.get('/task');
+                const response = await axiosPrivate.get('/task');
                 response.data.data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
                 response.data.data = response.data.data.slice(0, 3);
                 setTasks(response.data.data);

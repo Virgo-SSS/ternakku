@@ -3,11 +3,12 @@ import { Dropzone } from '../../components/dropzone/Dropzone.jsx';
 import Flatpickr from "react-flatpickr";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import axios from "../../api/api.js";
 import CowHelper from '../../helper/cowHelper.js';
 import { useNavigate } from 'react-router-dom';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const CreateCowPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const Navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
@@ -40,7 +41,7 @@ export const CreateCowPage = () => {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const response = await axios.post('/cow', formData);
+            const response = await axiosPrivate.post('/cow', formData);
 
             withReactContent(Swal).fire({
                 title: 'Success',

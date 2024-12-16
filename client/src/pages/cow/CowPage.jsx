@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import axios from "../../api/api.js";
 import { useEffect, useState } from "react";
 import CowHelper from "../../helper/cowHelper";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const CowPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [cows, setCows] = useState([]);
 
     // Delete function for cows
     const handleDelete = async (id) => {
+
         // Confirmation before deleting
         await withReactContent(Swal).fire({
             title: 'Konfirmasi',
@@ -21,13 +23,13 @@ export const CowPage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`/cow/${id}`);
+                    const response = await axiosPrivate.delete(`/cow/${id}`);
 
                     setCows(cows.filter(cow => cow.id !== id));
                     
                     withReactContent(Swal).fire({
                         title: 'Success',
-                        text: 'Data sapi berhasil dihapus',
+                        text: response.data.message,
                         icon: 'success',
                         confirmButtonText: 'OK'
                     });
@@ -47,7 +49,7 @@ export const CowPage = () => {
         // Function to get the list of cows
         const getCows = async () => {
             try {
-                const response = await axios.get('/cow');
+                const response = await axiosPrivate.get('/cow');
 
                 setCows(response.data.data);
             } catch (error) {
@@ -87,16 +89,16 @@ export const CowPage = () => {
                                 <th>Tanggal Lahir</th>
                                 <th>Berat Badan</th>
                                 <th>Jenis Sapi</th>
-                                <th>Action</th> {/* Action column for edit and delete */}
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody className="table-border-bottom-0">
                             {cows.map((cow, index) => (
                                 <tr key={index}>
                                     <td>
-                                    <Link to={`/ternak/${cow.id}`} className="text-primary">
-                                        {cow.name}
-                                    </Link>
+                                        <Link to={`/ternak/${cow.id}`} className="text-primary">
+                                            {cow.name}
+                                        </Link>
                                     </td>
                                     <td>{CowHelper.getStatusLabel(cow.status)}</td>
                                     <td>

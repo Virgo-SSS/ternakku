@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react"
 import Modal from "react-modal"
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { Link, NavLink, useLocation } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
 
 export const WorkerPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [workers, setWorkers] = useState([]);
 
@@ -30,7 +30,7 @@ export const WorkerPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('/worker', formData);
+            const response = await axiosPrivate.post('/worker', formData);
             setWorkers([...workers, response.data.data]);
 
             // Reset the form
@@ -71,8 +71,10 @@ export const WorkerPage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`/worker/${id}`);
+                    await axiosPrivate.delete(`/worker/${id}`);
+                    
                     setWorkers(workers.filter(worker => worker.id !== id));
+
                     withReactContent(Swal).fire({
                         title: 'Success',
                         text: 'Data berhasil dihapus',
@@ -95,7 +97,7 @@ export const WorkerPage = () => {
     useEffect(() => {
         const getWorkers = async () => {
             try {
-                const response = await axios.get('/worker');
+                const response = await axiosPrivate.get('/worker');
                 setWorkers(response.data.data);
             } catch (error) {
                 withReactContent(Swal).fire({

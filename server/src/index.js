@@ -15,7 +15,8 @@ passport.use('jwt', JwtStrategy.strategy());
 app.use(cookieParser());
 app.use(json());    
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    credentials: true,              // Allow cookies and other credentials
 }))
 app.use('/' , routesV1);
 
