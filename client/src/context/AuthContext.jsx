@@ -9,42 +9,35 @@ const AuthContext = createContext({});
 // yang dapat diakses oleh semua komponen didalam aplikasi
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({});
+    const [loading, setLoading] = useState(true); // Add loading state
     const location = useLocation(); // Get the current route
 
+    console.log("context");
     useEffect(() => {
-        const excludedPaths = ['/auth/login', '/auth/register', '/auth/forgot-password'];
+        console.log("refresh token");
+        const refreshToken = async () => {
+            try {
+                const response = await axios.get('/token', { withCredentials: true });
+                const newToken = response.data.data.token;
+                const user = response.data.data.user;
 
-        if (!excludedPaths.includes(location.pathname) && !auth?.user) {
-            const refreshToken = async () => {
-                try {
-                    // get new token
-                    const response = await axios.get('/token', {
-                        withCredentials: true
-                    });
+                setAuth({
+                    token: newToken,
+                    user: user,
+                });
+            } catch (error) {
+                setAuth({}); // Clear auth if refresh fails
+            } finally {
+                setLoading(false); // Mark loading as complete
+            }
+        };
 
-                    const newToken = response.data.data.token;
-                    const user = response.data.data.user;
-                    
-                    // set new token to auth context
-                    setAuth((prevAuth) => (
-                        {
-                            ...prevAuth,
-                            token: newToken,
-                            user: user
-                        }
-                    ));
-                } catch (error) {
-                } 
-            };
-
-            refreshToken();
-        } 
-
-        return;
+        refreshToken();
+      
     }, [location.pathname]); // Re-run effect if the route changes
 
     return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
+        <AuthContext.Provider value={{ auth, setAuth, loading }}>
             {children}
         </AuthContext.Provider>
     )
