@@ -5,12 +5,13 @@ import Flatpickr from "react-flatpickr";
 import interactionPlugin from "@fullcalendar/interaction"
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import axios from "../../api/api.js";
 import dateHelper from '../../helper/dateHelper.js';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const CalendarPage = () => {
     const date = new Date();
 
+    const axiosPrivate = useAxiosPrivate();
     const calendarRef = useRef(null)
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -32,7 +33,7 @@ export const CalendarPage = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('/event', formData);
+            const response = await axiosPrivate.post('/event', formData);
 
             const newEvent = {
                 id: response.data.data.id,
@@ -67,7 +68,7 @@ export const CalendarPage = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`/event/${selectedEvent.id}`, formData);
+            const response = await axiosPrivate.put(`/event/${selectedEvent.id}`, formData);
 
             const newEvent = {
                 title: response.data.data.title,
@@ -107,7 +108,7 @@ export const CalendarPage = () => {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`/event/${selectedEvent.id}`);
+            const response = await axiosPrivate.delete(`/event/${selectedEvent.id}`);
 
             const newEvents = events.filter((event) => event.id !== selectedEvent.id);
 
@@ -164,7 +165,7 @@ export const CalendarPage = () => {
     useEffect(() => {
         const geEvents = async () => {
             try {
-                const response = await axios.get('/event');
+                const response = await axiosPrivate.get('/event');
 
                 const events = response.data.data.map((event) => ({
                     id: event.id,

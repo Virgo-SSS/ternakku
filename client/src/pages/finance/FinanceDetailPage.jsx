@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import FinanceHelper from "../../helper/FinanceHelper.js";
 import { NumericFormat } from 'react-number-format';
 import { Link } from "react-router-dom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 import Flatpickr from "react-flatpickr";
 
 export const FinanceDetailPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [isFilterLoading, setIsFilterLoading] = useState(false);
 
@@ -23,7 +24,7 @@ export const FinanceDetailPage = () => {
     useEffect(() => {
         const getTransactions = async () => {
             try {
-                const response = await axios.get('/transaction');
+                const response = await axiosPrivate.get('/transaction');
                 setTransactions(response.data.data);
             } catch (error) {
                 withReactContent(Swal).fire({
@@ -52,7 +53,7 @@ export const FinanceDetailPage = () => {
             }
             
             try {
-                await axios.delete(`/transaction/${id}`);
+                await axiosPrivate.delete(`/transaction/${id}`);
 
                 withReactContent(Swal).fire({
                     title: 'Success',
@@ -75,49 +76,42 @@ export const FinanceDetailPage = () => {
 
     return (
         <>
-
-            <div className="row">
+            <div>
                 <form onSubmit={handleFilter}>
                     <div className="card">
-                        <div className="card-body">
-                            <div className="row g-3">
-                
-                        <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label htmlFor="status" className="form-label"><b>Tanggal</b></label>
-                            <Flatpickr
-                                value={new Date()}
-                                options={{
-                                    altInput: true,
-                                    dateFormat: 'Y-m-d',
-                                    enableTime: false,
-                                    mode: 'range',
-                                }}
-                            />
+                        <div className="card-body row" >
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label htmlFor="status" className="form-label"><b>Tanggal</b></label>
+                                    <Flatpickr
+                                        value={new Date()}
+                                        options={{
+                                            altInput: true,
+                                            dateFormat: 'Y-m-d',
+                                            enableTime: false,
+                                            mode: 'range',
+                                        }}
+                                    />
+                                </div>
+                            </div>                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Type</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                        <option value="M">Income</option>
+                                        <option value="F">Expense</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="col-md-3">
+                                <div className="mb-2 p-auto">
+                                    <label className="form-label" htmlFor="gender"><b>Category</b></label>
+                                    <select name="gender" id="gender" className="form-select">
+                                        <option value="M">Category 1</option>
+                                        <option value="F">Category 2</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label className="form-label" htmlFor="gender"><b>Type</b></label>
-                            <select name="gender" id="gender" className="form-select">
-                            <option value="" disabled selected>Pilih Type</option>
-                                <option value="M">Income</option>
-                                <option value="F">Expense</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <div className="mb-2 p-auto">
-                            <label className="form-label" htmlFor="gender"><b>Category</b></label>
-                            <select name="gender" id="gender" className="form-select">
-                            <option value="" disabled selected>Pilih Category</option>
-                                <option value="M">Category 1</option>
-                                <option value="F">Category 2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
                         <div className="card-footer">
                             <div className="d-flex justify-content-end">

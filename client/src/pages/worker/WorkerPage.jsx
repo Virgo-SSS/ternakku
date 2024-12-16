@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from "react"
 import Modal from "react-modal"
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { Link, NavLink, useLocation } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
+import workerHelper from "../../helper/workerHelper.js";
 
 // Set elemen root agar modal di-overlay pada elemen utama
 Modal.setAppElement('#root')
 
 export const WorkerPage = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [workers, setWorkers] = useState([]);
     const [isFilterLoading, setIsFilterLoading] = useState(false);
-
-    const handleFilter = async (e) => {
-      e.preventDefault();
-      setIsFilterLoading(true);
-  
-      sleep(5000).then(() => {
-          setIsFilterLoading(false);
-      });
-    }
-
     const [formData, setFormData] = useState({
         name: '',
         gender: '',
         phone_number: '',
         email: '',
     });
+    const [filterData, setFilterData] = useState({
+        name: '',
+        gender: '',
+        status: ''
+    });
+
+    const handleFilterChange = (e) => {
+        setFilterData({
+            ...filterData,
+            [e.target.name]: e.target.value
+        });
+    }
 
     const handleChange = (e) => {
         setFormData({
@@ -36,11 +39,44 @@ export const WorkerPage = () => {
             [e.target.name]: e.target.value
         })
     }
+    
+    const handleFilter = async (e) => {
+        e.preventDefault();
+        setIsFilterLoading(true);
+
+        try {
+            const response = await axiosPrivate.get('/worker', {
+                params: filterData
+            });
+
+            setWorkers(response.data.data);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+        
+        setIsFilterLoading(false);
+    }
+
+    const handleResetFilter = (e) => {
+        setFilterData({
+            name: '',
+            gender: '',
+            status: ''
+        });
+
+        handleFilter(e);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
         try {
-            const response = await axios.post('/worker', formData);
+            const response = await axiosPrivate.post('/worker', formData);
             setWorkers([...workers, response.data.data]);
 
             // Reset the form
@@ -81,8 +117,10 @@ export const WorkerPage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`/worker/${id}`);
+                    await axiosPrivate.delete(`/worker/${id}`);
+                    
                     setWorkers(workers.filter(worker => worker.id !== id));
+
                     withReactContent(Swal).fire({
                         title: 'Success',
                         text: 'Data berhasil dihapus',
@@ -105,7 +143,7 @@ export const WorkerPage = () => {
     useEffect(() => {
         const getWorkers = async () => {
             try {
-                const response = await axios.get('/worker');
+                const response = await axiosPrivate.get('/worker');
                 setWorkers(response.data.data);
             } catch (error) {
                 withReactContent(Swal).fire({
@@ -122,57 +160,60 @@ export const WorkerPage = () => {
 
     return (
         <>
-
-        <div className="row">
-            <form onSubmit={handleFilter}>
-                <div className="card">
-                    <div className="card-body">
-                        <div className="row g-3">
-                            <div className="col-md-3">
-                                <div className="mb-2 p-auto">
-                                    <label className="form-label" htmlFor="name"><b>Nama</b></label>
-                                    <input type="text" name="name" id="name" className="form-control" placeholder="Nama Pekerja" />
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="mb-2 p-auto">
-                                    <label className="form-label" htmlFor="status"><b>Jenis Kelamin</b></label>
-                                    <select name="status" id="status" className="form-select">
-                                    <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                                        <option value="1">Laki-Laki</option>
-                                        <option value="0">Perempuan</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div className="col-md-3">
-                                <div className="mb-2 p-auto">
-                                    <label className="form-label" htmlFor="gender"><b>Status</b></label>
-                                    <select name="gender" id="gender" className="form-select">
-                                    <option value="" disabled selected>Pilih Status</option>
-                                        <option value="M">Aktif</option>
-                                        <option value="F">Tidak Aktif</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="card-footer">
-                        <div className="d-flex justify-content-end">
-                            <button type="button" className="btn btn-secondary me-2">Reset</button>
-                            <button type="submit" className="btn btn-primary">Search</button>
-                            {
-                                isFilterLoading && (
-                                    <div className="spinner-border text-primary ms-2" role="status">
-                                        <span className="visually-hidden">Loading...</span>
+            <div className="row">
+                <form onSubmit={handleFilter}>
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="row g-3">
+                                <div className="col-md-3">
+                                    <div className="mb-2 p-auto">
+                                        <label className="form-label" htmlFor="name"><b>Nama</b></label>
+                                        <input type="text" name="name" id="name" value={filterData.name} onChange={handleFilterChange} className="form-control" placeholder="Nama Pekerja" />
                                     </div>
-                                )
-                            }
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="mb-2 p-auto">
+                                        <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
+                                        <select name="gender" id="gender" className="form-select" value={filterData.gender} onChange={handleFilterChange}>
+                                            <option value="">Pilih Jenis Kelamin</option>
+                                            <option value="M">Laki-Laki</option>
+                                            <option value="F">Perempuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-3">
+                                    <div className="mb-2 p-auto">
+                                        <label className="form-label" htmlFor="status"><b>Status</b></label>
+                                        <select name="status" id="status" className="form-select" value={filterData.status} onChange={handleFilterChange}>
+                                            <option value="">Pilih Status</option>
+                                            {
+                                                Object.entries(workerHelper.getAllStatus()).map(([key, value]) => (
+                                                    <option key={key} value={key}>{workerHelper.getStatusLabel(key)}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card-footer">
+                            <div className="d-flex justify-content-end">
+                                <button type="button" className="btn btn-secondary me-2" onClick={handleResetFilter}>Reset</button>
+                                <button type="submit" className="btn btn-primary">Search</button>
+                                {
+                                    isFilterLoading && (
+                                        <div className="spinner-border text-primary ms-2" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
 
             <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
                 <div className="d-block mb-4 mb-md-0">

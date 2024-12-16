@@ -10,14 +10,16 @@ const all = async (filters = {}) => {
             params.push(`%${value}%`);
             return `${key} LIKE ?`;
         }
-        
+
         params.push(value);
-      return `${key} = ?`;
+        return `${key} = ?`;
     });
 
     if (conditions.length) {
-      query += ` WHERE ${conditions.join(' AND ')}`;
+        query += ` WHERE ${conditions.join(' AND ')}`;
     }
+
+    console.log(query, params);
 
     return db.execute(query, params);
 }

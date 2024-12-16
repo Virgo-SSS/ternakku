@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import axios from "../../api/api";
 import CowHelper from "../../helper/cowHelper";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const CowDetailPage = () => {
     const { id } = useParams(); // Ambil ID sapi dari URL
@@ -54,6 +54,8 @@ export const CowDetailPage = () => {
 }
 
 const CowProfile = ({ id }) => {
+    const axiosPrivate = useAxiosPrivate();
+
     const [cow, setCow] = useState({
         name: '',
         status: '',
@@ -61,13 +63,12 @@ const CowProfile = ({ id }) => {
         birth_date: '',
         weight: '',
         type: ''
-    }); // State untuk data sapi
+    });
 
     useEffect(() => {
         const getCow = async () => {
             try {
-                console.log("id", id);
-                const response = await axios.get(`/cow/${id}`); // API endpoint untuk detail sapi
+                const response = await axiosPrivate.get(`/cow/${id}`); // API endpoint untuk detail sapi
                 setCow(response.data.data); // Set data sapi ke state
             } catch (error) {
                 withReactContent(Swal).fire({
