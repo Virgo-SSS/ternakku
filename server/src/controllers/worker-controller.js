@@ -4,6 +4,7 @@ import WorkerModel from '../models/worker.js';
 const index = async (req, res) => {
     try {
         const filters = req.query;
+        console.log(filters);
         
         const [rows] = await WorkerModel.all(filters);
         
