@@ -12,6 +12,8 @@ import { FinanceDashboardPage } from "../pages/finance/FinanceDashboardPage";
 import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
+import { ProfilePage } from "../pages/profile/ProfilePage";
+
 import { EditCowPage } from "../pages/cow/EditCowPage";
 import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
 import { EditTransactionPage } from "../pages/finance/EditTransacationPage";
@@ -33,6 +35,7 @@ const AppRoutes = () => {
             {/* Home */}
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/profile" element={<ProfilePage />} />
 
             <Route element={<RequireAuth />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
@@ -68,4 +71,5 @@ const AppRoutes = () => {
         </Routes>
     )
 }
+
 export default AppRoutes;
