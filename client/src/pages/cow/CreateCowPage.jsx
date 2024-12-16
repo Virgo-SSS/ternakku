@@ -51,6 +51,7 @@ export const CreateCowPage = () => {
                 Navigate('/ternak');
             });
         } catch (error) {
+            console.log(error)
             withReactContent(Swal).fire({
                 title: 'Error',
                 text: error.response.data.message,
