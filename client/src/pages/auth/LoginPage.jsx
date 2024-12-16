@@ -36,7 +36,6 @@ export const LoginPage = () => {
                 withCredentials: true
             });
 
-            console.log("Login : ", response.data.data.user);
             setAuth({
                 user: response.data.data.user,
                 token: response.data.data.token

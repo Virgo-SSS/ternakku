@@ -42,7 +42,6 @@ const useAxiosPrivate = () => {
                     originalRequest.sent = true;
     
                     try {
-                        console.log("Refreshing Token....");
                         // get new token
                         const response = await axios.get('/token', {
                             withCredentials: true

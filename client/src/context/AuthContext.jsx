@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
         const excludedPaths = ['/auth/login', '/auth/register', '/auth/forgot-password'];
 
         if (!excludedPaths.includes(location.pathname) && !auth?.user) {
-            console.log("Fetch refresed Auth data")
             const refreshToken = async () => {
                 try {
                     // get new token
@@ -25,8 +24,7 @@ export const AuthProvider = ({ children }) => {
 
                     const newToken = response.data.data.token;
                     const user = response.data.data.user;
-                    console.log("New Token from provider", newToken)
-                    console.log("Set Auth dulu kawan")
+                    
                     // set new token to auth context
                     setAuth((prevAuth) => (
                         {

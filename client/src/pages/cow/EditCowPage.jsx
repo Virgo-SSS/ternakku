@@ -78,7 +78,6 @@ export const EditCowPage = () => {
         e.preventDefault();
 
         try {
-            console.log(id);
             const response = await axiosPrivate.put(`/cow/${id}`, formData);
 
             withReactContent(Swal).fire({
