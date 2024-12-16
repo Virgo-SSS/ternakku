@@ -4,7 +4,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 import useAuth from "../../hooks/useAuth.jsx";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -311,10 +311,10 @@ const Navbar = () => {
                                 <div className="dropdown-divider"></div>
                             </li>
                             <li>
-                                <a aria-label='go to profile' className="dropdown-item" href="/profile">
+                                <Link to="/profile" className="dropdown-item" aria-label='go to profile'>
                                     <i className="bx bx-user me-2"></i>
                                     <span className="align-middle">My Profile</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a aria-label='go to setting' className="dropdown-item" href="#">
