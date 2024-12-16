@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
+import axios from "../api/api.js";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import TaskHelper from "../helper/taskHelper";
 import CowHelper from '../helper/cowHelper.js';
-import useAuth from "../hooks/useAuth.jsx";
-import useAxiosPrivate from "../hooks/useAxiosPrivate.jsx";
-import { Link } from "react-router-dom";
-
 
 export const DashboardPage = () => {
     return (
@@ -42,8 +39,6 @@ export const DashboardPage = () => {
 };
 
 const WelcomeCard = () => {
-    const { auth } = useAuth();
-
     return (
         <>
             <div className="card">
@@ -51,7 +46,7 @@ const WelcomeCard = () => {
                     <div className="col-sm-7">
                         <div className="card-body">
                             <h3 className="card-title text-primary">
-                                Selamat Datang {auth.user.name || 'user'} 🎉
+                                Selamat Datang Andrianto 🎉
                             </h3>
                             <p className="mb-4">
                                 Anda telah melakukan 72% lebih banyak tugas hari ini.
@@ -163,13 +158,12 @@ const FinanceCard = () => {
 }
 
 const StatusTasks = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await axiosPrivate.get('/task');
+                const response = await axios.get('/task');
 
                 // categorize tasks based on status
                 const tasks = {
@@ -270,14 +264,12 @@ const StatusTasks = () => {
 }
 
 const UpcomingDeadlineTask = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [upcomingTask, setUpcomingTask] = useState(null);
 
     useEffect(() => {
         const getUpcomingTask = async () => {
             try {
-                const response = await axiosPrivate.get('/task/upcoming');
-
+                const response = await axios.get('/task/upcoming');
                 if (response.data.data.length > 0) {
                     setUpcomingTask({
                         title: response.data.data[0].title,
@@ -308,43 +300,19 @@ const UpcomingDeadlineTask = () => {
                     <div className="card">
                         <div className="card-body">
                             {upcomingTask === null
-                                ? (
-                                    <>
-                                    <div className="d-flex align-items-center">
-                                        <h5 className="card-title m-0 mb-2">Event -</h5>
-                                        <h5 className="card-title m-0 mb-2 ms-2"><b>Title Event</b></h5>
-                                    </div>
-                                        <hr />
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-time me-3'></i>
-                                    <div>
-                                        <p className="text-start mb-0">Date : 9/12/2024 - 11/12/2024</p>
-                                        <p className="text-start mb-0">Time : 2:00 PM - 3:00 PM</p>
-                                        </div>
-                                    </div>
-                                    <hr />
-                                    <div className="d-flex align-items-center">
-                                    <i class='bx bx-list-ul me-3'></i>
-                                    <p className="text-start mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit eius molestiae fugiat laboruptates deleniti.</p>
-                                    </div>
-                                    </>
-                                )
-                                :   (
+                            ?   ( <p className="text-center">Tidak ada tugas yang akan datang</p> )
+                            :   (       
                                     <>
                                         <div className="card-title d-flex align-items-start justify-content-between">
                                             <div className="flex-shrink-0">
                                                 <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTask.title}</h6>
                                                 <small className="text-muted">{new Date(upcomingTask.deadline).toLocaleDateString('id-ID', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric'
-                                                    })}</small>
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric'
+                                                })}</small>
                                             </div>
                                         </div>
-                                        <hr />
-                                        <p className="text-start"><b>Date of Event:</b> {new Date(upcomingTask.deadline).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                        <hr />
-                                        <p className="text-start"><b>Event Details:</b> {upcomingTask.details}</p>
                                         <div className="d-flex justify-content-between align-items-center mb-3">
                                             <div className="d-flex align-items-center">
                                                 <div className="avatar flex-shrink-0 me-3">
@@ -366,8 +334,8 @@ const UpcomingDeadlineTask = () => {
                                                 </div>
                                             </div>
                                             <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTask.priority)}</div>
-                                        </div>
-                                    </>
+                                        </div>   
+                                    </>   
                                 )
                             }
                         </div>
@@ -379,15 +347,15 @@ const UpcomingDeadlineTask = () => {
 }
 
 const Cows = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [cows, setCows] = useState([]);
 
     useEffect(() => {
         const getCows = async () => {
             try {
-                const response = await axiosPrivate.get('/cow');
+                const response = await axios.get('/cow');
                 setCows(response.data.data);
             } catch (error) {
+                console.log(error);
                 withReactContent(Swal).fire({
                     title: 'Error',
                     text: error.response.data.message,
@@ -423,11 +391,8 @@ const Cows = () => {
                                 {cows.map((cow, index) => (
                                     <tr key={cow.id}>
                                         <td>{index + 1}</td>
-                                        <td>                     
-                                            <Link to={`/ternak/${cow.id}`} className="text-primary">
-                                            {cow.name}
-                                            </Link></td>
-                                        <td>  
+                                        <td>{cow.name}</td>
+                                        <td>
                                             {new Date(cow.birth_date).toLocaleDateString('id-ID', {
                                                 year: 'numeric',
                                                 month: 'long',
@@ -444,16 +409,16 @@ const Cows = () => {
             </div>
         </>
     )
+
 }
 
 const Tasks = () => {
-    const axiosPrivate = useAxiosPrivate();
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await axiosPrivate.get('/task');
+                const response = await axios.get('/task');
                 response.data.data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
                 response.data.data = response.data.data.slice(0, 3);
                 setTasks(response.data.data);
