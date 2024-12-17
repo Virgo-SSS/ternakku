@@ -9,7 +9,6 @@ const strategy = () => {
         secretOrKey: process.env.JWT_SECRET,
         jwtFromRequest: JwtPassport.ExtractJwt.fromAuthHeaderAsBearerToken()
     }, async (payload, done) => {
-        console.log('Step 2: Verify the user\'s credentials', payload);
     
         try {
             const [ rows ] = await UserModel.findById(payload.id);

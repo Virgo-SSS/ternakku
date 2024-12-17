@@ -16,34 +16,52 @@ const all = async (filters = {}) => {
     let query = 'SELECT ' + select + ' FROM transactions as t';
     query += ' JOIN transaction_categories as tc ON t.category = tc.id';
     
+    console.log(filters);
     const params = [];
 
     // Add filtering conditions dynamically
-    const conditions = Object.entries(filters).map(([key, value]) => {
-        if (key === 'name' || key === 'notes') {
-            params.push(`%${value}%`);
-            return `t.${key} LIKE ?`;
-        }
+    const conditions = [];
 
-        if(key === 'date') {
-            // TODO: fix error search date 2024-04 gak bisa ketemu datanya
-            if (value.match(/^\d{4}-\d{2}$/)) {
-                const [year, month] = value.split('-');
-                const [start, end] = GetFirstAndLastDate(year, month);
-                params.push(start, end);
-                return `t.${key} BETWEEN ? AND ?`;
+    Object.entries(filters).map(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+            if (key === 'name' || key === 'notes') {
+                params.push(`%${value}%`);
+                conditions.push(`t.${key} LIKE ?`);
+                return;
             }
-        
-            if (value.match(/^\d{4}$/)) {
-                const start = `${value}-01-01`; // Start of the year
-                const end = `${value}-12-31`;  // End of the year
-                params.push(start, end);
-                return `t.${key} BETWEEN ? AND ?`;
+    
+            if(key === 'date') {
+                // if format is yyyy-mm
+                if (value.match(/^\d{4}-\d{2}$/)) {
+                    const [year, month] = value.split('-');
+                    const [start, end] = GetFirstAndLastDate(year, month);
+                    params.push(start, end);
+                    conditions.push(`t.${key} BETWEEN ? AND ?`);
+                    return;
+                }
+
+                // if format is daterange yyyy-mm-dd - yyyy-mm-dd
+                if(value.match(/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/)) {
+                    const [start, end] = value.split(' - ');
+                    params.push(start, end);
+                    conditions.push(`t.${key} BETWEEN ? AND ?`);
+                    return;
+                }
+                
+                // if format is yyyy
+                if (value.match(/^\d{4}$/)) {
+                    const start = `${value}-01-01`; // Start of the year
+                    const end = `${value}-12-31`;  // End of the year
+                    params.push(start, end);
+                    conditions.push(`t.${key} BETWEEN ? AND ?`);
+                    return;
+                }
             }
+            
+            params.push(value);
+            conditions.push(`t.${key} = ?`);
+            return;
         }
-        
-        params.push(value);
-        return `t.${key} = ?`;
     });
 
     if (conditions.length) {

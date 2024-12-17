@@ -10,22 +10,81 @@ import Flatpickr from "react-flatpickr";
 export const FinanceDetailPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
+    const [transactionCategories, setTransactionCategories] = useState([]);
     const [isFilterLoading, setIsFilterLoading] = useState(false);
+    const [filterData, setFilterData] = useState({
+        date: '',
+        type: '',
+        category: '',
+    });
+
+    const handleResetFilter = (e) => {
+        e.preventDefault();
+
+        setFilterData({
+            date: '',
+            type: '',
+            category: '',
+        });
+
+        handleFilter(e);        
+    }
+
+    const handleFilterChange = (e) => {
+        setFilterData({
+            ...filterData,
+            [e.target.name]: e.target.value
+        });
+    }
 
     const handleFilter = async (e) => {
-      e.preventDefault();
-      setIsFilterLoading(true);
-  
-      sleep(5000).then(() => {
-          setIsFilterLoading(false);
-      });
+        e.preventDefault();
+        setIsFilterLoading(true);
+
+        let modifiedFilterData = {};
+
+        // modify filterData date from "xxxx-xx-xx to xxxx-xx-xx" to "xxxx-xx-xx - xxxx-xx-xx" 
+        if (filterData.date) {
+            // check if date is in format "xxxx-xx-xx to xxxx-xx-xx" or single date
+            if (filterData.date.includes('to')) {
+                const [startDate, endDate] = filterData.date.split(' to ');
+                modifiedFilterData.date = `${startDate} - ${endDate}`;
+            }
+        }
+
+        modifiedFilterData.type = filterData.type;
+        modifiedFilterData.category = filterData.category;
+        
+        try {
+            const response = await axiosPrivate.get('/transaction', {
+                params: modifiedFilterData
+            });
+
+            setTransactions(response.data.data);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.message || error.message || "Something went wrong",
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+        finally {
+            setIsFilterLoading(false);
+        }
+      
     }
 
     useEffect(() => {
         const getTransactions = async () => {
             try {
-                const response = await axiosPrivate.get('/transaction');
-                setTransactions(response.data.data);
+                const [transactionResponse, transactionCategoryResponse] = await Promise.all([
+                    axiosPrivate.get('/transaction'),
+                    axiosPrivate.get('/transaction/category')
+                ]);
+
+                setTransactions(transactionResponse.data.data);
+                setTransactionCategories(transactionCategoryResponse.data.data);
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
@@ -84,30 +143,47 @@ export const FinanceDetailPage = () => {
                                 <div className="mb-2 p-auto">
                                     <label htmlFor="status" className="form-label"><b>Tanggal</b></label>
                                     <Flatpickr
-                                        value={new Date()}
+                                        value={filterData.date}
                                         options={{
                                             altInput: true,
                                             dateFormat: 'Y-m-d',
                                             enableTime: false,
                                             mode: 'range',
+                                            altInputClass: 'form-control',
+                                        }}
+                                        onChange={(selectedDates, dateStr, instance) => {
+                                            setFilterData({
+                                                ...filterData,
+                                                date: dateStr
+                                            });
                                         }}
                                     />
                                 </div>
-                            </div>                            <div className="col-md-3">
+                            </div>                            
+                            <div className="col-md-3">
                                 <div className="mb-2 p-auto">
-                                    <label className="form-label" htmlFor="gender"><b>Type</b></label>
-                                    <select name="gender" id="gender" className="form-select">
-                                        <option value="M">Income</option>
-                                        <option value="F">Expense</option>
+                                    <label className="form-label" htmlFor="type"><b>Type</b></label>
+                                    <select name="type" id="type" className="form-select" onChange={handleFilterChange} value={filterData.type}>
+                                        <option value="">All</option>
+                                        {
+                                            Object.entries(FinanceHelper.getAllTransactionTypes()).map(([key, value]) => (
+                                                <option key={key} value={key}>{FinanceHelper.getTransactionTypeLabel(key)}</option>
+                                            ))
+                                        }
+                                   
                                     </select>
                                 </div>
                             </div>
                             <div className="col-md-3">
                                 <div className="mb-2 p-auto">
-                                    <label className="form-label" htmlFor="gender"><b>Category</b></label>
-                                    <select name="gender" id="gender" className="form-select">
-                                        <option value="M">Category 1</option>
-                                        <option value="F">Category 2</option>
+                                    <label className="form-label" htmlFor="category"><b>Category</b></label>
+                                    <select name="category" id="category" className="form-select" onChange={handleFilterChange} value={filterData.category}>
+                                        <option value="">All</option>
+                                        {
+                                            transactionCategories.map((category, index) => (
+                                                <option key={index} value={category.id}>{category.name}</option>
+                                            ))
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -115,7 +191,7 @@ export const FinanceDetailPage = () => {
 
                         <div className="card-footer">
                             <div className="d-flex justify-content-end">
-                                <button type="button" className="btn btn-secondary me-2">Reset</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={handleResetFilter}>Reset</button>
                                 <button type="submit" className="btn btn-primary">Search</button>
                                 {
                                     isFilterLoading && (
@@ -175,7 +251,7 @@ export const FinanceDetailPage = () => {
                                     <td>
                                         {FinanceHelper.getTransactionTypeLabel(transaction.type)}
                                     </td>
-                                    <td>{transaction.category}</td>
+                                    <td>{transaction.category_name}</td>
                                     <td>{transaction.notes ?? '-'}</td>
                                     <td>
                                         <Link to={`/keuangan/edit/${transaction.id}`} className="btn btn-sm btn-warning">
