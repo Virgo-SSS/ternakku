@@ -20,9 +20,7 @@ const create = async (data) => {
     // get all user keys and value data that are in the fields array
     const keys = Object.keys(data).filter(key => fields.includes(key));
     const values = keys.map(key => data[key]);
-    
     const query = `INSERT INTO tasks (${keys.join()}) VALUES (${keys.map(() => '?').join()})`;
-
     return db.execute(query, values);
 };
 

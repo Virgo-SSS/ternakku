@@ -307,69 +307,57 @@ const UpcomingDeadlineTask = () => {
                 <div className="col-12 mb-4">
                     <div className="card">
                         <div className="card-body">
-                            {upcomingTask === null
-                                ? (
-                                    <>
-                                    <div className="d-flex align-items-center">
-                                        <h5 className="card-title m-0 mb-2">Event -</h5>
-                                        <h5 className="card-title m-0 mb-2 ms-2"><b>Title Event</b></h5>
+                                    <div className="d-flex align-items-center mb-5">
+                                        <h5 className="card-title m-0 mb-2">Daftar Tugas Mendatang</h5>
                                     </div>
-                                        <hr />
                                     <div className="d-flex align-items-center">
-                                        <i class='bx bx-time me-3'></i>
+                                        <i class='bx bx-list-ul me-3'></i>
                                     <div>
-                                        <p className="text-start mb-0">Date : 9/12/2024 - 11/12/2024</p>
-                                        <p className="text-start mb-0">Time : 2:00 PM - 3:00 PM</p>
-                                        </div>
+                                        <p className="text-start mb-0">Pakan Sapi</p>
+                                        <p className="text-start mb-0">20/12/2024</p>
+                                    </div>
+                                        <div class="badge bg-label-danger ms-auto">High</div>
                                     </div>
                                     <hr />
                                     <div className="d-flex align-items-center">
-                                    <i class='bx bx-list-ul me-3'></i>
-                                    <p className="text-start mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit eius molestiae fugiat laboruptates deleniti.</p>
+                                        <i class='bx bx-list-ul me-3'></i>
+                                    <div>
+                                    <p className="text-start mb-0">Bersihkan Kandang</p>
+                                    <p className="text-start mb-0">20/12/2024</p>
                                     </div>
-                                    </>
-                                )
-                                :   (
-                                    <>
-                                        <div className="card-title d-flex align-items-start justify-content-between">
-                                            <div className="flex-shrink-0">
-                                                <h6 style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "0" }}>{upcomingTask.title}</h6>
-                                                <small className="text-muted">{new Date(upcomingTask.deadline).toLocaleDateString('id-ID', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric'
-                                                    })}</small>
-                                            </div>
+                                        <div class="badge bg-label-danger ms-auto">High</div>
+                                    </div>
+                                    <hr />
+                                    <div className="d-flex align-items-center">
+                                        <i class='bx bx-list-ul me-3'></i>
+                                    <div>
+                                    <p className="text-start mb-0">Vaksin Sapi</p>
+                                    <p className="text-start mb-0">20/12/2024</p>
                                         </div>
-                                        <hr />
-                                        <p className="text-start"><b>Date of Event:</b> {new Date(upcomingTask.deadline).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                        <hr />
-                                        <p className="text-start"><b>Event Details:</b> {upcomingTask.details}</p>
-                                        <div className="d-flex justify-content-between align-items-center mb-3">
-                                            <div className="d-flex align-items-center">
-                                                <div className="avatar flex-shrink-0 me-3">
-                                                    <i className='bx bx-list-check text-primary' style={{ fontSize: "40px" }}></i>
-                                                </div>
-                                                <div>
-                                                    <h6 className="mb-0">Status</h6>
-                                                </div>
-                                            </div>
-                                            <div className="badge bg-primary rounded-pill">{TaskHelper.getStatusLabel(upcomingTask.status)}</div>
+                                        <div class="badge bg-label-warning ms-auto">Medium</div>
+                                    </div>
+                                    <hr />
+                                    <div className="d-flex align-items-center">
+                                        <i class='bx bx-list-ul me-3'></i>
+                                    <div>
+                                    <p className="text-start mb-0">Bersihkan Sapi</p>
+                                    <p className="text-start mb-0">20/12/2024</p>
                                         </div>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                            <div className="d-flex align-items-center">
-                                                <div className="avatar flex-shrink-0 me-3">
-                                                    <i className='bx bxs-pin text-primary' style={{ fontSize: "35px" }}></i>
-                                                </div>
-                                                <div>
-                                                    <h6 className="mb-0">Priority</h6>
-                                                </div>
-                                            </div>
-                                            <div className="badge bg-warning rounded-pill bg-primary">{TaskHelper.getPriorityLabel(upcomingTask.priority)}</div>
+                                        <div class="badge bg-label-warning ms-auto">Medium</div>
+                                    </div>
+                                    <hr />
+                                    <div className="d-flex align-items-center">
+                                        <i class='bx bx-list-ul me-3'></i>
+                                    <div>
+                                    <p className="text-start mb-0">Timbang Sapi</p>
+                                    <p className="text-start mb-0">20/12/2024</p>
                                         </div>
-                                    </>
-                                )
-                            }
+                                        <div class="badge bg-label-success ms-auto">Low</div>
+                                    </div>
+                                    <hr />
+                                    <p className="text-center mb-0"><a href="/task">Lihat Tugas Lainnya</a></p>
+
+                                        
                         </div>
                     </div>
                 </div>
@@ -402,7 +390,7 @@ const Cows = () => {
 
     return (
         <>
-            <div className="card">
+                <div class="card">
                 <div className="card-header d-flex align-items-center justify-content-between pb-0">
                     <div className="card-title mb-0">
                         <h5 className="m-0 me-2">Sapi</h5>
@@ -472,45 +460,7 @@ const Tasks = () => {
 
     return (
         <>
-            <div className="card h-100">
-                <div className="card-header d-flex align-items-center justify-content-between">
-                    <h5 className="card-title m-0 me-2">Aktivitas</h5>
-                </div>
-                <div className="card-body">
-                    <ul className="p-0 m-0">
-                        {tasks.map((task, index) => (
-                            <li className="d-flex mb-4 pb-1" key={task.id}>
-                                <div className="d-flex flex-column w-100">
-                                    <div className="d-flex align-items-center ">
-                                        <div className="me-3">
-                                            <h6 className="mb-0">
-                                                {new Date(task.deadline).toLocaleDateString('id-ID', {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric'
-                                                })}
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div className="card bg-primary">
-                                        <div className="card-body d-flex align-items-center">
-                                            <div className="avatar flex-shrink-0 me-3">
-                                                <div className="bg-white rounded-circle d-flex align-items-center justify-content-center" style={{ width: "40px", height: "40px" }}>
-                                                    <i className='bx bx-injection'></i>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <h6 className="mb-0 text-white">{task.title}</h6>
-                                                <small className="text-white">{task.details}</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            
         </>
     )
 }
