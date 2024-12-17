@@ -35,7 +35,6 @@ const AppRoutes = () => {
             {/* Home */}
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<ProfilePage />} />
 
             <Route element={<RequireAuth />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
@@ -55,6 +54,8 @@ const AppRoutes = () => {
                 <Route path="/keuangan/detail" element={<FinanceDetailPage />} />
                 <Route path="/keuangan/create" element={<CreateTransactionPage />} />
                 <Route path="/keuangan/edit/:id" element={<EditTransactionPage />} />
+                
+                <Route path="/profile" element={<ProfilePage />} />
             </Route>
 
             <Route element={<RequireGuest/>}>

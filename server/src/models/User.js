@@ -1,5 +1,12 @@
 import db from '../config/database.js';
 
+const fields = [
+    'name',
+    'email',
+    'password',
+    'refresh_token'
+]
+
 const create = async (data) => {
     const keys = Object.keys(data);
     const values = Object.values(data);
@@ -32,11 +39,20 @@ const deleteRefreshToken = async (refreshToken) => {
     return db.execute('UPDATE users SET refresh_token = NULL WHERE refresh_token = ?', [refreshToken]);
 }
 
+const update = async (id, data) => {
+    const keys = Object.keys(data).filter(key => fields.includes(key) && data[key] !== undefined);
+    const values = keys.map(key => data[key]);
+
+    const query = "UPDATE users SET " + keys.join(' = ?, ') + ' = ? WHERE id = ?';
+    return db.execute(query, [...values, id]);
+}
+
 export default {
     create,
+    update,
     findByEmail,
     findById,
     updateRefreshToken,
     findByRefreshToken,
-    deleteRefreshToken
+    deleteRefreshToken,
 }

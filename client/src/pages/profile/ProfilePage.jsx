@@ -1,7 +1,12 @@
+import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export const ProfilePage = () => {
     const { auth } = useAuth();
+
     return (
         <>
             <div className='row'>
@@ -27,43 +32,119 @@ export const ProfilePage = () => {
                 <div className="col-md-8">
                     <div className="card d-flex justify-content-start p-2">
                         <div className="card-body">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <h5><b>User Information</b></h5>    
-                                    <div>
-                                        <label htmlFor="html5-text-input" className="col-md-2 col-form-label">Name</label>
-                                        <input type="text" className="form-control" id="defaultFormControlInput" placeholder="John Doe" aria-describedby="defaultFormControlHelp"/>  
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="html5-search-input" className="col-md-2 col-form-label">Email</label>
-                                        <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>     
-                                        <button type="button" className="btn btn-primary mt-5 mb-10">Save</button>  
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <h5><b>Password</b></h5>
-                                    <div>
-                                        <label htmlFor="password" className="col-md-2 col-form-label">Current Password</label>
-                                        <input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="new_password" className="col-md-2 col-form-label">New Password</label>
-                                        <input type="password" id="new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="confirmation_new_password" className="col-md-2 col-form-label">Confirm New Password</label>
-                                        <input type="password" id="confirmation_new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                                        <button type="button" className="btn btn-primary mt-5">Change</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <ProfileFormSection/>
+                            <PasswordFormSection/>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+const ProfileFormSection = () => {
+    const { auth, setAuth } = useAuth();
+    console.log(auth);
+    const axiosPrivate = useAxiosPrivate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        name: auth.user.name,
+        email: auth.user.email
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+        try {
+            const response = await axiosPrivate.put(`/profile/${auth.user.id}`, formData);
+
+            withReactContent(Swal).fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.data.message,
+            });
+
+            setFormData({
+                name: response.data.data.user.name,
+                email: response.data.data.user.email,
+            });
+
+            setAuth({
+                ...auth,
+                user: {
+                    ...auth.user,
+                    name: response.data.data.user.name,
+                    email: response.data.data.user.email,
+                }
+            });
+        } catch (error) {
+            console.log(error);
+            withReactContent(Swal).fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response.data.message || error
+            });
+        }
+
+        setIsLoading(false);
+    }
+        
+    return (
+        <>
+            <div className="row">
+                <div className="col-md-12">
+                    <h5><b>User Information</b></h5>  
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="name" className="col-md-2 col-form-label">Name</label>
+                            <input type="text" className="form-control" id="name" name="name" value={formData.name} onChange={handleChange} required placeholder="Edit Your name"/>  
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="col-md-2 col-form-label">Email</label>
+                            <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="name@example.com"/>     
+                            <button type="submit" className="btn btn-primary mt-5 mb-10">Save</button>  
+                            {
+                                isLoading && <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
+                        </div>
+                    </form>  
+                </div>
+            </div>
+        </>
+    )
+}
+
+const PasswordFormSection = () => {
+    return (
+        <>
+            <div className="row">
+                <div className="col-md-12">
+                    <h5><b>Password</b></h5>
+                    <div>
+                        <label htmlFor="password" className="col-md-2 col-form-label">Current Password</label>
+                        <input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+                    </div>
+
+                    <div>
+                        <label htmlFor="new_password" className="col-md-2 col-form-label">New Password</label>
+                        <input type="password" id="new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+                    </div>
+
+                    <div>
+                        <label htmlFor="confirmation_new_password" className="col-md-2 col-form-label">Confirm New Password</label>
+                        <input type="password" id="confirmation_new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+                        <button type="button" className="btn btn-primary mt-5">Change</button>
                     </div>
                 </div>
             </div>
