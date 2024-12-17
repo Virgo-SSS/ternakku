@@ -10,14 +10,66 @@ export const CowPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const [cows, setCows] = useState([]);
     const [isFilterLoading, setIsFilterLoading] = useState(false);
+    const [filterData, setFilterData] = useState({
+        name: '',
+        status: '',
+        birth_date: '',
+        gender: ''
+    });
+
+    const handleFilterChange = (e) => {
+        setFilterData({
+            ...filterData,
+            [e.target.name]: e.target.value
+        });
+    }
 
     const handleFilter = async (e) => {
         e.preventDefault();
         setIsFilterLoading(true);
 
-        sleep(5000).then(() => {
+        let modifiedFilterData = {};
+
+        // modify filterData date from "xxxx-xx-xx to xxxx-xx-xx" to "xxxx-xx-xx - xxxx-xx-xx" 
+        if (filterData.birth_date) {
+            // check if date is in format "xxxx-xx-xx to xxxx-xx-xx" or single date
+            if (filterData.birth_date.includes('to')) {
+                const [startDate, endDate] = filterData.birth_date.split(' to ');
+                modifiedFilterData.birth_date = `${startDate} - ${endDate}`;
+            }
+        }
+
+        modifiedFilterData.name = filterData.name;
+        modifiedFilterData.status = filterData.status;
+        modifiedFilterData.gender = filterData.gender;
+
+        try {
+            const response = await axiosPrivate.get('/cow', {
+                params: modifiedFilterData
+            });
+
+            setCows(response.data.data);
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        } finally {
             setIsFilterLoading(false);
+        }
+    }
+    
+    const handleResetFilter = (e) => {
+        setFilterData({
+            name: '',
+            status: '',
+            birth_date: '',
+            gender:''
         });
+
+        handleFilter(e);
     }
 
     // Delete function for cows
@@ -89,28 +141,42 @@ export const CowPage = () => {
                                 <div className="col-md-3">
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="name"><b>Nama</b></label>
-                                        <input type="text" name="name" id="name" className="form-control" placeholder="Nama Sapi" />
+                                        <input type="text" className="form-control" name="name" id="name"
+                                        placeholder="Nama Sapi" value={filterData.name} onChange={handleFilterChange} />
                                     </div>
                                 </div>
                                 <div className="col-md-3">
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="status"><b>Status</b></label>
-                                        <select name="status" id="status" className="form-select">
-                                            <option value="1">Sehat</option>
-                                            <option value="0">Tidak Sehat</option>
+                                        <select name="status" id="status" className="form-select" value={filterData.status} onChange={handleFilterChange}>
+                                            <option value="">Pilih Status</option>
+                                            {
+                                                Object.keys(CowHelper.getAllStatus()).map((key) => (
+                                                    <option key={key} value={key}>{CowHelper.getStatusLabel(key)}</option>
+                                                ))
+                                            }
                                         </select>
                                     </div>
                                 </div>
                                 <div className="col-md-3">
                                     <div className="mb-2 p-auto">
-                                        <label htmlFor="status" className="form-label"><b>Tanggal Lahir</b></label>
+                                        <label htmlFor="birth_date" className="form-label"><b>Tanggal Lahir</b></label>
                                         <Flatpickr
-                                            value={new Date()}
+                                            id="birth_date"
+                                            name="birth_date"
+                                            className="form-control"
+                                            value={filterData.birth_date}
                                             options={{
                                                 altInput: true,
                                                 dateFormat: 'Y-m-d',
                                                 enableTime: false,
                                                 mode: 'range',
+                                            }}
+                                            onChange={(selectedDates, dateStr, instance) => {
+                                                setFilterData({
+                                                    ...filterData,
+                                                    birth_date: dateStr
+                                                });
                                             }}
                                         />
                                     </div>
@@ -118,7 +184,8 @@ export const CowPage = () => {
                                 <div className="col-md-3">
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
-                                        <select name="gender" id="gender" className="form-select" defaultValue={''}>
+                                        <select name="gender" id="gender" className="form-select" value={filterData.gender} onChange={handleFilterChange}>
+                                            <option value="">Pilih Jenis Kelamin</option>
                                             <option value="M">Jantan</option>
                                             <option value="F">Betina</option>
                                         </select>
@@ -128,7 +195,7 @@ export const CowPage = () => {
                         </div>
                         <div className="card-footer">
                             <div className="d-flex justify-content-end">
-                                <button type="button" className="btn btn-secondary me-2">Reset</button>
+                                <button type="button" className="btn btn-secondary me-2" onClick={handleResetFilter}>Reset</button>
                                 <button type="submit" className="btn btn-primary">Search</button>
                                 {
                                     isFilterLoading && (

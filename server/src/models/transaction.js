@@ -16,7 +16,6 @@ const all = async (filters = {}) => {
     let query = 'SELECT ' + select + ' FROM transactions as t';
     query += ' JOIN transaction_categories as tc ON t.category = tc.id';
     
-    console.log(filters);
     const params = [];
 
     // Add filtering conditions dynamically

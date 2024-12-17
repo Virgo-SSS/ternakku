@@ -9,8 +9,61 @@ const fields = [
     'picture',
 ];
 
-const all = async () => {
-    return db.execute('SELECT * FROM cows');
+const all = async (filters =  {}) => {
+    let query = 'SELECT * FROM cows';
+    const params = [];
+
+    const conditions = [];
+
+    Object.entries(filters).map(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+            if (key === 'name') {
+                params.push(`%${value}%`);
+                conditions.push(`${key} LIKE ?`);
+                return;
+            }
+
+            if(key === 'birth_date') {
+                // if format is yyyy-mm
+                if (value.match(/^\d{4}-\d{2}$/)) {
+                    const [year, month] = value.split('-');
+                    const [start, end] = GetFirstAndLastDate(year, month);
+                    params.push(start, end);
+                    conditions.push(`${key} BETWEEN ? AND ?`);
+                    return;
+                }
+
+                // if format is daterange yyyy-mm-dd - yyyy-mm-dd
+                if(value.match(/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/)) {
+                    const [start, end] = value.split(' - ');
+                    params.push(start, end);
+                    conditions.push(`${key} BETWEEN ? AND ?`);
+                    return;
+                }
+                
+                // if format is yyyy
+                if (value.match(/^\d{4}$/)) {
+                    const start = `${value}-01-01`; // Start of the year
+                    const end = `${value}-12-31`;  // End of the year
+                    params.push(start, end);
+                    conditions.push(`${key} BETWEEN ? AND ?`);
+                    return;
+                }
+            }
+
+            params.push(value);
+            conditions.push(`${key} = ?`);
+            return;
+        }
+    });
+
+    if (conditions.length) {
+        query += ` WHERE ${conditions.join(' AND ')}`;
+    }
+
+    console.log(query);
+    console.log(params);
+    return db.execute(query, params);
 }
 
 const create = async (data) => {

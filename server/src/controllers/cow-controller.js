@@ -2,7 +2,9 @@ import CowModel from '../models/cow.js';
 
 const index = async (req, res) => {
     try {
-        const [rows] = await CowModel.all();
+        const filters = req.query;
+        const [rows] = await CowModel.all(filters);
+        
         res.status(200).json({
             message: 'Success',
             data: rows
