@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import FinanceHelper from "../../helper/FinanceHelper.js";
+import FinanceHelper from "../../helper/financeHelper.js";
 import { NumericFormat } from 'react-number-format';
 import { Link } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
