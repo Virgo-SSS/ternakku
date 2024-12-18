@@ -47,6 +47,10 @@ const update = async (id, data) => {
     return db.execute(query, [...values, id]);
 }
 
+const updatePassword = async (id, password) => {
+    return db.execute('UPDATE users SET password = ? WHERE id = ?', [password, id]);
+}
+
 export default {
     create,
     update,
@@ -55,4 +59,5 @@ export default {
     updateRefreshToken,
     findByRefreshToken,
     deleteRefreshToken,
+    updatePassword
 }

@@ -44,7 +44,6 @@ export const ProfilePage = () => {
 
 const ProfileFormSection = () => {
     const { auth, setAuth } = useAuth();
-    console.log(auth);
     const axiosPrivate = useAxiosPrivate();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -126,26 +125,91 @@ const ProfileFormSection = () => {
 }
 
 const PasswordFormSection = () => {
+    const { auth } = useAuth();
+    const axiosPrivate = useAxiosPrivate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        old_password: '',
+        new_password: '',
+        confirmation_new_password: ''
+    });
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setIsLoading(true);
+
+        try {
+            // validate new password and confirmation new password
+            if (formData.new_password !== formData.confirmation_new_password) {
+                throw new Error('New password and confirmation new password do not match');
+            }
+
+            const response = await axiosPrivate.put(`/profile/${auth.user.id}/password/change`, formData);
+
+            withReactContent(Swal).fire({
+                icon: 'success',
+                title: 'Success',
+                text: response.data.message,
+            });
+
+            setFormData({
+                old_password: '',
+                new_password: '',
+                confirmation_new_password: ''
+            });
+        } catch (error) {
+            console.log(error);
+            withReactContent(Swal).fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error.response?.data?.message || error.message
+            });
+        }
+
+        setIsLoading(false);
+    }
+
     return (
         <>
             <div className="row">
                 <div className="col-md-12">
-                    <h5><b>Password</b></h5>
-                    <div>
-                        <label htmlFor="password" className="col-md-2 col-form-label">Current Password</label>
-                        <input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <h5>
+                            <b>Password</b>
+                        </h5>
+                        <div>
+                            <label htmlFor="old_password" className="col-md-2 col-form-label">Current Password</label>
+                            <input type="password" id="old_password" name="old_password" value={formData.old_password} onChange={handleChange} required className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+                        </div>
 
-                    <div>
-                        <label htmlFor="new_password" className="col-md-2 col-form-label">New Password</label>
-                        <input type="password" id="new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                    </div>
+                        <div>
+                            <label htmlFor="new_password" className="col-md-2 col-form-label">New Password</label>
+                            <input type="password" id="new_password" name="new_password" value={formData.new_password} onChange={handleChange} required className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+                        </div>
 
-                    <div>
-                        <label htmlFor="confirmation_new_password" className="col-md-2 col-form-label">Confirm New Password</label>
-                        <input type="password" id="confirmation_new_password" className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
-                        <button type="button" className="btn btn-primary mt-5">Change</button>
-                    </div>
+                        <div>
+                            <label htmlFor="confirmation_new_password" className="col-md-2 col-form-label">Confirm New Password</label>
+                            <input type="password" id="confirmation_new_password" name="confirmation_new_password" 
+                                value={formData.confirmation_new_password} onChange={handleChange} required
+                                className="form-control" aria-describedby="passwordHelpBlock" placeholder="********"/>
+
+                            <button type="submit" className="btn btn-primary mt-5">Change</button>
+                            {
+                                isLoading 
+                                && <div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                            }
+                        </div>
+                    </form>
                 </div>
             </div>
         </>

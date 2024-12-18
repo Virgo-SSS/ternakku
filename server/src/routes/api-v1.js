@@ -11,7 +11,7 @@ import EventController from '../controllers/event-controller.js';
 import TokenController from '../controllers/token-controller.js';
 import authMiddleware from '../middleware/auth-middleware.js';
 import guestMiddleware from '../middleware/guest-middleware.js';
-import ProfileController from '../controllers/profile-controller.js';
+import UserController from '../controllers/user-controller.js';
 
 const router = express.Router();
 
@@ -51,7 +51,7 @@ router.post('/event', authMiddleware, EventController.store);
 router.put('/event/:id', authMiddleware, EventController.update);
 router.delete('/event/:id', authMiddleware, EventController.destroy);
 
-router.put('/profile/:id', authMiddleware, ProfileController.update);
-// router.put('/profile/password', authMiddleware, WorkerController.updatePassword);
+router.put('/profile/:id', authMiddleware, UserController.update);
+router.put('/profile/:id/password/change', authMiddleware, UserController.changePassword);
 
 export default router;

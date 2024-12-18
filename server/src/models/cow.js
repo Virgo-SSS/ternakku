@@ -61,8 +61,6 @@ const all = async (filters =  {}) => {
         query += ` WHERE ${conditions.join(' AND ')}`;
     }
 
-    console.log(query);
-    console.log(params);
     return db.execute(query, params);
 }
 
