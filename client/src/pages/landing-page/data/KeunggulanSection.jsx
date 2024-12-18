@@ -1,5 +1,5 @@
 export const CourseSection = {
-    Judulcontent : `<h2 className="text-xl md:text-3xl">Keunggulan Platform Manajemen Peternakan Sapi</h2>
+    Judulcontent : `<h2 className="text-xl md:text-3xl">Keunggulan Platform TERNAKKU</h2>
                 <p>Membantu Peternak Mengelola Ternak Dengan Mudah Dan Efisien</p>`,
 }
 
