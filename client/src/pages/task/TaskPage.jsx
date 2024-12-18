@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import usePerfectScrollbar from "../../hooks/usePerfectScrollbar";
-import axios from "../../api/api";
 import TaskHelper from "../../helper/taskHelper";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import Flatpickr from "react-flatpickr";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const TaskPage = () => {
     usePerfectScrollbar('kanban-wrapper');
@@ -20,12 +20,13 @@ export const TaskPage = () => {
 };
 
 const Board = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const getTasks = async () => {
             try {
-                const response = await axios.get('/task');
+                const response = await axiosPrivate.get('/task');
     
                 const tasks = response.data.data.map((task) => ({
                     id: task.id,
@@ -80,6 +81,8 @@ const Board = () => {
 };
 
 const Column = ({ title, column, tasks, setTasks }) => {
+    const axiosPrivate = useAxiosPrivate();
+
     const [isLoading, setIsLoading] = useState(false);
 
     const handleDragStart = (e, task) => {
@@ -112,15 +115,16 @@ const Column = ({ title, column, tasks, setTasks }) => {
         try {
             setIsLoading(true);
            
-            await axios.patch(`/task/${cardId}`, { 
+            await axiosPrivate .patch(`/task/${cardId}`, { 
                 status: TaskHelper.getStatusKey(column) 
             });
 
+
+            // If the card is moved to the last index, push it to the end of the array
             if (moveToBack) {
-                console.log('Move to back');
                 copy.push(cardToTransfer);
             } else {
-                console.log('Insert at index');
+                // if not last then reorder the index
                 const insertAtIndex = copy.findIndex((el) => el.id === before);
                 if (insertAtIndex === undefined) return;
     
@@ -342,6 +346,7 @@ const DropIndicator = ({ beforeId, column }) => {
 };
 
 const DeleteBarrel = ({ setTasks }) => {
+    const axiosPrivate = useAxiosPrivate();
     const [active, setActive] = useState(false);
 
     const handleDragOver = (e) => {
@@ -357,7 +362,7 @@ const DeleteBarrel = ({ setTasks }) => {
         const cardId = Number(e.dataTransfer.getData("cardId"));
 
         try {
-            await axios.delete(`/task/${cardId}`);
+            await axiosPrivate.delete(`/task/${cardId}`);
             
             setTasks((pv) => pv.filter((c) => c.id !== cardId ));
 
@@ -397,6 +402,7 @@ const DeleteBarrel = ({ setTasks }) => {
 };
 
 const AddBarrel = ({ setTasks }) => {
+    const axiosPrivate = useAxiosPrivate();
     const [workers, setWorkers] = useState([]);
     const [cows, setCows] = useState([]);
 
@@ -416,8 +422,8 @@ const AddBarrel = ({ setTasks }) => {
         const fetchWorkersCows = async () => {
             try {
                 const [workersResponse, cowsResponse] = await Promise.all([
-                    axios.get('/worker'),
-                    axios.get('/cow')
+                    axiosPrivate.get('/worker'),
+                    axiosPrivate.get('/cow')
                 ]);
 
                 setWorkers(workersResponse.data.data);
@@ -445,7 +451,7 @@ const AddBarrel = ({ setTasks }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await  axios.post('/task', formData);
+            const response = await  axiosPrivate.post('/task', formData);
 
             const newTask = {
                 id: response.data.data.id,

@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import CreatableSelect from 'react-select/creatable';
 import { NumericFormat } from 'react-number-format';
 import Flatpickr from "react-flatpickr";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const EditTransactionPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const axiosPrivate = useAxiosPrivate();
     const [categories, setCategories] = useState([]);
     const [isCreateCategoryLoading, setIsCreateCategoryLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -25,7 +26,7 @@ export const EditTransactionPage = () => {
     useEffect(() => {
         const getTransaction = async () => {
             try {
-                const response = await axios.get(`/transaction`, {
+                const response = await axiosPrivate.get(`/transaction`, {
                     params: {
                         id: id
                     }
@@ -61,7 +62,7 @@ export const EditTransactionPage = () => {
     useEffect(() => {
         const getTransacationCategories = async () => {
             try {
-                const response = await axios.get('/transaction/category');
+                const response = await axiosPrivate.get('/transaction/category');
 
                 const data = [];
                 response.data.data.forEach((category) => {
@@ -88,7 +89,7 @@ export const EditTransactionPage = () => {
     const handleCreateCategory = async (name) => {
         try {
             setIsCreateCategoryLoading(true);
-            const response = await axios.post('/transaction/category', {
+            const response = await axiosPrivate.post('/transaction/category', {
                 name: name,
             });
 
@@ -120,7 +121,7 @@ export const EditTransactionPage = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`/transaction/${id}`, formData);
+            const response = await axiosPrivate.put(`/transaction/${id}`, formData);
 
             withReactContent(Swal).fire({
                 title: 'Success',
@@ -197,7 +198,6 @@ export const EditTransactionPage = () => {
                                         classNamePrefix="react-select"
                                         value={selectedCategory}
                                         onChange={(selected) => {
-                                            console.log(selected);
                                             setSelectedCategory(selected);
                                             setFormData({
                                                 ...formData,

@@ -1,14 +1,31 @@
+const type = {
+    1: 'PEMASUKAN',
+    2: 'PENGELUARAN'
+}
+
+const getAllTransactionTypes = () => {
+    return type;
+}
+
 const getTransactionTypeLabel = (type) => {
+    let label;
+    type = Number(type);
+    
     switch (type) {
         case 1:
-            return 'Pemasukan';
+            label = 'Pemasukan';
+            break;
         case 2:
-            return 'Pengeluaran';
+            label = 'Pengeluaran';
+            break;
         default:
-            return 'Tidak Diketahui';
+            label = 'UNKNOWN';
     }
+
+    return label;
 }
 
 export default {
-    getTransactionTypeLabel
+    getTransactionTypeLabel,
+    getAllTransactionTypes
 }

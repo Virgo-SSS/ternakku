@@ -1,8 +1,41 @@
 import getGreetingMessage from '../../helper/greetingHandler';
 import usePerfectScrollbar from '../../hooks/usePerfectScrollbar';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
+import useAuth from "../../hooks/useAuth.jsx";
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const Navbar = () => {
+    const { auth, setAuth } = useAuth();
+    const navigate = useNavigate();
+    const axiosPrivate = useAxiosPrivate();
     usePerfectScrollbar('notification-ps');
+
+    const handleLogout = async (e) => {
+        try {
+            const response = await axiosPrivate.post('/logout');
+
+            setAuth(null);
+
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                timer: 2000,
+            }).then(() => {
+                navigate('/auth/login');
+            });
+        } catch (error) {
+            withReactContent(Swal).fire({
+                title: 'Error',
+                text: error.response.data.message || error.message || 'Something went wrong',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
 
     return (
         <nav className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -14,7 +47,7 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-                {getGreetingMessage('Dwi')}
+                {getGreetingMessage(auth?.user?.name || 'Guest')}
                 <ul className="navbar-nav flex-row align-items-center ms-auto">
                     {/* notification */}
                     <li className="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
@@ -278,10 +311,10 @@ const Navbar = () => {
                                 <div className="dropdown-divider"></div>
                             </li>
                             <li>
-                                <a aria-label='go to profile' className="dropdown-item" href="/profile">
+                                <Link to="/profile" className="dropdown-item" aria-label='go to profile'>
                                     <i className="bx bx-user me-2"></i>
                                     <span className="align-middle">My Profile</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a aria-label='go to setting' className="dropdown-item" href="#">
@@ -303,7 +336,7 @@ const Navbar = () => {
                                 <div className="dropdown-divider"></div>
                             </li>
                             <li>
-                                <a aria-label='click to log out' className="dropdown-item" href="#">
+                                <a aria-label='click to log out' className="dropdown-item" href="#" onClick={handleLogout}>
                                     <i className="bx bx-power-off me-2"></i>
                                     <span className="align-middle">Log Out</span>
                                 </a>

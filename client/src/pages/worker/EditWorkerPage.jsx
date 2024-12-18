@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 export const EditWorkerPage = () => {
     let { id } = useParams();
+    const axiosPrivate = useAxiosPrivate();
     const Navigate = useNavigate();
     const [worker, setWorker] = useState({});
     const [formData, setFormData] = useState({
@@ -25,13 +26,14 @@ export const EditWorkerPage = () => {
     useEffect(() => {
         const getWorker = async () => {
             try {
-                const response = await axios.get(`/worker`, {
+                const response = await axiosPrivate.get(`/worker`, {
                     params: {
                         id: id
                     }
                 });
 
                 setWorker(response.data.data[0]);
+
                 setFormData({
                     name: response.data.data[0].name,
                     gender: response.data.data[0].gender,
@@ -55,7 +57,7 @@ export const EditWorkerPage = () => {
         e.preventDefault();
 
         try {
-            await axios.put(`/worker/${id}`, formData);
+            await axiosPrivate.put(`/worker/${id}`, formData);
 
             withReactContent(Swal).fire({
                 title: 'Success',

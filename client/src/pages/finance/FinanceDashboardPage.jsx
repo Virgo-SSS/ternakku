@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
-import axios from "../../api/api.js";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
 let config = {
     colors: {
@@ -44,6 +44,7 @@ export const FinanceDashboardPage = () => {
 }
 
 const Monthly = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
     const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +53,7 @@ const Monthly = () => {
         try {
             setIsLoading(true);
 
-            const response = await axios.get('/transaction', {
+            const response = await axiosPrivate.get('/transaction', {
                 params: {
                     date: selectedMonth
                 }
@@ -153,7 +154,11 @@ const MonthlyCard = ({title, money, percentage}) => {
                             </div>
                         </div>
                         <p className="mb-1">{title}</p>
-                        <h3 className="card-title mb-3">{money}</h3>
+                        <h3 className="card-title mb-3">
+                            {
+                                money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                            }
+                        </h3>
                         <div className="d-flex align-items-center">
                             <div className="d-flex align-items-center">
                                 <i className="bx bx-line-chart me-1"></i>
@@ -168,6 +173,7 @@ const MonthlyCard = ({title, money, percentage}) => {
 }
 
 const Category = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
@@ -181,7 +187,7 @@ const Category = () => {
             try {
                 setIsLoading(true);
 
-                const response = await axios.get('/transaction', {
+                const response = await axiosPrivate.get('/transaction', {
                     params: {
                         date: selectedMonth
                     }
@@ -343,6 +349,7 @@ const Category = () => {
 }
 
 const ProfitAndLossStatement = () => {
+    const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedYear, setselectedYear] = useState(new Date().getFullYear());
@@ -356,7 +363,7 @@ const ProfitAndLossStatement = () => {
             try {
                 setIsLoading(true);
 
-                const response = await axios.get('/transaction', {
+                const response = await axiosPrivate.get('/transaction', {
                     params: {
                         date: selectedYear
                     }

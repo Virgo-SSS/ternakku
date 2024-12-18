@@ -4,19 +4,24 @@ const all = async (filters = {}) => {
     let query = 'SELECT * FROM workers';
     const params = [];
 
-    // Add filtering conditions dynamically
-    const conditions = Object.entries(filters).map(([key, value]) => {
-        if (key === 'name') {
-            params.push(`%${value}%`);
-            return `${key} LIKE ?`;
+    const conditions = [];
+
+    Object.entries(filters).map(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+            if (key === 'name') {
+                params.push(`%${value}%`);
+                conditions.push(`${key} LIKE ?`);
+                return;
+            }
+
+            params.push(value);
+            conditions.push(`${key} = ?`);
+            return;
         }
-        
-        params.push(value);
-      return `${key} = ?`;
     });
 
     if (conditions.length) {
-      query += ` WHERE ${conditions.join(' AND ')}`;
+        query += ` WHERE ${conditions.join(' AND ')}`;
     }
 
     return db.execute(query, params);
