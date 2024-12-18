@@ -154,7 +154,11 @@ const MonthlyCard = ({title, money, percentage}) => {
                             </div>
                         </div>
                         <p className="mb-1">{title}</p>
-                        <h3 className="card-title mb-3">{money}</h3>
+                        <h3 className="card-title mb-3">
+                            {
+                                money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                            }
+                        </h3>
                         <div className="d-flex align-items-center">
                             <div className="d-flex align-items-center">
                                 <i className="bx bx-line-chart me-1"></i>

@@ -22,19 +22,19 @@ export const DashboardPage = () => {
 
             <div className="row">
                 <div className="col-md-8 mb-4 order-0">
-                    <StatusTasks />
+                    <div className="row mb-4">
+                        <div className="col-md-12">
+                            <StatusTasks />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <Cows />
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-4 mb-4 order-1">
                     <UpcomingDeadlineTask />
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col-md-8 mb-4 order-0">
-                    <Cows />
-                </div>
-                <div className="col-md-4 mb-4 order-1">
-                    <Tasks />
                 </div>
             </div>
         </>
@@ -307,57 +307,57 @@ const UpcomingDeadlineTask = () => {
                 <div className="col-12 mb-4">
                     <div className="card">
                         <div className="card-body">
-                                    <div className="d-flex align-items-center mb-5">
-                                        <h5 className="card-title m-0 mb-2">Daftar Tugas Mendatang</h5>
-                                    </div>
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-list-ul me-3'></i>
-                                    <div>
-                                        <p className="text-start mb-0">Pakan Sapi</p>
-                                        <p className="text-start mb-0">20/12/2024</p>
-                                    </div>
-                                        <div class="badge bg-label-danger ms-auto">High</div>
-                                    </div>
-                                    <hr />
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-list-ul me-3'></i>
-                                    <div>
-                                    <p className="text-start mb-0">Bersihkan Kandang</p>
-                                    <p className="text-start mb-0">20/12/2024</p>
-                                    </div>
-                                        <div class="badge bg-label-danger ms-auto">High</div>
-                                    </div>
-                                    <hr />
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-list-ul me-3'></i>
-                                    <div>
-                                    <p className="text-start mb-0">Vaksin Sapi</p>
-                                    <p className="text-start mb-0">20/12/2024</p>
-                                        </div>
-                                        <div class="badge bg-label-warning ms-auto">Medium</div>
-                                    </div>
-                                    <hr />
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-list-ul me-3'></i>
-                                    <div>
-                                    <p className="text-start mb-0">Bersihkan Sapi</p>
-                                    <p className="text-start mb-0">20/12/2024</p>
-                                        </div>
-                                        <div class="badge bg-label-warning ms-auto">Medium</div>
-                                    </div>
-                                    <hr />
-                                    <div className="d-flex align-items-center">
-                                        <i class='bx bx-list-ul me-3'></i>
-                                    <div>
-                                    <p className="text-start mb-0">Timbang Sapi</p>
-                                    <p className="text-start mb-0">20/12/2024</p>
-                                        </div>
-                                        <div class="badge bg-label-success ms-auto">Low</div>
-                                    </div>
-                                    <hr />
-                                    <p className="text-center mb-0"><a href="/task">Lihat Tugas Lainnya</a></p>
-
-                                        
+                            <div className="d-flex align-items-center mb-5">
+                                <h5 className="card-title m-0 mb-2">Daftar Tugas Mendatang</h5>
+                            </div>
+                            <div className="d-flex align-items-center">
+                                <i class='bx bx-list-ul me-3'></i>
+                            <div>
+                                <p className="text-start mb-0">Pakan Sapi</p>
+                                <p className="text-start mb-0">20/12/2024</p>
+                            </div>
+                                <div class="badge bg-label-danger ms-auto">High</div>
+                            </div>
+                            <hr />
+                            <div className="d-flex align-items-center">
+                                <i class='bx bx-list-ul me-3'></i>
+                            <div>
+                            <p className="text-start mb-0">Bersihkan Kandang</p>
+                            <p className="text-start mb-0">20/12/2024</p>
+                            </div>
+                                <div class="badge bg-label-danger ms-auto">High</div>
+                            </div>
+                            <hr />
+                            <div className="d-flex align-items-center">
+                                <i class='bx bx-list-ul me-3'></i>
+                            <div>
+                            <p className="text-start mb-0">Vaksin Sapi</p>
+                            <p className="text-start mb-0">20/12/2024</p>
+                                </div>
+                                <div class="badge bg-label-warning ms-auto">Medium</div>
+                            </div>
+                            <hr />
+                            <div className="d-flex align-items-center">
+                                <i class='bx bx-list-ul me-3'></i>
+                            <div>
+                            <p className="text-start mb-0">Bersihkan Sapi</p>
+                            <p className="text-start mb-0">20/12/2024</p>
+                                </div>
+                                <div class="badge bg-label-warning ms-auto">Medium</div>
+                            </div>
+                            <hr />
+                            <div className="d-flex align-items-center">
+                                <i class='bx bx-list-ul me-3'></i>
+                            <div>
+                            <p className="text-start mb-0">Timbang Sapi</p>
+                            <p className="text-start mb-0">20/12/2024</p>
+                                </div>
+                                <div class="badge bg-label-success ms-auto">Low</div>
+                            </div>
+                            <hr />
+                            <p className="text-center mb-0">
+                                <Link to='/task'>Lihat Semua Tugas</Link>
+                            </p>
                         </div>
                     </div>
                 </div>
