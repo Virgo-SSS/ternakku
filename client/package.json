@@ -24,7 +24,6 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.3.5",
     "react-flatpickr": "^3.10.13",
-    "react-modal": "^3.16.1",
     "react-number-format": "^5.4.2",
     "react-router-dom": "^6.28.0",
     "react-select": "^5.8.3",

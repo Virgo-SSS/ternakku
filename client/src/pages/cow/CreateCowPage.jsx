@@ -10,6 +10,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 export const CreateCowPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const Navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         status: '',
@@ -39,8 +40,10 @@ export const CreateCowPage = () => {
     };
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
         try {
-            e.preventDefault();
             const response = await axiosPrivate.post('/cow', formData);
 
             withReactContent(Swal).fire({
@@ -52,7 +55,6 @@ export const CreateCowPage = () => {
                 Navigate('/ternak');
             });
         } catch (error) {
-            console.log(error)
             withReactContent(Swal).fire({
                 title: 'Error',
                 text: error.response?.data?.message || error.message || 'Something went wrong',
@@ -60,6 +62,8 @@ export const CreateCowPage = () => {
                 confirmButtonText: 'OK'
             });
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -133,7 +137,15 @@ export const CreateCowPage = () => {
                                     </select>
                                 </div>
                                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button type="submit" className="btn btn-primary" >Submit</button>
+                                    {
+                                        isLoading ? (
+                                            <div className="d-flex justify-content-center">
+                                                <div className="spinner-border text-primary" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        ) : <button type="submit" className="btn btn-primary" >Tambah</button>
+                                    }
                                 </div>
                             </form>
                         </div>

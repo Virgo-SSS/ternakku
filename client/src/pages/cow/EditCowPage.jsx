@@ -14,6 +14,7 @@ export const EditCowPage = () => {
     
     const Navigate = useNavigate();
     const [cow, setCow] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         status: '',
@@ -58,7 +59,6 @@ export const EditCowPage = () => {
                     type: response.data.data.type,
                     is_bought: response.data.data.is_bought,
                 });
-
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
@@ -76,6 +76,7 @@ export const EditCowPage = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         try {
             const response = await axiosPrivate.put(`/cow/${id}`, formData);
@@ -96,6 +97,8 @@ export const EditCowPage = () => {
                 confirmButtonText: 'OK'
             });
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -177,7 +180,15 @@ export const EditCowPage = () => {
                                     </div>
                                 </div>
                                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <button type="submit" className="btn btn-primary" >Update</button>
+                                    {
+                                        isLoading ? (
+                                            <div className="d-flex justify-content-center">
+                                                <div className="spinner-border text-primary" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        ) : <button type="submit" className="btn btn-primary" >Update</button>
+                                    }
                                 </div>
                             </form>
                         </div>

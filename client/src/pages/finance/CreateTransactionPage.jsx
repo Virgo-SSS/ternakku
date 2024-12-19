@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import CreatableSelect from 'react-select/creatable';
 import { NumericFormat } from 'react-number-format';
 import Flatpickr from "react-flatpickr";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const CreateTransactionPage = () => {
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [isCreateCategoryLoading, setIsCreateCategoryLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         type: "",
@@ -58,6 +61,7 @@ export const CreateTransactionPage = () => {
     const handleCreateCategory = async (name) => {
         try {
             setIsCreateCategoryLoading(true);
+
             const response = await axiosPrivate.post('/transaction/category', {
                 name: name
             });
@@ -69,7 +73,6 @@ export const CreateTransactionPage = () => {
 
             setCategories([...categories, data]);
             setIsCreateCategoryLoading(false);
-            
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -80,17 +83,12 @@ export const CreateTransactionPage = () => {
         }
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
         try {
             const response = await axiosPrivate.post('/transaction', formData);
-
-            withReactContent(Swal).fire({
-                title: 'Success',
-                text: response.data.message,
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
 
             setFormData({
                 name: "",
@@ -100,7 +98,18 @@ export const CreateTransactionPage = () => {
                 amount: "",
                 notes: ""
             });
+            
             setSelectedCategory(null);
+
+            withReactContent(Swal).fire({
+                title: 'Success',
+                text: response.data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                navigate('/keuangan');
+            });
+
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -109,6 +118,8 @@ export const CreateTransactionPage = () => {
                 confirmButtonText: 'OK'
             });
         }
+
+        setIsLoading(false);
     }
 
     return (
@@ -147,6 +158,7 @@ export const CreateTransactionPage = () => {
                                         onChange={handleChangeData}
                                         value={formData.type}
                                     >
+                                        <option value="">Pilih tipe</option>
                                         <option value="1">Income</option>
                                         <option value="2">Expense</option>
                                     </select>
@@ -237,10 +249,16 @@ export const CreateTransactionPage = () => {
                                     ></textarea>
                                 </div>
                             </div>
-                            <div className="row justify-content-end">
-                                <div className="col-sm-10">
-                                    <button aria-label='Create the transaction' type="submit" className="btn btn-primary">Create</button>
-                                </div>
+                            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                                {
+                                    isLoading ? (
+                                        <div className="d-flex justify-content-center">
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    ) : <button type="submit" className="btn btn-primary">Tambah</button>
+                                }
                             </div>
                         </form>
                     </div>

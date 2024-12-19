@@ -11,6 +11,7 @@ export const EditTransactionPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const axiosPrivate = useAxiosPrivate();
+    const [isLoading, setIsLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [isCreateCategoryLoading, setIsCreateCategoryLoading] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -24,55 +25,39 @@ export const EditTransactionPage = () => {
     });
 
     useEffect(() => {
-        const getTransaction = async () => {
+        const getTransactionData = async () => {
             try {
-                const response = await axiosPrivate.get(`/transaction`, {
-                    params: {
-                        id: id
-                    }
-                });
+                const [transactionCategoryResponse, transactionResponse] = await Promise.all([
+                    axiosPrivate.get('/transaction/category'),
+                    axiosPrivate.get(`/transaction`, {
+                        params: {
+                            id: id
+                        }
+                    })
+                ]);
 
-                const data = response.data.data[0];
-                setFormData({
-                    name: data.name,
-                    type: data.type,
-                    category: data.category,
-                    date: data.date,
-                    amount: data.amount,
-                    notes: data.notes
-                });
-
-                setSelectedCategory({
-                    value: data.category,
-                    label: data.category_name
-                });
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response?.data?.message || error.message || 'Something went wrong',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
-
-        getTransaction();
-    }, []);
-
-    useEffect(() => {
-        const getTransacationCategories = async () => {
-            try {
-                const response = await axiosPrivate.get('/transaction/category');
-
-                const data = [];
-                response.data.data.forEach((category) => {
-                    data.push({
+                const dataTransaactionCategories = [];
+                transactionCategoryResponse.data.data.forEach((category) => {
+                    dataTransaactionCategories.push({
                         value: category.id,
                         label: category.name
                     });
                 });
+                setCategories(dataTransaactionCategories);
 
-                setCategories(data);
+                const dataTransaction = transactionResponse.data.data[0];
+                setFormData({
+                    name: dataTransaction.name,
+                    type: dataTransaction.type,
+                    category: dataTransaction.category,
+                    date: dataTransaction.date,
+                    amount: dataTransaction.amount,
+                    notes: dataTransaction.notes
+                });
+                setSelectedCategory({
+                    value: dataTransaction.category,
+                    label: dataTransaction.category_name
+                });
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
@@ -83,7 +68,7 @@ export const EditTransactionPage = () => {
             }
         }
 
-        getTransacationCategories();
+        getTransactionData();
     }, []);
 
     const handleCreateCategory = async (name) => {
@@ -119,6 +104,7 @@ export const EditTransactionPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         try {
             const response = await axiosPrivate.put(`/transaction/${id}`, formData);
@@ -131,7 +117,6 @@ export const EditTransactionPage = () => {
             }).then(() => {
                 navigate('/keuangan/detail');
             });
-
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -140,6 +125,8 @@ export const EditTransactionPage = () => {
                 confirmButtonText: 'OK'
             });
         }
+
+        setIsLoading(false);
     }
     
     return (
@@ -268,10 +255,16 @@ export const EditTransactionPage = () => {
                                     ></textarea>
                                 </div>
                             </div>
-                            <div className="row justify-content-end">
-                                <div className="col-sm-10">
-                                    <button aria-label='Create the transaction' type="submit" className="btn btn-primary">Update</button>
-                                </div>
+                            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                                {
+                                    isLoading ? (
+                                        <div className="d-flex justify-content-center">
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    ) : <button type="submit" className="btn btn-primary">Update</button>
+                                }
                             </div>
                         </form>
                     </div>

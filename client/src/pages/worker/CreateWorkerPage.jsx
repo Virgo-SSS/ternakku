@@ -4,12 +4,10 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import useAxiosPrivate from "../../hooks/useAxiosPrivate.jsx";
 
-export const EditWorkerPage = () => {
-    let { id } = useParams();
+export const CreateWorkerPage = () => {
     const axiosPrivate = useAxiosPrivate();
     const Navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [worker, setWorker] = useState({});
     const [formData, setFormData] = useState({
         name: '',
         gender: '',
@@ -24,52 +22,30 @@ export const EditWorkerPage = () => {
         });
     }
 
-    useEffect(() => {
-        const getWorker = async () => {
-            try {
-                const response = await axiosPrivate.get(`/worker`, {
-                    params: {
-                        id: id
-                    }
-                });
-
-                setWorker(response.data.data[0]);
-
-                setFormData({
-                    name: response.data.data[0].name,
-                    gender: response.data.data[0].gender,
-                    phone_number: response.data.data[0].phone_number,
-                    email: response.data.data[0].email
-                });
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response?.data?.message || error.message || 'Something went wrong',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-        }
-
-        getWorker();
-    }, [id]);
-    
-    const handleUpdate = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         setIsLoading(true);
 
         try {
-            await axiosPrivate.put(`/worker/${id}`, formData);
+            const response = await axiosPrivate.post('/worker', formData);
+
+            // Reset the form
+            setFormData({
+                name: '',
+                gender: '',
+                phone_number: '',
+                email: '',
+            });
 
             withReactContent(Swal).fire({
                 title: 'Success',
-                text: 'Data pekerja berhasil diupdate',
+                text: response.data.message,
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then(() => {
-                // redirect to worker list page
                 Navigate('/pekerja');
             });
+
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -86,10 +62,10 @@ export const EditWorkerPage = () => {
         <>
             <div className="card mb-6">
                 <div className="card-header d-flex justify-content-between align-items-center">
-                    <h5 className="mb-0">Edit Pekerja</h5> <small className="text-body float-end">{worker.name}</small>
+                    <h5 className="mb-0">Tambah Pekerja</h5>
                 </div>
                 <div className="card-body">
-                    <form onSubmit={handleUpdate}>
+                    <form onSubmit={handleSubmit}>
                         <div className="card-body">
                             <div className="mb-2 p-auto">
                                 <label className="form-label" htmlFor="name"><b>Nama</b></label>
@@ -98,7 +74,7 @@ export const EditWorkerPage = () => {
 
                             <div className="mb-2 p-auto">
                                 <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
-                                <select name="gender" id="gender" required className="form-select" value={formData.gender} onChange={handleChange}>
+                                <select name="gender" id="gender" value={formData.gender} onChange={handleChange} required className="form-select">
                                     <option value="">Pilih Jenis Kelamin</option>
                                     <option value="M">Laki-Laki</option>
                                     <option value="F">Perempuan</option>
@@ -112,7 +88,7 @@ export const EditWorkerPage = () => {
 
                             <div className="mb-2 p-auto">
                                 <label className="form-label" htmlFor="email"><b>Email</b></label>
-                                <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="form-control" required placeholder="peternak@gmail.com"/>
+                                <input type="email" id="email" name="email" className="form-control" value={formData.email} onChange={handleChange} required placeholder="peternak@gmail.com"/>
                             </div>
                         </div>
                         <div className="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -123,7 +99,7 @@ export const EditWorkerPage = () => {
                                             <span className="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
-                                ) : <button type="submit" className="btn btn-primary">Update</button>
+                                ) : <button type="submit" className="btn btn-primary" >Tambah</button>
                             }
                         </div>
                     </form>

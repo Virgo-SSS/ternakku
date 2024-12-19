@@ -82,29 +82,34 @@ export const CowPage = () => {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-            try {
-                await axiosPrivate.delete(`/cow/${id}`);
+            cancelButtonText: 'Tidak',
+            allowOutsideClick: () => !Swal.isLoading(),
+            allowEscapeKey: () => !Swal.isLoading(),
+            loaderHtml: `<div className="spinner-border text-primary ms-2" role="status">
+                            <span className="visually-hidden"></span>
+                        </div>`,
+            preConfirm: async () => {
+                Swal.showLoading()
+                try {
+                    await axiosPrivate.delete(`/cow/${id}`);
 
-                setCows(cows.filter((cow) => cow.id !== id));
+                    setCows(cows.filter((cow) => cow.id !== id));
 
-                withReactContent(Swal).fire({
-                    title: 'Success',
-                    text: 'Data sapi berhasil dihapus',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response?.data?.message || error.message || 'Something went wrong',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
-            }
+                    withReactContent(Swal).fire({
+                        title: 'Success',
+                        text: 'Data sapi berhasil dihapus',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } catch (error) {
+                    withReactContent(Swal).fire({
+                        title: 'Error',
+                        text: error.response?.data?.message || error.message || 'Something went wrong',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
         });
     };
 
