@@ -87,7 +87,7 @@ const FinanceCard = () => {
                             <div className="card-title d-flex align-items-start justify-content-between">
                                 <div className="avatar flex-shrink-0">
                                     <img aria-label='dsahboard icon image'
-                                        src="/assets/img/icons/unicons/profit.png"
+                                        src="/assets/img/icons/profit.png"
                                         alt="chart success"
                                         className="rounded"
                                     />
@@ -126,7 +126,7 @@ const FinanceCard = () => {
                             <div className="card-title d-flex align-items-start justify-content-between">
                                 <div className="avatar flex-shrink-0">
                                     <img aria-label='dsahboard icon image'
-                                        src="/assets/img/icons/unicons/sales.png"
+                                        src="/assets/img/icons/sales.png"
                                         alt="Credit Card"
                                         className="rounded"
                                     />
@@ -311,48 +311,48 @@ const UpcomingDeadlineTask = () => {
                                 <h5 className="card-title m-0 mb-2">Daftar Tugas Mendatang</h5>
                             </div>
                             <div className="d-flex align-items-center">
-                                <i class='bx bx-list-ul me-3'></i>
+                                <i className='bx bx-list-ul me-3'></i>
                             <div>
                                 <p className="text-start mb-0">Pakan Sapi</p>
                                 <p className="text-start mb-0">20/12/2024</p>
                             </div>
-                                <div class="badge bg-label-danger ms-auto">High</div>
+                                <div className="badge bg-label-danger ms-auto">High</div>
                             </div>
                             <hr />
                             <div className="d-flex align-items-center">
-                                <i class='bx bx-list-ul me-3'></i>
+                                <i className='bx bx-list-ul me-3'></i>
                             <div>
                             <p className="text-start mb-0">Bersihkan Kandang</p>
                             <p className="text-start mb-0">20/12/2024</p>
                             </div>
-                                <div class="badge bg-label-danger ms-auto">High</div>
+                                <div className="badge bg-label-danger ms-auto">High</div>
                             </div>
                             <hr />
                             <div className="d-flex align-items-center">
-                                <i class='bx bx-list-ul me-3'></i>
+                                <i className='bx bx-list-ul me-3'></i>
                             <div>
                             <p className="text-start mb-0">Vaksin Sapi</p>
                             <p className="text-start mb-0">20/12/2024</p>
                                 </div>
-                                <div class="badge bg-label-warning ms-auto">Medium</div>
+                                <div className="badge bg-label-warning ms-auto">Medium</div>
                             </div>
                             <hr />
                             <div className="d-flex align-items-center">
-                                <i class='bx bx-list-ul me-3'></i>
+                                <i className='bx bx-list-ul me-3'></i>
                             <div>
                             <p className="text-start mb-0">Bersihkan Sapi</p>
                             <p className="text-start mb-0">20/12/2024</p>
                                 </div>
-                                <div class="badge bg-label-warning ms-auto">Medium</div>
+                                <div className="badge bg-label-warning ms-auto">Medium</div>
                             </div>
                             <hr />
                             <div className="d-flex align-items-center">
-                                <i class='bx bx-list-ul me-3'></i>
+                                <i className='bx bx-list-ul me-3'></i>
                             <div>
                             <p className="text-start mb-0">Timbang Sapi</p>
                             <p className="text-start mb-0">20/12/2024</p>
                                 </div>
-                                <div class="badge bg-label-success ms-auto">Low</div>
+                                <div className="badge bg-label-success ms-auto">Low</div>
                             </div>
                             <hr />
                             <p className="text-center mb-0">
@@ -390,7 +390,7 @@ const Cows = () => {
 
     return (
         <>
-                <div class="card">
+                <div className="card">
                 <div className="card-header d-flex align-items-center justify-content-between pb-0">
                     <div className="card-title mb-0">
                         <h5 className="m-0 me-2">Sapi</h5>

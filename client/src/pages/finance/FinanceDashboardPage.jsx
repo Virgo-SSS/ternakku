@@ -149,7 +149,7 @@ const MonthlyCard = ({title, money, percentage}) => {
                     <div className="card-body">
                         <div className="card-title d-flex align-items-start justify-content-between mb-4">
                             <div className="avatar flex-shrink-0">
-                                <img src="../../assets/img/icons/unicons/wallet-info.png" alt="wallet info"
+                                <img src="../../assets/img/icons/wallet-info.png" alt="wallet info"
                                     className="rounded" />
                             </div>
                         </div>
