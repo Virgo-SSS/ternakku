@@ -18,7 +18,7 @@ export const ProfilePage = () => {
                         <div className="card-body">
                             <div className="user-avatar-section">
                                 <div className="d-flex align-items-center flex-column">
-                                    <img className="img-fluid rounded mb-4" src="../../assets/img/avatars/1.png" height="300" width="200" alt="User avatar"/>
+                                    <img className="img-fluid rounded mb-4" src="../assets/img/default-profile-picture.png" height="300" width="200" alt="User avatar"/>
                                     <div className="user-info text-center">
                                     <h3 className='mb-0'><b>{auth?.user?.name}</b></h3>
                                     <h5 className="d-flex justify-content-center">Email: {auth?.user?.email}</h5>
