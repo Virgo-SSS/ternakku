@@ -105,31 +105,35 @@ export const FinanceDetailPage = () => {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak'
-        }).then(async (result) => {
-            if (!result.isConfirmed) {
-                return;
-            }
-            
-            try {
-                await axiosPrivate.delete(`/transaction/${id}`);
+            cancelButtonText: 'Tidak',
+            allowOutsideClick: () => !Swal.isLoading(),
+            allowEscapeKey: () => !Swal.isLoading(),
+            loaderHtml: `<div className="spinner-border text-primary ms-2" role="status">
+                            <span className="visually-hidden"></span>
+                        </div>`,
+            preConfirm: async () => {
+                Swal.showLoading()
 
-                withReactContent(Swal).fire({
-                    title: 'Success',
-                    text: 'Data berhasil dihapus',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
+                try {
+                    const response = await axiosPrivate.delete(`/transaction/${id}`);
+    
+                    setTransactions(transactions.filter(transaction => transaction.id !== id));
 
-                setTransactions(transactions.filter(transaction => transaction.id !== id));
-            } catch (error) {
-                withReactContent(Swal).fire({
-                    title: 'Error',
-                    text: error.response?.data?.message || error.message || 'Something went wrong',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
+                    withReactContent(Swal).fire({
+                        title: 'Success',
+                        text: response.data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                } catch (error) {
+                    withReactContent(Swal).fire({
+                        title: 'Error',
+                        text: error.response?.data?.message || error.message || 'Something went wrong',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            },
         });
     }
 
