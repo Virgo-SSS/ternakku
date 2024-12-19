@@ -6,9 +6,9 @@ import 'dotenv/config'
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3307,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'ternakku_db',
+    user: process.env.DB_USERNAME || 'root',
+    password: process.env.DB_PASSWORD || '',
 });
 
 export default db.promise();
