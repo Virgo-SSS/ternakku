@@ -45,7 +45,7 @@ export const CreateTransactionPage = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message || error.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -73,7 +73,7 @@ export const CreateTransactionPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message,
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -104,7 +104,7 @@ export const CreateTransactionPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message,
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

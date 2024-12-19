@@ -64,7 +64,7 @@ const Monthly = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message || "Something went wrong",
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -198,7 +198,7 @@ const Category = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message || error.message || "Something went wrong",
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -374,7 +374,7 @@ const ProfitAndLossStatement = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message || error.message || "Something went wrong",
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });

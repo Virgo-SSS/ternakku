@@ -57,7 +57,7 @@ export const CalendarPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message,
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -99,7 +99,7 @@ export const CalendarPage = () => {
 
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error || 'Something went wrong',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -126,7 +126,7 @@ export const CalendarPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error || 'Something went wrong',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -179,7 +179,7 @@ export const CalendarPage = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error || error.response.data.message || 'Something went wrong',
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
