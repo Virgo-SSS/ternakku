@@ -15,7 +15,7 @@ passport.use('jwt', JwtStrategy.strategy());
 app.use(cookieParser());
 app.use(json());    
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow requests from this origin
+    origin: ['http://localhost:5173', 'https://ternakku.vercel.app'], // Allow requests from this origin
     credentials: true,              // Allow cookies and other credentials
 }))
 app.use('/' , routesV1);
