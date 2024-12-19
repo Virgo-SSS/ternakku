@@ -13,16 +13,14 @@ import { CreateTransactionPage } from "../pages/finance/CreateTransactionPage";
 import { WorkerPage } from "../pages/worker/WorkerPage";
 import { EditWorkerPage } from "../pages/worker/EditWorkerPage";
 import { ProfilePage } from "../pages/profile/ProfilePage";
-
+import { CreateWorkerPage } from "../pages/worker/CreateWorkerPage";
 import { EditCowPage } from "../pages/cow/EditCowPage";
 import { FinanceDetailPage } from "../pages/finance/FinanceDetailPage";
 import { EditTransactionPage } from "../pages/finance/EditTransacationPage";
-
 import { AccountPage } from "../pages/account/AccountPage";
 import { Connections } from "../pages/account/ConnectionsPage";
 import { NotificationPage } from "../pages/account/NotificationPage";
 import { MaintenancePage } from "../pages/misc/MaintenancePage";
-
 import Home from "../pages/Home";
 import { Navigate } from "react-router-dom";
 import RequireAuth from "../components/auth/RequireAuth";
@@ -47,6 +45,7 @@ const AppRoutes = () => {
                 <Route path="/task" element={<TaskPage />} />
                 
                 <Route path="/pekerja" element={<WorkerPage />} />
+                <Route path="/pekerja/create" element={<CreateWorkerPage />} />
                 <Route path="/pekerja/:id" element={<EditWorkerPage />} />
 
                 {/* Finance */}
