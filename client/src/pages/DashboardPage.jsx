@@ -183,7 +183,7 @@ const StatusTasks = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -291,7 +291,7 @@ const UpcomingDeadlineTask = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -378,7 +378,7 @@ const Cows = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -448,7 +448,7 @@ const Tasks = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });

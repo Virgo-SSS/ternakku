@@ -62,7 +62,7 @@ export const EditCowPage = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message || error.message || 'Something went wrong',
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -91,7 +91,7 @@ export const EditCowPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message || 'Something went wrong',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

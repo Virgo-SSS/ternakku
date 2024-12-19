@@ -49,7 +49,7 @@ export const EditTransactionPage = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error || error.response.data.message || error.message || 'Something went wrong',
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -76,7 +76,7 @@ export const EditTransactionPage = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message || error.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -103,7 +103,7 @@ export const EditTransactionPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message,
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -135,7 +135,7 @@ export const EditTransactionPage = () => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error.message,
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });

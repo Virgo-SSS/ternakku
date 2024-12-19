@@ -40,7 +40,7 @@ const Board = () => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response.data.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -135,7 +135,7 @@ const Column = ({ title, column, tasks, setTasks }) => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error || 'Failed to update task status',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -375,7 +375,7 @@ const DeleteBarrel = ({ setTasks }) => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error || 'Something went wrong',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
@@ -431,7 +431,7 @@ const AddBarrel = ({ setTasks }) => {
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
-                    text: error.response?.data?.message,
+                    text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -485,7 +485,7 @@ const AddBarrel = ({ setTasks }) => {
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
-                text: error.response.data.message || error || 'Something went wrong',
+                text: error.response?.data?.message || error.message || 'Something went wrong',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
