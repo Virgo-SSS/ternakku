@@ -6,6 +6,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
 export const RegisterPage = () => {
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -25,8 +26,13 @@ export const RegisterPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setIsLoading(true);
         try {
+            // validate password
+            if (formData.password !== formData.confirmPassword) {
+                throw new Error('Password and Confirm Password must be the same');
+            }
+
             const response = await axios.post('/register', formData);
 
             // Reset the form
@@ -44,7 +50,6 @@ export const RegisterPage = () => {
                 icon: 'success',
                 confirmButtonText: 'OK'
             });
-
         } catch (error) {
             withReactContent(Swal).fire({
                 title: 'Error',
@@ -54,11 +59,11 @@ export const RegisterPage = () => {
             });
         }
 
+        setIsLoading(false);
     };
 
     return (
         <AuthWrapper>
-
             <h4 className="mb-2">Selamat Datang di Ternakku! 👋</h4>
             <p className="mb-4">Masuk dan kelola peternakan Anda dengan mudah!</p>
 
@@ -137,8 +142,17 @@ export const RegisterPage = () => {
                     </div>
                 </div>
                 
-                <button aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar
-                </button>
+                {
+                    isLoading ? (
+                        <div className="d-flex justify-content-center">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                    ) : (
+                        <button type="submit" aria-label='Click me' className="btn btn-primary d-grid w-100">Daftar</button>
+                    )
+                }
             </form>
 
             <p className="text-center">

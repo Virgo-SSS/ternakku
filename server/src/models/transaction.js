@@ -12,7 +12,7 @@ const fields = [
 ];
 
 const all = async (filters = {}) => {
-    let select = 't.id, t.name, DATE_FORMAT(t.date, "%Y-%m-%d") as date, t.amount, t.type, t.notes, t.category, tc.name as category_name';
+    let select = `t.id, t.name, DATE_FORMAT(t.date, '%Y-%m-%d') as date, t.amount, t.type, t.notes, t.category, tc.name as category_name`;
     let query = 'SELECT ' + select + ' FROM transactions as t';
     query += ' JOIN transaction_categories as tc ON t.category = tc.id';
     

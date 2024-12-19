@@ -10,7 +10,6 @@ const strategy = () => {
         passReqToCallback: true 
     }, async (req, username, password, done) => {
         // STEP 2 OF AUTHENTICATION: Verify the user's credentials
-        console.log(`Step 2: Verify the user's credentials: ${username} and ${password}`);
     
         try {
             // find the user by their email 
