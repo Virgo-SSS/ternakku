@@ -307,7 +307,7 @@ const UserProfile = () => {
                 <a aria-label='dropdown profile avatar' className="nav-link dropdown-toggle hide-arrow" href="#"
                     data-bs-toggle="dropdown">
                     <div className="avatar avatar-online">
-                        <img src="../assets/img/avatars/1.png" className="w-px-40 h-auto rounded-circle"
+                        <img src="../assets/img/default-profile-picture.png" className="w-px-40 h-auto rounded-circle"
                             alt="avatar-image" aria-label='Avatar Image' />
                     </div>
                 </a>
@@ -317,7 +317,7 @@ const UserProfile = () => {
                             <div className="d-flex">
                                 <div className="flex-shrink-0 me-3">
                                     <div className="avatar avatar-online">
-                                        <img src="../assets/img/avatars/1.png" className="w-px-40 h-auto rounded-circle"
+                                        <img src="../assets/img/default-profile-picture.png" className="w-px-40 h-auto rounded-circle"
                                             alt='avatar-image' aria-label='Avatar Image' />
                                     </div>
                                 </div>
