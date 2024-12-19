@@ -1,4 +1,4 @@
-import UserModel from '../models/user.js';
+import UserModel from '../models/userModel.js';
 import 'dotenv/config'
 import LocalStrategy from 'passport-local';
 import bcrypt from 'bcrypt';

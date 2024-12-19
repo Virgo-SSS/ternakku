@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
-import UserModel from '../models/user.js';
+import UserModel from '../models/userModel.js';
 
 // TODO: ADD VALIDATION
 const login = async (req, res, next) => {

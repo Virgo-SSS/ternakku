@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import UserModel from '../models/user.js';
+import UserModel from '../models/userModel.js';
 import UserProfileModel from '../models/user-profile.js';
 
 // TODO: Add validation
