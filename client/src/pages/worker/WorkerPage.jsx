@@ -62,17 +62,22 @@ export const WorkerPage = () => {
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
+            cancelButtonText: 'Tidak',
+            allowOutsideClick: () => !Swal.isLoading(),
+            allowEscapeKey: () => !Swal.isLoading(),
+            loaderHtml: `<div className="spinner-border text-primary ms-2" role="status">
+                            <span className="visually-hidden"></span>
+                        </div>`,
+            preConfirm: async () => {
+                Swal.showLoading()
                 try {
-                    await axiosPrivate.delete(`/worker/${id}`);
+                    const response = await axiosPrivate.delete(`/worker/${id}`);
                     
                     setWorkers(workers.filter(worker => worker.id !== id));
 
                     withReactContent(Swal).fire({
                         title: 'Success',
-                        text: 'Data berhasil dihapus',
+                        text: response.data.message,
                         icon: 'success',
                         confirmButtonText: 'OK'
                     });
@@ -84,9 +89,8 @@ export const WorkerPage = () => {
                         confirmButtonText: 'OK'
                     });
                 }
-            }
+            },
         });
-
     }
 
     useEffect(() => {

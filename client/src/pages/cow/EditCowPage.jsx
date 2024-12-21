@@ -120,6 +120,7 @@ export const EditCowPage = () => {
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="status"><b>Status</b></label>
                                         <select name="status" id="status" required className="form-select" value={formData.status} onChange={handleChange}>
+                                            <option value="">Pilih Status</option>
                                             {
                                                 Object.keys(CowHelper.getAllStatus()).map((key) => {
                                                     return (
@@ -133,6 +134,7 @@ export const EditCowPage = () => {
                                     <div className="mb-2 p-auto">
                                         <label className="form-label" htmlFor="gender"><b>Jenis Kelamin</b></label>
                                         <select name="gender" id="gender" required className="form-select" value={formData.gender} onChange={handleChange}>
+                                            <option value="">Pilih Jenis Kelamin</option>
                                             <option value="M">Jantan</option>
                                             <option value="F">Betina</option>
                                         </select>
@@ -172,8 +174,9 @@ export const EditCowPage = () => {
 
                                     <h5 className="text-primary mt-3 mb-2">Informasi Pembelian</h5>
                                     <div className="mb-3">
-                                        <label htmlFor="is_bought" className="form-label">Pembelian</label>
+                                        <label htmlFor="is_bought" className="form-label">Apakah sapi tersebut pembelian</label>
                                         <select id="is_bought" name="is_bought" value={formData.is_bought} onChange={handleChange} required className="form-select">
+                                            <option value="">Apakah Pembelian ?</option>
                                             <option value="1">Ya</option>
                                             <option value="0">Tidak</option>
                                         </select>

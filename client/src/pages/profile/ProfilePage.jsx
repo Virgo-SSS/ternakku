@@ -48,7 +48,8 @@ const ProfileFormSection = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: auth.user.name,
-        email: auth.user.email
+        email: auth.user.email,
+        phone_number: auth.user.phone_number,
     });
 
     const handleChange = (e) => {
@@ -74,6 +75,7 @@ const ProfileFormSection = () => {
             setFormData({
                 name: response.data.data.user.name,
                 email: response.data.data.user.email,
+                phone_number: response.data.data.user.phone_number
             });
 
             setAuth({
@@ -82,10 +84,10 @@ const ProfileFormSection = () => {
                     ...auth.user,
                     name: response.data.data.user.name,
                     email: response.data.data.user.email,
+                    phone_number: response.data.data.user.phone_number
                 }
             });
         } catch (error) {
-            console.log(error);
             withReactContent(Swal).fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -106,17 +108,22 @@ const ProfileFormSection = () => {
                             <label htmlFor="name" className="col-md-2 col-form-label">Name</label>
                             <input type="text" className="form-control" id="name" name="name" value={formData.name} onChange={handleChange} required placeholder="Edit Your name"/>  
                         </div>
-
                         <div>
                             <label htmlFor="email" className="col-md-2 col-form-label">Email</label>
                             <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="name@example.com"/>     
-                            <button type="submit" className="btn btn-primary mt-5 mb-10">Save</button>  
-                            {
-                                isLoading && <div className="spinner-border text-primary" role="status">
-                                    <span className="visually-hidden">Loading...</span>
-                                </div>
-                            }
                         </div>
+
+                        <div>
+                            {/* hpone number */}
+                            <label htmlFor="phone_number" className="col-md-2 col-form-label">Phone Number</label>
+                            <input type="text" className="form-control" id="phone_number" name="phone_number" value={formData.phone_number} onChange={handleChange} required placeholder="Edit Your phone number"/>
+                        </div>
+                        <button type="submit" className="btn btn-primary mt-5 mb-10">Update</button>
+                        {
+                            isLoading && <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        }
                     </form>  
                 </div>
             </div>
