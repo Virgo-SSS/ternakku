@@ -9,6 +9,20 @@ const create = async (data) => {
     return db.execute(query, values);
 }
 
+const findByUserId = async (userId) => {
+    return db.execute('SELECT * FROM user_profiles WHERE user_id = ?', [userId]);
+}
+
+const update = async(userId, data) => {
+    const keys = Object.keys(data);
+    const values = Object.values(data);
+
+    const query = "UPDATE user_profiles SET " + keys.join(' = ?, ') + ' = ? WHERE user_id = ?';
+    return db.execute(query, [...values, userId]);
+}
+
 export default {
-    create
+    create,
+    findByUserId,
+    update
 }

@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import 'dotenv/config'
 import UserModel from '../models/userModel.js';
+import UserProfileModel from '../models/user-profile.js';
 
 // TODO: ADD VALIDATION
 const login = async (req, res, next) => {
@@ -18,6 +19,12 @@ const login = async (req, res, next) => {
         }
 
         const user = rows[0];
+        const [ userProfile ] = await UserProfileModel.findByUserId(user.id);
+        
+        if(userProfile.length !== 0) {
+            user.phone_number = userProfile[0].phone_number;
+            user.profile_picture = userProfile[0].profile_picture;
+        }
 
         if (!await bcrypt.compare(body.password, user.password)) {
             return res.status(401)
@@ -50,6 +57,8 @@ const login = async (req, res, next) => {
                     id: user.id,
                     name: user.name,
                     email: user.email,
+                    phone_number: user?.phone_number || null,
+                    profile_picture: user?.profile_picture || null
                 },
                 token: "Bearer " + accessToken,
             }

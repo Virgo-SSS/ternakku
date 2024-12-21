@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js';
+import UserModel from '../models/userModel.js';
+import UserProfileModel from '../models/user-profile.js';
 
 const refreshToken = async (req, res) => {
     try {
-        const cookies = req.cookies;
-
         const refreshToken = req.cookies.ternakku_refresh_token;
 
         if (!refreshToken) {
@@ -14,7 +13,7 @@ const refreshToken = async (req, res) => {
             });
         }
 
-        const [ rows ] = await User.findByRefreshToken(refreshToken);
+        const [ rows ] = await UserModel.findByRefreshToken(refreshToken);
 
         if (rows.length === 0) {
             return res.status(403).json({ 
@@ -22,6 +21,8 @@ const refreshToken = async (req, res) => {
                 message: 'Invalid refresh token' 
             });
         }
+
+        const [ rowsProfile ] = await UserProfileModel.findByUserId(rows[0].id);
 
         jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => {
             if (err) {
@@ -40,7 +41,9 @@ const refreshToken = async (req, res) => {
                     user: {
                         id: rows[0].id,
                         name: rows[0].name,
-                        email: rows[0].email
+                        email: rows[0].email,
+                        phone_number: rowsProfile[0]?.phone_number || null,
+                        profile_picture: rowsProfile[0]?.profile_picture || null
                     },
                     token: `Bearer ${accessToken}`
                 }

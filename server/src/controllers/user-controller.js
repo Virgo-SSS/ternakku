@@ -1,12 +1,13 @@
-import User from '../models/userModel.js';
+import UserModel from '../models/userModel.js';
+import UserProfileModel from '../models/user-profile.js';
 import bcrypt from 'bcrypt';
 
 const update = async (req, res) => {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name, email, phone_number } = req.body;
 
     try {
-        const [ rows ] = await User.findById(id);
+        const [ rows ] = await UserModel.findById(id);
         const user = rows[0];
 
         if (rows.length === 0) {
@@ -21,18 +22,21 @@ const update = async (req, res) => {
             }
         }
 
-        await User.update(id, { name, email });
+        await UserModel.update(id, { name, email });
+        await UserProfileModel.update(user.id, { phone_number });
 
-        const [ updatedRows ] = await User.findById(id);
+        const [ updatedUserRows ] = await UserModel.findById(id);
+        const [ updatedUserProfileRows ] = await UserProfileModel.findByUserId(user.id);
 
         return res.status(200).json({
             status: 'success',
             message: 'User updated successfully',
             data: {
                 user: {
-                    id: updatedRows[0].id,
-                    name: updatedRows[0].name,
-                    email: updatedRows[0].email,
+                    id: updatedUserRows[0].id,
+                    name: updatedUserRows[0].name,
+                    email: updatedUserRows[0].email,
+                    phone_number: updatedUserProfileRows[0].phone_number
                 }
             }
         })
@@ -47,7 +51,7 @@ const changePassword = async (req, res) => {
     const { old_password, new_password } = req.body;
 
     try {
-        const [ rows ] = await User.findById(id);
+        const [ rows ] = await UserModel.findById(id);
         const user = rows[0];
 
         if (rows.length === 0) {
@@ -60,14 +64,13 @@ const changePassword = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(new_password, 13)
-        await User.updatePassword(id, hashedPassword);
+        await UserModel.updatePassword(id, hashedPassword);
 
         return res.status(200).json({
             status: 'success',
             message: 'Password updated successfully'
         });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
