@@ -20,9 +20,8 @@ app.use(cors({
 }))
 app.use('/' , routesV1);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000 and ready to accept requests!');
+app.listen(process.env.PORT, () => {
+    console.log('Server is running on port ' + process.env.PORT + ' and environment is ' + process.env.NODE_ENV);
 });
-
 
 export default app;

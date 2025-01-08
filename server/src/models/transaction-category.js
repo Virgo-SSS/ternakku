@@ -1,12 +1,36 @@
 import db from '../config/database.js';
 
 const fields = [
-    'id',
+    'user_id',
     'name'
 ];
 
-const all = async () => {
-    return db.execute("SELECT * FROM transaction_categories");
+const all = async (filters = {}) => {
+    let query = `SELECT * FROM transaction_categories`;
+    const params = [];
+
+    // Add filtering conditions dynamically
+    const conditions = []; 
+    
+    Object.entries(filters).map(([key, value]) => {
+        if (value !== '' && value !== null && value !== undefined) {
+            if (key === 'name') {
+                params.push(`%${value}%`);
+                conditions.push(`${key} LIKE ?`);
+                return;
+            }
+
+            params.push(value);
+            conditions.push(`${key} = ?`);
+            return;
+        }
+    });
+
+    if (conditions.length) {
+        query += ` WHERE ${conditions.join(' AND ')}`;
+    }
+    
+    return db.execute(query, params);
 }
 
 const create = async (data) => {
