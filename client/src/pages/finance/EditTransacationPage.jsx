@@ -29,12 +29,12 @@ export const EditTransactionPage = () => {
             try {
                 const [transactionCategoryResponse, transactionResponse] = await Promise.all([
                     axiosPrivate.get('/transaction/category'),
-                    axiosPrivate.get(`/transaction`, {
-                        params: {
-                            id: id
-                        }
-                    })
+                    axiosPrivate.get(`/transaction/${id}`)
                 ]);
+
+                if(transactionResponse.data.data.length === 0) {
+                    throw new Error(transactionResponse.data.message || 'Transaction not found');
+                }
 
                 const dataTransaactionCategories = [];
                 transactionCategoryResponse.data.data.forEach((category) => {
@@ -45,7 +45,7 @@ export const EditTransactionPage = () => {
                 });
                 setCategories(dataTransaactionCategories);
 
-                const dataTransaction = transactionResponse.data.data[0];
+                const dataTransaction = transactionResponse.data.data;
                 setFormData({
                     name: dataTransaction.name,
                     type: dataTransaction.type,
@@ -54,16 +54,22 @@ export const EditTransactionPage = () => {
                     amount: dataTransaction.amount,
                     notes: dataTransaction.notes
                 });
+
                 setSelectedCategory({
                     value: dataTransaction.category,
                     label: dataTransaction.category_name
                 });
+
             } catch (error) {
                 withReactContent(Swal).fire({
                     title: 'Error',
                     text: error.response?.data?.message || error.message || 'Something went wrong',
                     icon: 'error',
                     confirmButtonText: 'OK'
+                }).then(() => {
+                    if(error.response?.status === 404) {
+                        navigate('/keuangan/detail');
+                    }
                 });
             }
         }

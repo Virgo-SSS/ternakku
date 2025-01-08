@@ -38,13 +38,14 @@ router.get('/worker', authMiddleware, WorkerController.index);
 router.put('/worker/:id', authMiddleware, WorkerController.update);
 router.delete('/worker/:id', authMiddleware, WorkerController.destroy);
 
+router.get('/transaction/category', authMiddleware, TransactionCategoryController.index); // this method must be placed before the /transaction/:id (GET) route
+router.post('/transaction/category', authMiddleware, TransactionCategoryController.store);
+
 router.get('/transaction', authMiddleware,  TransactionController.index);
 router.post('/transaction', authMiddleware, TransactionController.store);
+router.get('/transaction/:id', authMiddleware, TransactionController.show);
 router.put('/transaction/:id', authMiddleware, TransactionController.update);
 router.delete('/transaction/:id', authMiddleware, TransactionController.destroy);
-
-router.get('/transaction/category', authMiddleware, TransactionCategoryController.index);
-router.post('/transaction/category', authMiddleware, TransactionCategoryController.store);
 
 router.get('/event', authMiddleware, EventController.index);
 router.post('/event', authMiddleware, EventController.store);

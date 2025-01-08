@@ -46,7 +46,7 @@ export const FinanceDashboardPage = () => {
 const Monthly = () => {
     const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
-    const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'));
     const [isLoading, setIsLoading] = useState(false);
 
     const getTransactions = async () => {
@@ -176,7 +176,7 @@ const Category = () => {
     const axiosPrivate = useAxiosPrivate();
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + (new Date().getMonth() + 1));
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getFullYear() + '-' + String(new Date().getMonth() + 1).padStart(2, '0'));
 
     const handleMonthChange = (value) => {
         setSelectedMonth(value);

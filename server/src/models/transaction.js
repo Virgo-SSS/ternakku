@@ -2,7 +2,7 @@ import db from '../config/database.js';
 import { GetFirstAndLastDate } from '../utils/utils.js';
 
 const fields = [
-    'id',
+    'user_id',
     'name',
     'date',
     'category',
@@ -83,17 +83,26 @@ const destroy = async (id) => {
     return db.execute('DELETE FROM transactions WHERE id = ?', [id]);
 }
 
-const exists = async (id) => {
-    return db.execute('SELECT EXISTS(SELECT 1 FROM transactions WHERE id = ? LIMIT 1) as exist', [id]);
+const findById = async (id, user_id) => {
+    let select = `t.id, t.name, DATE_FORMAT(t.date, '%Y-%m-%d') as date, t.amount, t.type, t.notes, t.category, tc.name as category_name`;
+    let query = 'SELECT ' + select + ' FROM transactions as t';
+    query += ' JOIN transaction_categories as tc ON t.category = tc.id';
+    query += ' WHERE t.id = ? AND t.user_id = ?';
+
+    return db.execute(query, [id, user_id]);
 }
 
-const update = async (id, data) => {
+const exists = async (id, user_id) => {
+    return db.execute('SELECT EXISTS(SELECT 1 FROM transactions WHERE id = ? AND user_id = ?) as exist', [id, user_id]);
+}
+
+const update = async (id, user_id, data) => {
     const keys = Object.keys(data).filter(key => fields.includes(key) && data[key] !== undefined);
     const values = keys.map(key => data[key]);
 
-    const query = "UPDATE transactions SET " + keys.map(key => key + ' = ?').join(', ') + " WHERE id = ?";
+    const query = "UPDATE transactions SET " + keys.map(key => key + ' = ?').join(', ') + " WHERE id = ? AND user_id = ?";
 
-    return db.execute(query, [...values, id]);
+    return db.execute(query, [...values, id, user_id]);
 }
 
 export default {
@@ -101,5 +110,6 @@ export default {
     create,
     destroy,
     exists,
-    update
+    update,
+    findById
 }

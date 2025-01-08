@@ -3,8 +3,11 @@ import TransactionModel from '../models/transaction.js';
 
 const index = async (req, res) => {
     try {
+        const user = req.user;
         const filters = req.query;
-        const [rows] = await TransactionModel.all(filters);
+        filters.user_id = user.id;
+        const [ rows ] = await TransactionModel.all(filters);
+
         res.status(200).json(
             {
                 status: 'success',
@@ -20,8 +23,10 @@ const index = async (req, res) => {
 const store = async (req, res) => {
     try {
         const { body } = req;
+        const { user } = req;
 
         const [rows] = await TransactionModel.create({
+            user_id: user.id,
             name: body.name,
             date: body.date,
             category: body.category,
@@ -36,6 +41,7 @@ const store = async (req, res) => {
             message: 'Transaction created successfully',
             data: {
                 id: rows.insertId,
+                user_id: user.id,
                 name: body.name,
                 date: body.date,
                 category: body.category,
@@ -49,13 +55,43 @@ const store = async (req, res) => {
     }
 }
 
+const show = async (req, res) => {
+    const { id } = req.params;
+    const user = req.user;
+
+    try {
+        let [rows, fields] = await TransactionModel.findById(id, user.id);
+
+        if(!rows[0]){
+            res.status(404).json(
+                {
+                    status: 'error',
+                    message: 'Transaction not found'
+                }
+            );
+            return;
+        }
+
+        res.status(200).json(
+            {
+                status: 'success',
+                message: 'Transaction retrieved successfully',
+                data: rows[0]
+            }
+        );
+    } catch(error){
+        res.status(500).send({message: error.message});
+    }
+}
+
 const update = async (req, res) => {
     const { id } = req.params;
+    const user = req.user;
     const body = req.body;
 
     try {
-        let [rows, fields] = await TransactionModel.exists(id);
-        
+        let [rows, fields] = await TransactionModel.exists(id, user.id);
+
         if(!rows[0].exist){
             res.status(404).json(
                 {
@@ -70,7 +106,8 @@ const update = async (req, res) => {
     }
 
     try {
-        await TransactionModel.update(id, body);
+        await TransactionModel.update(id, user.id, body);
+
         res.status(200).json(
             {
                 status: 'success',
@@ -88,9 +125,10 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
     const { id } = req.params;
+    const user = req.user;
     
     try {
-        let [rows, fields] = await TransactionModel.exists(id);
+        let [rows, fields] = await TransactionModel.exists(id, user.id);
         
         if(!rows[0].exist){
             res.status(404).json(
@@ -118,6 +156,7 @@ const destroy = async (req, res) => {
 export default {
     index,
     store,
-    destroy,
-    update
+    show,
+    update,
+    destroy
 }
