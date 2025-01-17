@@ -55,7 +55,7 @@ function Home() {
                 {
                     Keunggulan.map((item, index) => {
                         return (
-                            <div>
+                            <div key={index} className="flex flex-col md:w-1/3 p-5">
                                 {parse(item.content)}
                             </div>
                         )
