@@ -9,7 +9,7 @@ function Contact(props) {
                     {
                         props.ContactSection.map((item, index) => {
                             return (
-                                <div className="mx-auto">
+                                <div className="mx-auto" key={index}>
                                     {parse(item.content)}
                                 </div>
                             )

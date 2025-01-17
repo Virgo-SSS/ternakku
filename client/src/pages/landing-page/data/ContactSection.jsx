@@ -8,7 +8,7 @@ export const ContactSection = [
                     <p className="text-xs items-center max-w-screen-sm sm:flex sm:space-y-0">Subscribe to newsletter</p>
 
                     <div className="flex justify-left items-left">
-                      <label for="email" class="hidden">Email address</label>
+                      <label for="email" className="hidden">Email address</label>
                       <input className="flex justify-center items-center h-3 p-3 w-80% text-sm text-gray-900 bg-[#dde1bc] rounded-lg border-1 border-black sm:rounded-none sm:rounded-l-lg " placeholder="Your email" type="email" id="email" required="">
                       <a href="" type="submit" className="flex justify-center items-center border-1 border-[#93A603] h-3 p-3 w-80% text-sm font-medium text-white rounded-lg cursor-pointer bg-tw-primary hover:bg-[#7a8a07] sm:rounded-none sm:rounded-r-lg">Subscribe</a>
                     </div>
