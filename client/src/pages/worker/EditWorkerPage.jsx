@@ -14,7 +14,8 @@ export const EditWorkerPage = () => {
         name: '',
         gender: '',
         phone_number: '',
-        email: ''
+        email: '',
+        status: ''
     });
 
     const handleChange = (e) => {
@@ -27,19 +28,16 @@ export const EditWorkerPage = () => {
     useEffect(() => {
         const getWorker = async () => {
             try {
-                const response = await axiosPrivate.get(`/worker`, {
-                    params: {
-                        id: id
-                    }
-                });
+                const response = await axiosPrivate.get(`/worker/${id}`);
 
-                setWorker(response.data.data[0]);
+                setWorker(response.data.data);
 
                 setFormData({
-                    name: response.data.data[0].name,
-                    gender: response.data.data[0].gender,
-                    phone_number: response.data.data[0].phone_number,
-                    email: response.data.data[0].email
+                    name: response.data.data.name,
+                    gender: response.data.data.gender,
+                    phone_number: response.data.data.phone_number,
+                    email: response.data.data.email,
+                    status: response.data.data.status
                 });
             } catch (error) {
                 withReactContent(Swal).fire({
@@ -48,6 +46,9 @@ export const EditWorkerPage = () => {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
+
+                // redirect to worker list page
+                Navigate('/pekerja');
             }
         }
 
@@ -113,6 +114,15 @@ export const EditWorkerPage = () => {
                             <div className="mb-2 p-auto">
                                 <label className="form-label" htmlFor="email"><b>Email</b></label>
                                 <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="form-control" required placeholder="peternak@gmail.com"/>
+                            </div>
+
+                            <div className="mb-2 p-auto">
+                                <label className="form-label" htmlFor="status"><b>Status</b></label>
+                                <select name="status" id="status" required className="form-select" value={formData.status} onChange={handleChange}>
+                                    <option value="">Pilih Status</option>
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
+                                </select>
                             </div>
                         </div>
                         <div className="d-grid gap-2 d-md-flex justify-content-md-end">

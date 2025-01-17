@@ -1,5 +1,14 @@
 import db from '../config/database.js';
 
+const fields = [
+    'user_id',
+    'name',
+    'gender',
+    'phone_number',
+    'email',
+    'status'
+];
+
 const all = async (filters = {}) => {
     let query = 'SELECT * FROM workers';
     const params = [];
@@ -28,16 +37,16 @@ const all = async (filters = {}) => {
 }
 
 const create = async (data) => {
-    const keys = Object.keys(data);
-    const values = Object.values(data);
+    const keys = Object.keys(data).filter(key => fields.includes(key));
+    const values = keys.map(key => data[key]);
 
-    const query = "INSERT INTO workers (" + keys.join(', ') + ") VALUES ( ?" + ", ?".repeat(values.length - 1) + " )";
+    const query = "INSERT INTO workers (" + keys.join(', ') + ") VALUES (?" + ", ?".repeat(values.length - 1) + " )";
 
     return db.execute(query, values);
 }
 
-const findById = async (id) => {
-    const [rows, fields]  = await db.execute('SELECT * FROM workers WHERE id = ?', [id]);
+const findById = async (id, user_id) => {
+    const [rows, fields]  = await db.execute('SELECT * FROM workers WHERE id = ? AND user_id = ?', [id, user_id]);
     
     if (!rows.length) {
         throw new Error('Worker not found');
@@ -46,17 +55,17 @@ const findById = async (id) => {
     return rows[0];
 }
 
-const destroy = async (id) => {
-    return db.execute('DELETE FROM workers WHERE id = ?', [id]);
+const update = async(id, user_id, data) => {
+    const keys = Object.keys(data).filter(key => fields.includes(key) && data[key] !== undefined);
+    const values = keys.map(key => data[key]);
+
+    const query = "UPDATE workers SET " + keys.map(key => key + ' = ?').join(', ') +  " WHERE id = ? AND user_id = ?";
+
+    return db.execute(query, [...values, id, user_id]);
 }
 
-const update = async(id, data) => {
-    const keys = Object.keys(data);
-    const values = Object.values(data);
-
-    const query = "UPDATE workers SET " + keys.map(key => `${key} = ?`).join(', ') + " WHERE id = ?";
-
-    return db.execute(query, [...values, id]);
+const destroy = async (id, user_id) => {
+    return db.execute('DELETE FROM workers WHERE id = ? AND user_id = ?', [id, user_id]);
 }
 
 export default {
