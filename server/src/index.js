@@ -18,7 +18,7 @@ app.use(cors({
     origin: ['http://localhost:5173', 'https://ternakku.vercel.app'], // Allow requests from this origin
     credentials: true,              // Allow cookies and other credentials
 }))
-app.use('/' , routesV1);
+app.use('/api/v1/' , routesV1);
 
 app.listen(process.env.PORT, () => {
     console.log('Server is running on port ' + process.env.PORT + ' and environment is ' + process.env.NODE_ENV);
