@@ -236,7 +236,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (36,'Miranda Hewitt','zihuxa@mailinator.com','$2b$13$hYYgusQ8QTuWLMS2.by/se5nCU21o.1XZXb0IRTzA953wf7aObHS2','2024-11-26 08:47:26',NULL),(37,'budi1123','bud1wer222@gmail.com','$2b$13$GTq8BU7PvSHdhWlle6V2Oud3DKGlb/0aoHIf1TrrfVTbGvb6f0/BG','2024-12-15 14:16:56',NULL),(38,'Nero Gonzales Edit Phone','admin123@gmail.com','$2b$13$0e.S1xPjhEL3egdjNTaWb.K6EP8zE0ShZbkmNJA2/asW63Dya0tyq','2024-12-15 18:50:16','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTczNDc3NDgzNSwiZXhwIjoxNzM0ODYxMjM1fQ.1S9ucu6-xJ-L6TiccqtufU7hJccdCSUkOGwfGKfyiZo'),(39,'admin','admin3@gmail.com','$2b$13$fcEEIyPPNnso/jzb.tB9bOdeRSzFvHLp8QtLeASVUFdRC4VLQJ65W','2024-12-21 09:48:15','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksImlhdCI6MTczNjMxNTU5MSwiZXhwIjoxNzM2NDAxOTkxfQ.Z2UlYOO49I4FItC6c6MTzdUXSG51gPZW1zboCDbxxQI');
+INSERT INTO `users` VALUES (36,'Miranda Hewitt','zihuxa@mailinator.com','$2b$13$hYYgusQ8QTuWLMS2.by/se5nCU21o.1XZXb0IRTzA953wf7aObHS2','2024-11-26 08:47:26',NULL),(37,'budi1123','bud1wer222@gmail.com','$2b$13$GTq8BU7PvSHdhWlle6V2Oud3DKGlb/0aoHIf1TrrfVTbGvb6f0/BG','2024-12-15 14:16:56',NULL),(38,'Nero Gonzales Edit Phone','admin123@gmail.com','$2b$13$0e.S1xPjhEL3egdjNTaWb.K6EP8zE0ShZbkmNJA2/asW63Dya0tyq','2024-12-15 18:50:16','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzgsImlhdCI6MTczNDc3NDgzNSwiZXhwIjoxNzM0ODYxMjM1fQ.1S9ucu6-xJ-L6TiccqtufU7hJccdCSUkOGwfGKfyiZo'),(39,'admin','admin3@gmail.com','$2b$13$fcEEIyPPNnso/jzb.tB9bOdeRSzFvHLp8QtLeASVUFdRC4VLQJ65W','2024-12-21 09:48:15','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzksImlhdCI6MTczNzEwMjIxMiwiZXhwIjoxNzM3MTg4NjEyfQ.ymtouyASkaS9r-f8BhFq53nMDc0J0-rIXNhGQYZW0HI');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,6 +249,7 @@ DROP TABLE IF EXISTS `workers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `workers` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `gender` enum('M','F') NOT NULL,
   `phone_number` varchar(255) NOT NULL,
@@ -257,8 +258,10 @@ CREATE TABLE `workers` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `email` (`email`),
+  KEY `fk_workers_users` (`user_id`),
+  CONSTRAINT `fk_workers_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +270,7 @@ CREATE TABLE `workers` (
 
 LOCK TABLES `workers` WRITE;
 /*!40000 ALTER TABLE `workers` DISABLE KEYS */;
-INSERT INTO `workers` VALUES (17,'Yolanda Walker','M','321456789','gahu@mailinator.com',1,'2024-12-16 06:53:47'),(18,'Shay Mathis','F','75512312312313','fobo@mailinator.com',1,'2024-12-16 06:53:59'),(19,'Ray Ortiz','M','541','kequza@mailinator.com',1,'2024-12-16 06:54:07'),(20,'Zoe Rogers','F','401','muhus@mailinator.com',1,'2024-12-16 06:54:12'),(21,'Colt Wise','M','353','vysuseme@mailinator.com',1,'2024-12-16 06:54:17'),(22,'Nina Roach','F','26','xyderyd@mailinator.com',1,'2024-12-19 17:31:29'),(23,'Zephania Swanson','F','1942131','sowuhone@mailinator.com',1,'2024-12-19 17:31:47');
+INSERT INTO `workers` VALUES (17,36,'Yolanda Walker','M','321456789','gahu@mailinator.com',1,'2024-12-16 06:53:47'),(18,37,'Shay Mathis','F','75512312312313','fobo@mailinator.com',1,'2024-12-16 06:53:59'),(19,38,'Ray Ortiz','M','541','kequza@mailinator.com',1,'2024-12-16 06:54:07'),(20,37,'Zoe Rogers','F','401','muhus@mailinator.com',1,'2024-12-16 06:54:12'),(21,39,'Colt Wise repos','M','3531231231321','vysuseme@mailinator.com',0,'2024-12-16 06:54:17'),(22,38,'Nina Roach','F','26','xyderyd@mailinator.com',1,'2024-12-19 17:31:29'),(23,36,'Zephania Swanson','F','1942131','sowuhone@mailinator.com',1,'2024-12-19 17:31:47');
 /*!40000 ALTER TABLE `workers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -280,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-08 11:03:28
+-- Dump completed on 2025-01-17  8:46:52
