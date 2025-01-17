@@ -35,6 +35,7 @@ router.delete('/cow/:id', authMiddleware, CowController.destroy);
 
 router.post('/worker', authMiddleware, WorkerController.store);
 router.get('/worker', authMiddleware, WorkerController.index);
+router.get('/worker/:id', authMiddleware, WorkerController.show);
 router.put('/worker/:id', authMiddleware, WorkerController.update);
 router.delete('/worker/:id', authMiddleware, WorkerController.destroy);
 
