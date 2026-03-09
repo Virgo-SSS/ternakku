@@ -3,14 +3,14 @@ import '../styles/Footer.css';
 function Footer() {
   return (
     <div id="copyright">
-      <div className="flex justify-center items-center text-xs">
-        <span className="text-[#D3D4DC]">
+      <div className="d-flex justify-content-center align-items-center text-xs">
+        <span className="text-secondary">
           {' '}
           &copy; 2024{' '}
-          <span className="text-black">
+          <span className="text-dark">
             <b>Ternakku,</b>
           </span>{' '}
-          Made With ❤️{' '}
+          Made With{' '}
         </span>
       </div>
     </div>

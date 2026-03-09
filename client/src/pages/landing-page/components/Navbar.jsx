@@ -5,8 +5,8 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative bg-white shadow-lg md:mx-10 md:p-3 rounded-lg">
-      <div className="flex justify-between items-center">
+    <div className="position-relative bg-white shadow-lg mx-md-4 p-md-3 rounded-3">
+      <div className="d-flex justify-content-between align-items-center">
         {/* Logo */}
         <div className="logo">
           <img
@@ -17,25 +17,25 @@ function Navbar() {
         </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden lg:flex gap-5 items-center">
-          <ul className="flex gap-12">
+        <nav className="d-none d-lg-flex gap-4 align-items-center">
+          <ul className="d-flex gap-5 list-unstyled mb-0">
             <li>
-              <a href="#home" className="text-gray-900">
+              <a href="#home" className="text-gray-900 text-decoration-none">
                 Home
               </a>
             </li>
             <li>
-              <a href="#courses" className="text-gray-900">
+              <a href="#courses" className="text-gray-900 text-decoration-none">
                 Keunggulan
               </a>
             </li>
             <li>
-              <a href="#pricing" className="text-gray-900">
+              <a href="#pricing" className="text-gray-900 text-decoration-none">
                 Paket Harga
               </a>
             </li>
             <li>
-              <a href="#cta" className="text-gray-900">
+              <a href="#cta" className="text-gray-900 text-decoration-none">
                 Contact
               </a>
             </li>
@@ -43,7 +43,7 @@ function Navbar() {
         </nav>
         <Link
           to="/auth/login"
-          className="hidden lg:flex bg-tw-primary text-white px-5 py-3 rounded-lg hover:bg-[#7a8a07]"
+          className="d-none d-lg-flex bg-primary-custom text-white px-4 py-3 rounded-3 text-decoration-none btn-primary-custom"
         >
           Login/Register
         </Link>
@@ -51,7 +51,7 @@ function Navbar() {
         {/* Hamburger Icon */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden flex items-center px-3 py-2 border rounded text-gray-900 border-gray-900"
+          className="d-lg-none d-flex align-items-center px-3 py-2 border rounded text-gray-900 border-secondary bg-transparent"
           aria-label="Toggle menu"
         >
           <svg
@@ -69,32 +69,32 @@ function Navbar() {
 
       {/* Mobile Menu */}
       <nav
-        className={`${isOpen ? 'block' : 'hidden'} lg:hidden bg-white shadow-lg rounded-lg mt-2 fixed right-0`}
+        className={`${isOpen ? 'd-block' : 'd-none'} d-lg-none bg-white shadow-lg rounded-3 mt-2 position-fixed end-0`}
       >
-        <ul className="flex flex-col items-start gap-4 p-5">
+        <ul className="d-flex flex-column align-items-start gap-3 p-4 list-unstyled mb-0">
           <li>
-            <a href="#home" className="text-gray-900">
+            <a href="#home" className="text-gray-900 text-decoration-none">
               Home
             </a>
           </li>
           <li>
-            <a href="#courses" className="text-gray-900">
+            <a href="#courses" className="text-gray-900 text-decoration-none">
               Keunggulan
             </a>
           </li>
           <li>
-            <a href="#pricing" className="text-gray-900">
+            <a href="#pricing" className="text-gray-900 text-decoration-none">
               Paket Harga
             </a>
           </li>
           <li>
-            <a href="#contact" className="text-gray-900">
+            <a href="#contact" className="text-gray-900 text-decoration-none">
               Contact
             </a>
           </li>
           <Link
             to="/auth/login"
-            className="w-full text-center bg-tw-primary text-white px-5 py-3 rounded-lg hover:bg-[#7a8a07]"
+            className="w-100 text-center bg-primary-custom text-white px-4 py-3 rounded-3 text-decoration-none btn-primary-custom"
           >
             Register
           </Link>

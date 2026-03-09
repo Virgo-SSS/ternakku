@@ -18,26 +18,27 @@ function Contact() {
               peternakan mereka dengan manajemen data
             </p>
 
-            <form className="my-2 md:my-0" action="#">
-              <p className="text-xs items-center max-w-screen-sm sm:flex sm:space-y-0">
+            <form className="my-2 my-md-0" action="#">
+              <p className="text-xs align-items-center d-sm-flex">
                 Subscribe to newsletter
               </p>
 
-              <div className="flex justify-left items-left">
-                <label htmlFor="email" className="hidden">
+              <div className="d-flex justify-content-start align-items-start">
+                <label htmlFor="email" className="d-none">
                   Email address
                 </label>
                 <input
-                  className="flex justify-center items-center h-3 p-3 w-80% text-sm text-gray-900 bg-[#dde1bc] rounded-lg border-1 border-black sm:rounded-none sm:rounded-l-lg"
+                  className="d-flex justify-content-center align-items-center p-2 text-sm text-gray-900 bg-cta rounded-3 rounded-end-0 border border-dark"
                   placeholder="Your email"
                   type="email"
                   id="email"
                   required
+                  style={{ width: '80%' }}
                 />
                 <a
                   href=""
                   type="submit"
-                  className="flex justify-center items-center border-1 border-[#93A603] h-3 p-3 w-80% text-sm font-medium text-white rounded-lg cursor-pointer bg-tw-primary hover:bg-[#7a8a07] sm:rounded-none sm:rounded-r-lg"
+                  className="d-flex justify-content-center align-items-center border border-primary-custom p-2 text-sm fw-medium text-white rounded-3 rounded-start-0 cursor-pointer bg-primary-custom btn-primary-custom"
                 >
                   Subscribe
                 </a>
@@ -47,7 +48,7 @@ function Contact() {
 
           {/* Pages */}
           <div className="mx-auto">
-            <h3 className="font-black pb-2">Pages</h3>
+            <h3 className="fw-bold pb-2">Pages</h3>
             <p className="pb-0">
               <a href="/home">Home</a>
             </p>
@@ -64,7 +65,7 @@ function Contact() {
 
           {/* Fitur */}
           <div className="mx-auto">
-            <h3 className="font-black pb-2">Fitur</h3>
+            <h3 className="fw-bold pb-2">Fitur</h3>
             <p className="pb-0">Dashboard</p>
             <p className="pb-0">Ternak</p>
             <p className="pb-0">Keuangan</p>
@@ -74,18 +75,18 @@ function Contact() {
 
           {/* Contact */}
           <div className="mx-auto">
-            <h3 className="font-black pb-2 text-center md:text-left">Contact</h3>
-            <div className="flex flex-cols-2 justify-left items-left py-auto">
+            <h3 className="fw-bold pb-2 text-center text-md-start">Contact</h3>
+            <div className="d-flex justify-content-start align-items-start py-auto">
               <img src="/assets/img/icons/whatsapp.svg" className="w-7" alt="WhatsApp" />
-              <p className="pl-3">+628-1399777913</p>
+              <p className="ps-3">+628-1399777913</p>
             </div>
-            <div className="flex flex-cols-2 justify-left items-left pt-3">
+            <div className="d-flex justify-content-start align-items-start pt-3">
               <img src="/assets/img/icons/facebook.svg" className="w-7" alt="Facebook" />
-              <p className="pl-3">Ternakku</p>
+              <p className="ps-3">Ternakku</p>
             </div>
-            <div className="flex flex-cols-2 justify-left items-left pt-3">
+            <div className="d-flex justify-content-start align-items-start pt-3">
               <img src="/assets/img/icons/instagram.svg" className="w-7" alt="Instagram" />
-              <p className="pl-3">Ternakku</p>
+              <p className="ps-3">Ternakku</p>
             </div>
           </div>
         </div>

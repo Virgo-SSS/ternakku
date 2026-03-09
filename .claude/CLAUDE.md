@@ -5,12 +5,13 @@ A full-stack web application for Indonesian farmers to manage cattle, workers, t
 ## Tech Stack
 
 ### Frontend (`/client`)
-- **Framework:** React 18 + Vite 5
+- **Framework:** React 19 + Vite 7
 - **Routing:** React Router v6
 - **Styling:** Tailwind CSS + Bootstrap
 - **State:** React Context (AuthContext)
 - **HTTP:** Axios with interceptors
 - **UI:** ApexCharts, SweetAlert2, FullCalendar, Framer Motion
+- **Code Quality:** ESLint 9 + Prettier 3
 
 ### Backend (`/server`)
 - **Runtime:** Node.js (ES Modules)
@@ -34,6 +35,18 @@ cd client
 npm install
 cp .env.example .env  # Set VITE_BASE_URL
 npm run dev           # Runs on port 5173
+```
+
+## Development Scripts
+
+### Frontend (`/client`)
+```bash
+npm run dev           # Start dev server
+npm run build         # Production build
+npm run preview       # Preview production build
+npm run lint          # Run ESLint
+npm run format        # Format code with Prettier
+npm run format:check  # Check formatting without changes
 ```
 
 ## Project Structure
