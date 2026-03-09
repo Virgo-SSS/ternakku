@@ -7,7 +7,7 @@
 }
 
 .authentication-wrapper .authentication-inner .card .card-body {
-  padding: 52px
+  padding: 52px;
 }
 
 .authentication-wrapper .authentication-inner {
@@ -31,7 +31,7 @@
 .authentication-wrapper.authentication-basic .authentication-inner:before {
   width: 148px;
   height: 148px;
-  content: " ";
+  content: ' ';
   position: absolute;
   top: -40px;
   right: -40px;
@@ -39,7 +39,7 @@
 .authentication-wrapper.authentication-basic .authentication-inner:after {
   width: 243px;
   height: 240px;
-  content: " ";
+  content: ' ';
   position: absolute;
   bottom: -68px;
   left: -46px;
@@ -65,4 +65,3 @@
 .light-style .authentication-wrapper .authentication-bg {
   background-color: #fff;
 }
-

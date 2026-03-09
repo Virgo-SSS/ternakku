@@ -4,83 +4,83 @@
 @tailwind utilities;
 
 .tengah {
-    text-align: center;
-    width: 100%;
-  }
-  
-  a.tbl-hijau {
-    background: #93A603;
-    border-radius: 10px;
-    padding: 15px 20px 15px 20px;
-    color: #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top:auto;
-    margin-bottom:auto;
+  text-align: center;
+  width: 100%;
 }
-  
-  a.tbl-hijau:hover {
-    background: #fc5185;
-    text-decoration: none;
-  }
-  
-  a.tbl-pink {
-    background: #93A603;
-    border-radius: 10px;
-    margin-top: 20px;
-    padding: 15px 20px 15px 20px;
-    color: #ffffff;
-    cursor: pointer;
-    font-weight: bold;
+
+a.tbl-hijau {
+  background: #93a603;
+  border-radius: 10px;
+  padding: 15px 20px 15px 20px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: auto;
+  margin-bottom: auto;
 }
-  
-  a.tbl-pink:hover {
-    background: #3f72af;
-    text-decoration: none;
-  }
+
+a.tbl-hijau:hover {
+  background: #fc5185;
+  text-decoration: none;
+}
+
+a.tbl-pink {
+  background: #93a603;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 15px 20px 15px 20px;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+a.tbl-pink:hover {
+  background: #3f72af;
+  text-decoration: none;
+}
+section {
+  margin: auto;
+  display: flex;
+  margin-bottom: 50px;
+}
+
+p {
+  padding: 10px 0px 10px 0px;
+}
+
+.kolom {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.kolom .deskripsi {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'comic sans ms';
+  color: #364f6b;
+  width: auto;
+}
+
+h2 {
+  font-family: 'Public Sans';
+  font-weight: 800;
+  width: 100%;
+  line-height: 50px;
+}
+
+.tengah {
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 991.98px) {
   section {
-    margin: auto;
-    display: flex;
-    margin-bottom: 50px;
+    display: block;
   }
-  
-  p {
-    padding: 10px 0px 10px 0px;
-  }
-  
-  .kolom {
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-  
-  .kolom .deskripsi {
-    font-size: 20px;
-    font-weight: bold;
-    font-family: "comic sans ms";
-    color: #364f6b;
-    width: auto;
-  }
-  
-  h2 {
-    font-family: "Public Sans";
-    font-weight: 800;
+
+  section img {
+    display: block;
     width: 100%;
-    line-height: 50px;
+    height: auto;
   }
-  
-  .tengah {
-    text-align: center;
-    width: 100%;
-  }
-  
-  @media screen and (max-width: 991.98px) {
-    section {
-      display: block;
-    }
-  
-    section img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-  }
+}
