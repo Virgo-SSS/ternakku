@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import usePerfectScrollbar from '../../hooks/usePerfectScrollbar';
 import TaskHelper from '../../helper/taskHelper';
 import Swal from 'sweetalert2';

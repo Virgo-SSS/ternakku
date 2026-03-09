@@ -1,23 +1,10 @@
 import { useEffect } from 'react';
-import parse from 'html-react-parser';
 import { useLocation } from 'react-router-dom';
 
-{
-  /*components*/
-}
 import Navbar from './landing-page/components/Navbar';
 import Footer from './landing-page/components/Footer';
 import Pricing from './landing-page/components/Pricing';
 import Contact from './landing-page/components/Contact';
-
-{
-  /*data*/
-}
-import { HomeSection } from './landing-page/data/HomeSection';
-import { CourseSection, Keunggulan } from './landing-page/data/KeunggulanSection';
-import { PricingSection } from './landing-page/data/PricingSection';
-import { CtaSection } from './landing-page/data/CtaSection';
-import { ContactSection } from './landing-page/data/ContactSection';
 
 function Home() {
   const location = useLocation();
@@ -36,10 +23,27 @@ function Home() {
         <Navbar />
       </div>
       <div className="flex flex-col mt-40">
-        {/*Home*/}
+        {/* Home */}
         <section className="mx-5 md:mx-20 my-auto">
-          <div>{parse(HomeSection.content)}</div>
-          <div className="">
+          <div>
+            <h2 className="text-3xl text-center md:text-left md:text-5xl !font-bold text-tw-primary pr-3">
+              Satu dashboard untuk mengelola ternak sapi anda
+            </h2>
+            <p className="text-justify md:pr-10 text-center md:text-left">
+              Rangkaian perangkat lunak yang unik dan kuat untuk menjalankan seluruh bisnis Anda,
+              yang dihadirkan oleh perusahaan dengan visi jangka panjang untuk mengubah cara Anda
+              bekerja.
+            </p>
+            <p className="text-center md:text-left">
+              <a
+                href="/auth/login"
+                className="text-white bg-tw-primary hover:bg-[#7a8a07] font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                Get started
+              </a>
+            </p>
+          </div>
+          <div>
             <img
               src="/assets/img/Dashboard.jpg"
               className="img"
@@ -48,40 +52,118 @@ function Home() {
           </div>
         </section>
 
-        {/*Keunggulan*/}
+        {/* Keunggulan */}
         <section className="flex flex-col" id="courses">
           <div className="tengah">
-            <div className="kolom">{parse(CourseSection.Judulcontent)}</div>
+            <div className="kolom">
+              <h2 className="text-xl md:text-3xl">Keunggulan Platform TERNAKKU</h2>
+              <p>Membantu Peternak Mengelola Ternak Dengan Mudah Dan Efisien</p>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row">
-            {Keunggulan.map((item, index) => {
-              return (
-                <div key={index} className="flex flex-col md:w-1/3 p-5">
-                  {parse(item.content)}
-                </div>
-              );
-            })}
+            <div className="flex flex-col md:w-1/3 p-5">
+              <div>
+                <img
+                  src="/assets/img/icons/folder.svg"
+                  className="mx-auto w-12 h-12 grow py-2"
+                  alt="Terorganisir"
+                />
+                <h4 className="text-center font-bold py-3">Terorganisir</h4>
+                <p className="text-center px-5">
+                  Data sapi tersimpan rapi dalam satu platform untuk akses mudah dan pengelolaan
+                  yang efisien.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:w-1/3 p-5">
+              <div>
+                <img
+                  src="/assets/img/icons/jam.svg"
+                  className="mx-auto w-12 h-12 grow py-2"
+                  alt="Hemat Waktu"
+                />
+                <h4 className="text-center font-bold py-3">Hemat Waktu</h4>
+                <p className="text-center px-5">
+                  Kurangi waktu pencatatan manual dengan fitur otomatis dan akses data real-time.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:w-1/3 p-5">
+              <div>
+                <img
+                  src="/assets/img/icons/lamp.svg"
+                  className="mx-auto w-12 h-12 grow py-2"
+                  alt="Membuat Keputusan Yang Lebih Baik"
+                />
+                <h4 className="text-center font-bold py-3">Membuat Keputusan Yang Lebih Baik</h4>
+                <p className="text-center px-5">
+                  Analisis data lengkap untuk strategi pengelolaan yang lebih tepat dan produktif.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:w-1/3 p-5">
+              <div>
+                <img
+                  src="/assets/img/icons/handshake.svg"
+                  className="mx-auto w-12 h-12 grow py-2"
+                  alt="Bekerja Bersama Dengan Lebih Baik"
+                />
+                <h4 className="text-center font-bold py-3">Bekerja Bersama Dengan Lebih Baik</h4>
+                <p className="text-center px-5">
+                  Kolaborasi tim yang lebih efektif dengan akses data yang aman dan mudah diakses.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/*Pricing*/}
+        {/* Pricing */}
         <section id="pricing">
           <div className="tengah">
             <div className="kolom">
-              {parse(PricingSection.content)}
+              <div className="flex mx-auto my-3">
+                <span className="bg-tw-primary text-white text-center rounded-lg mx-auto px-4 py-2">
+                  Paket Harga
+                </span>
+              </div>
+              <span className="text-3xl">
+                <b>Paket harga yang disesuaikan</b> dirancang untuk Anda
+              </span>
+              <p className="p-0">
+                Semua paket sudah termasuk fitur canggih untuk meningkatkan produk Anda. Pilih paket
+                terbaik yang sesuai dengan kebutuhan Anda.
+              </p>
               <Pricing />
             </div>
           </div>
         </section>
 
-        {/*Cta*/}
+        {/* Cta */}
         <section id="cta" className="grid md:grid-cols-2 px-10 md:px-80 bg-[#dde1bc]">
-          <div className="my-auto">{parse(CtaSection.content)}</div>
+          <div className="my-auto">
+            <h2 className="text-3xl text-tw-primary sm:text-center md:text-left my-auto pb-0 pt-3">
+              Siap Memulai
+            </h2>
+            <p className="sm:text-center md:text-left pt-0">
+              Mulai proyek Anda dengan produk kami
+            </p>
+            <div className="my-auto py-3 md:pt-10">
+              <a
+                href="/auth/login"
+                className="bg-tw-primary hover:bg-[#7a8a07] text-white px-5 py-3 rounded-lg"
+              >
+                Get Started
+              </a>
+            </div>
+          </div>
           <img src="/assets/img/Keuangan.jpg" className="img" alt="Tampilan Keuangan AgroForce" />
         </section>
       </div>
-      <Contact ContactSection={ContactSection} />
+      <Contact />
       <Footer />
     </>
   );
